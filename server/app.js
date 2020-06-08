@@ -7,7 +7,14 @@ require("./configs/middleware.config")(app);
 require("./configs/view_engine.config")(app);
 require("./configs/locals.config")(app);
 
+const cors = require("cors");
+var corsOptions = {
+  origin: "http://localhost:3000",
+};
+app.use(cors(corsOptions));
+
 const index = require("./routes/index");
 app.use("/", index);
+app.use("/api/games", require("./routes/games.routes"));
 
 module.exports = app;

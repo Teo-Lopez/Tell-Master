@@ -15,6 +15,7 @@ app.use(cors(corsOptions));
 
 const index = require("./routes/index");
 app.use("/", index);
+app.use("/api/auth", require('./routes/auth.routes'));
 app.use("/api/games", require("./routes/games.routes"));
 
 module.exports = app;

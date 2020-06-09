@@ -8,7 +8,7 @@ class gamesService {
 
   getLastGames() {
     return this.service
-      .get("last10")
+      .get("?limit=10")
       .then((res) => res.data.algo)
       .catch((err) => console.log(err));
   }

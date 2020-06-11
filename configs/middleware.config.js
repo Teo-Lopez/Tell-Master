@@ -9,6 +9,7 @@ const middlewares = (app) => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
+  
   app.use(
     require("node-sass-middleware")({
       src: path.join(__dirname, "../public"),
@@ -16,6 +17,12 @@ const middlewares = (app) => {
       sourceMap: true,
     })
   );
+
+  const cors = require("cors");
+  const corsOptions = {
+    origin: "http://localhost:3000",
+  };
+  app.use(cors(corsOptions));
 };
 
 module.exports = middlewares;

@@ -4,12 +4,10 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 
 passport.serializeUser((loggedInUser, cb) => {
-  console.log("serializa bien", loggedInUser);
   cb(null, loggedInUser._id);
 });
 
 passport.deserializeUser((userIdFromSession, cb) => {
-  console.log("deserializa bien", userIdFromSession);
   User.findById(userIdFromSession, (err, userDocument) => {
     console.log(userIdFromSession, userDocument, "prueba");
     if (err) {

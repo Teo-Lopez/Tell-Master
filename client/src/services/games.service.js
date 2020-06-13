@@ -9,7 +9,14 @@ class gamesService {
   getLastGames() {
     return this.service
       .get("?limit=10")
-      .then((res) => res.data.games)
+      .then((res) => res.data.gamesFound)
+      .catch((err) => console.log(err));
+  }
+
+  createGame({ creator, title, minLevel, description }) {
+    return this.service
+      .post("", { creator, title, minLevel, description })
+      .then((res) => res.data.createdGame)
       .catch((err) => console.log(err));
   }
 }

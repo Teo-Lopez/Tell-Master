@@ -12,6 +12,11 @@ function Navbar({ loggedInUser, showLogin, showSignup }) {
           <Row className="justify-content-between" style={{ width: "100vw" }}>
             <Col lg={5} style={{ display: "flex" }}>
               <Nav.Item>
+                <Nav.Link as={NavLink} to={"/"}>
+                  <i className="fas fa-home"></i>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
                 <Nav.Link onClick={showLogin}>Login</Nav.Link>
               </Nav.Item>
               <Nav.Item>
@@ -37,6 +42,11 @@ function Navbar({ loggedInUser, showLogin, showSignup }) {
         <Nav variant="pills">
           <Row className="justify-content-between" style={{ width: "100vw" }}>
             <Col lg={5} style={{ display: "flex" }}>
+              <Nav.Item>
+                <Nav.Link as={NavLink} to={"/"}>
+                  <i className="fas fa-home"></i>
+                </Nav.Link>
+              </Nav.Item>
               <Nav.Item>
                 <Nav.Link as={NavLink} to={"/myGames"}>
                   Mis Partidas

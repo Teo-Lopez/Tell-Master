@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const chapterSchema = new Schema(
   {
     description: String,
-    choices: [mongoose.SchemaTypes.ObjectId],
+    choices: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Choice" }],
   },
   { timestamps: true }
 );

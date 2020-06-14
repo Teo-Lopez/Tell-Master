@@ -6,10 +6,10 @@ const choiceSchema = new Schema(
     description: String,
     trial: {
       difficulty: Number,
-      characteristic: { type: String, enum: ["str, des, agi, con, int, wis, char"] },
+      characteristic: { type: String, enum: ["str", "des", "agi", "con", "int", "wis", "char"] },
     },
-    successTargetChapter: mongoose.SchemaTypes.ObjectId,
-    failureTargetChapter: mongoose.SchemaTypes.ObjectId,
+    successTargetChapter: { type: mongoose.SchemaTypes.ObjectId, ref: "Chapter" },
+    failureTargetChapter: { type: mongoose.SchemaTypes.ObjectId, ref: "Chapter" },
     pxGranted: Number,
   },
   { timestamps: true }

@@ -6,8 +6,8 @@ const userSchema = new Schema(
     username: { type: String, required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    savedGames: { type: [mongoose.SchemaTypes.ObjectId], default: [] },
-    characters: { type: [mongoose.SchemaTypes.ObjectId], default: [] },
+    savedGames: { type: [{ type: mongoose.SchemaTypes.ObjectId, ref: "SavedGame" }], default: [] },
+    characters: { type: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Character" }], default: [] },
   },
   { timestamps: true }
 );

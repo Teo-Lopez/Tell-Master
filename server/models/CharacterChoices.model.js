@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const characterChoiceSchema = new Schema(
   {
-    choice: mongoose.SchemaTypes.ObjectId,
+    choice: { type: mongoose.SchemaTypes.ObjectId, ref: "Choice" },
     didSuccess: Boolean,
     leveledUp: Boolean,
   },

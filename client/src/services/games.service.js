@@ -6,9 +6,16 @@ class gamesService {
     this.service = axios.create({ baseURL: this.baseURL, withCredentials: true });
   }
 
+  getOneGame(id) {
+    return this.service
+      .get(`/?gameId=${id}`)
+      .then((res) => res.data.gameFound)
+      .catch((err) => console.log(err));
+  }
+
   getLastGames() {
     return this.service
-      .get("?limit=10")
+      .get("/last?limit=5")
       .then((res) => res.data.gamesFound)
       .catch((err) => console.log(err));
   }

@@ -20,9 +20,8 @@ router.get("/", (req, res, next) => {
 
 router.post("/", (req, res) => {
   console.log(req.body);
-  const { chapterId, description, trial, successTargetChapter, failureTargetChapter, pxGranted } = req.body;
+  const { description, trial, successTargetChapter, failureTargetChapter, pxGranted } = req.body;
   const newChoice = {
-    chapterId,
     description,
     trial,
     successTargetChapter: successTargetChapter || undefined,
@@ -32,9 +31,7 @@ router.post("/", (req, res) => {
 
   Choice.create(newChoice)
     .then((createdChoice) => {
-      Chapter.updateOne({ _id: chapterId }, { $push: { choices: createdChoice } }).then((updatedChapter) => {
-        res.json(createdChoice);
-      });
+      res.json(createdChoice);
     })
     .catch((err) => res.json({ err }));
 });
@@ -57,4 +54,13 @@ router.patch("/", (req, res) => {
     .catch((err) => res.json({ err }));
 });
 
+router.delete("/", (req, res) => {
+  const { choiceId } = req.body;
+
+  Choice.findByIdAndDelete(choiceId)
+    .then((deletedChoice) => {
+      res.json(deletedChoice);
+    })
+    .catch((err) => res.json({ err }));
+});
 module.exports = router;

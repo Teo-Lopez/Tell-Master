@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
 import Navbar from "./layout/Navbar";
 import LastGames from "./components/views/LastGames";
 import MyGames from "./components/views/MyGames";
@@ -11,6 +12,8 @@ import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import CenteredModal from "./components/Modal";
 import NewGame from "./components/views/NewGame";
+import EditChapters from "./components/views/EditChapters";
+
 function App() {
   const GamesService = new gamesService();
   const AuthService = new authService();
@@ -54,22 +57,29 @@ function App() {
     <Switch>
       <>
         <Navbar showSignup={() => setSignupModal(true)} showLogin={() => setloginModal(true)} loggedInUser={loggedInUser} />
-        <Route exact path="/" render={() => <LastGames games={lastGames} />} />
-        {loggedInUser ? (
-          <>
-            <Route exact path="/myGames" render={() => <MyGames loggedInUser={loggedInUser} />} />
-            <Route exact path="/newGame" render={() => <NewGame updateLastGames={updateLastGames} loggedInUser={loggedInUser} />} />
-          </>
-        ) : (
-          <>
-            <CenteredModal title={"Login"} show={loginModal} onHide={() => setloginModal(false)}>
-              <LoginForm setUser={setUser} />
-            </CenteredModal>
-            <CenteredModal title={"Signup"} show={signupModal} onHide={() => setSignupModal(false)}>
-              <SignupForm setUser={setUser} />
-            </CenteredModal>
-          </>
-        )}
+        <Container>
+          <Route exact path="/" render={() => <LastGames loggedInUser={loggedInUser} games={lastGames} />} />
+          {loggedInUser ? (
+            <>
+              <Route exact path="/myGames" render={() => <MyGames loggedInUser={loggedInUser} />} />
+              <Route exact path="/newGame" render={() => <NewGame updateLastGames={updateLastGames} loggedInUser={loggedInUser} />} />
+              <Route
+                exact
+                path="/modify/:gameId"
+                render={() => <EditChapters updateLastGames={updateLastGames} loggedInUser={loggedInUser} />}
+              />
+            </>
+          ) : (
+            <>
+              <CenteredModal title={"Login"} show={loginModal} onHide={() => setloginModal(false)}>
+                <LoginForm setUser={setUser} />
+              </CenteredModal>
+              <CenteredModal title={"Signup"} show={signupModal} onHide={() => setSignupModal(false)}>
+                <SignupForm setUser={setUser} />
+              </CenteredModal>
+            </>
+          )}
+        </Container>
       </>
     </Switch>
   );

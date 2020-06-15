@@ -13,7 +13,7 @@ class gamesService {
       .catch((err) => console.log(err));
   }
 
-  createSavedGame({ description, trial, successTargetChapter, failureTargetChapter, pxGranted }) {
+  createSavedGame({ gameId, currentChapter, character }) {
     return this.service
       .post("", {
         gameId,

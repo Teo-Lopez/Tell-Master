@@ -13,10 +13,17 @@ class gamesService {
       .catch((err) => console.log(err));
   }
 
-  createChoice({ chapterId, description, trial, successTargetChapter, failureTargetChapter, pxGranted }) {
+  createChoice({ description, trial, successTargetChapter, failureTargetChapter, pxGranted }) {
     return this.service
-      .post("", { chapterId, description, trial, successTargetChapter, failureTargetChapter, pxGranted })
-      .then((res) => res.data.createdChoice)
+      .post("", { description, trial, successTargetChapter, failureTargetChapter, pxGranted })
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
+  }
+
+  deleteChoice(choiceId) {
+    return this.service
+      .delete("", { choiceId })
+      .then((res) => res.data)
       .catch((err) => console.log(err));
   }
 }

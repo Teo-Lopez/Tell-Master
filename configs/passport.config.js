@@ -8,35 +8,35 @@ passport.serializeUser((loggedInUser, cb) => {
 });
 
 passport.deserializeUser((userIdFromSession, cb) => {
-  User.findById(userIdFromSession, (err, userDocument) => {
-    console.log(userIdFromSession, userDocument, "prueba");
-    if (err) {
-      cb(err);
-      return;
-    }
-    cb(null, userDocument);
-  });
+  User.findById(userIdFromSession)
+    .lean()
+    .populate("characters")
+    .populate("savedGames")
+    .then((userDocument) => {
+      cb(null, userDocument);
+    })
+    .catch((err) => cb(err));
 });
 
 passport.use(
   new LocalStrategy((username, password, next) => {
-    User.findOne({ username }, (err, foundUser) => {
-      if (err) {
-        next(err);
-        return;
-      }
+    User.findOne({ username })
+      .lean()
+      .populate("characters")
+      .populate("savedGames")
+      .then((foundUser) => {
+        if (!foundUser) {
+          next(null, false, { message: "Usuario no registrado." });
+          return;
+        }
 
-      if (!foundUser) {
-        next(null, false, { message: "Usuario no registrado." });
-        return;
-      }
+        if (!bcrypt.compareSync(password, foundUser.password)) {
+          next(null, false, { message: "Contraseña incorrecta." });
+          return;
+        }
 
-      if (!bcrypt.compareSync(password, foundUser.password)) {
-        next(null, false, { message: "Contraseña incorrecta." });
-        return;
-      }
-
-      next(null, foundUser);
-    });
+        next(null, foundUser);
+      })
+      .catch((err) => next(err));
   })
 );

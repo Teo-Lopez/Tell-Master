@@ -6,7 +6,7 @@ import savedGamesService from "../services/savedGames.service";
 import chapterService from "../services/chapter.service";
 import { Row, Col } from "react-bootstrap";
 
-function NewSaveGame({ loggedInUser, setUser, match }) {
+function NewSaveGame({ loggedInUser, setUser, match, updateSavedGames }) {
   const ChapterService = new chapterService();
   const SavedGamesService = new savedGamesService();
   const [character, setCharacter] = useState(null);
@@ -28,7 +28,7 @@ function NewSaveGame({ loggedInUser, setUser, match }) {
         });
       })
       .then((savedGame) => {
-        console.log(savedGame);
+        updateSavedGames(savedGame);
         return SavedGamesService.assignSaveToUser(loggedInUser._id, savedGame._id);
       })
       .then((updatedUser) => {

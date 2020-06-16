@@ -9,7 +9,7 @@ class gamesService {
   getChaptersFromGame(id) {
     return this.service
       .get(`/?gameId=${id}`)
-      .then((res) => res.data.chaptersFound)
+      .then((res) => res.data)
       .catch((err) => console.log(err));
   }
 

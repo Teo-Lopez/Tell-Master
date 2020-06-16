@@ -1,12 +1,13 @@
 import React from "react";
 
-function CharacterList({ characters }) {
+function CharacterList({ characters, newSave }) {
+  console.log(newSave);
   return (
     <ul>
       {characters.map((char) => (
         <li>
           <p>
-            <button>
+            <button onClick={newSave ? () => newSave(char._id) : null}>
               {char.name}. Nivel: {char.level}{" "}
             </button>
           </p>

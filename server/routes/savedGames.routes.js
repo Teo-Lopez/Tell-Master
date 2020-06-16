@@ -36,6 +36,21 @@ router.post("/", (req, res) => {
     .catch((err) => res.json({ err }));
 });
 
+router.post("/assign", (req, res) => {
+  console.log(req.body.saveId);
+  const { userId, saveId } = req.body;
+
+  User.findByIdAndUpdate(userId, { $push: { savedGames: saveId } }, { new: true })
+    .lean()
+    .populate("savedGames")
+    .populate("characters")
+    .then((updatedUser) => {
+      console.log(updatedUser);
+      res.json(updatedUser);
+    })
+    .catch((err) => console.log(err));
+});
+
 router.patch("/", (req, res) => {
   const { savedGameId, gameId, currentChapter, character } = req.body;
   const newSavedGame = {
@@ -46,6 +61,7 @@ router.patch("/", (req, res) => {
   };
 
   SavedGame.updateOne({ _id: savedGameId }, newSavedGame)
+    .lean()
     .then((updatedSavedGame) => {
       res.json(updatedSavedGame);
     })

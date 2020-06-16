@@ -24,6 +24,13 @@ class gamesService {
       .catch((err) => console.log(err));
   }
 
+  assignSaveToUser(userId, saveId) {
+    return this.service
+      .post("/assign", { userId, saveId })
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
+  }
+
   updateSavedGame({ savedGameId, gameId, currentChapter, character }) {
     return this.service.patch("", { savedGameId, gameId, currentChapter, character }).then((res) => res.data);
   }

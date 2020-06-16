@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Container, Nav, NavDropdown, Row, Col, Spinner } from "react-bootstrap";
+import authService from "../services/auth.service";
 
-function Navbar({ loggedInUser, showLogin, showSignup }) {
+function Navbar({ loggedInUser, showLogin, showSignup, logout }) {
   return loggedInUser === false ? (
     <Spinner />
   ) : loggedInUser === null ? (
@@ -65,7 +66,9 @@ function Navbar({ loggedInUser, showLogin, showSignup }) {
             </Col>
             <Col lg={2}>
               <NavDropdown title="Mi perfil" id="nav-dropdown" drop="left">
-                <NavDropdown.Item eventKey="4.1">Action</NavDropdown.Item>
+                <NavDropdown.Item eventKey="4.1" onClick={logout}>
+                  LogOut
+                </NavDropdown.Item>
                 <NavDropdown.Item eventKey="4.2">Another action</NavDropdown.Item>
                 <NavDropdown.Item eventKey="4.3">Something else here</NavDropdown.Item>
                 <NavDropdown.Divider />

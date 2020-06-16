@@ -13,6 +13,8 @@ import SignupForm from "./components/SignupForm";
 import CenteredModal from "./components/Modal";
 import NewGame from "./components/views/NewGame";
 import EditChapters from "./components/views/EditChapters";
+import GameOverview from "./components/views/GameOverView";
+import CharacterList from "./components/CharacterList";
 
 function App() {
   const GamesService = new gamesService();
@@ -20,6 +22,10 @@ function App() {
 
   const [lastGames, setlastGames] = useState([]);
   const [loggedInUser, setloggedInUser] = useState(false);
+
+  function logout() {
+    AuthService.logout().then((res) => setloggedInUser(null));
+  }
 
   function setUser(user) {
     setloggedInUser(user);
@@ -56,18 +62,20 @@ function App() {
   return (
     <Switch>
       <>
-        <Navbar showSignup={() => setSignupModal(true)} showLogin={() => setloginModal(true)} loggedInUser={loggedInUser} />
+        <Navbar logout={logout} showSignup={() => setSignupModal(true)} showLogin={() => setloginModal(true)} loggedInUser={loggedInUser} />
         <Container>
           <Route exact path="/" render={() => <LastGames loggedInUser={loggedInUser} games={lastGames} />} />
           {loggedInUser ? (
             <>
               <Route exact path="/myGames" render={() => <MyGames loggedInUser={loggedInUser} />} />
               <Route exact path="/newGame" render={() => <NewGame updateLastGames={updateLastGames} loggedInUser={loggedInUser} />} />
+              <Route exact path="/myCharacters" render={() => <CharacterList characters={loggedInUser.characters} />} />
               <Route
                 exact
                 path="/modify/:gameId"
                 render={() => <EditChapters updateLastGames={updateLastGames} loggedInUser={loggedInUser} />}
               />
+              <Route exact path="/read/:gameId" render={() => <GameOverview setUser={setUser} loggedInUser={loggedInUser} />} />
             </>
           ) : (
             <>

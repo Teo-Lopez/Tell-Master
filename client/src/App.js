@@ -79,6 +79,10 @@ function App() {
             </>
           ) : (
             <>
+              <Route exact path="/read/:gameId" render={() => <GameOverview noUser setUser={setUser} loggedInUser={loggedInUser} />} />
+              <Route exact path="/:algo">
+                <h1>Para ver este contenido has de estar logueado</h1>
+              </Route>
               <CenteredModal title={"Login"} show={loginModal} onHide={() => setloginModal(false)}>
                 <LoginForm setUser={setUser} />
               </CenteredModal>

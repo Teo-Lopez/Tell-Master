@@ -10,7 +10,9 @@ function GameOverView(props) {
   const { match, location, history, loggedInUser, setUser } = props;
   const gameId = match.params.gameId;
 
-  return (
+  return props.noUser ? (
+    <GameBriefing />
+  ) : (
     <Row style={{ justifyContent: "space-between" }}>
       <Col lg={5}>
         <NewSaveGame setUser={setUser} loggedInUser={loggedInUser} />

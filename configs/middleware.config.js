@@ -20,7 +20,7 @@ const middlewares = (app) => {
 
   const cors = require("cors");
   const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://tellmaster.herokuapp.com/"],
     credentials: true,
   };
   app.use(cors(corsOptions));

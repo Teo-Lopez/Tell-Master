@@ -23,7 +23,6 @@ passport.use(
     User.findOne({ username })
       .lean()
       .populate("characters")
-      .populate("savedGames")
       .then((foundUser) => {
         if (!foundUser) {
           next(null, false, { message: "Usuario no registrado." });

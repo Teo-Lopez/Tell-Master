@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class gamesService {
+class savedGamesService {
   constructor() {
     this.baseURL = `${process.env.REACT_APP_API}/savedGames/`;
     this.service = axios.create({ baseURL: this.baseURL, withCredentials: true });
@@ -8,8 +8,15 @@ class gamesService {
 
   getUserSaves(userId) {
     return this.service
-      .get(`/?userId=${userId}`)
-      .then((res) => res.data.savedGamesFound)
+      .get(`/user/?userId=${userId}`)
+      .then((res) => res.data.savedGames)
+      .catch((err) => console.log(err));
+  }
+
+  getFullSave(saveId) {
+    return this.service
+      .get(`/full/?saveId=${saveId}`)
+      .then((res) => res.data)
       .catch((err) => console.log(err));
   }
 
@@ -43,4 +50,4 @@ class gamesService {
   }
 }
 
-export default gamesService;
+export default savedGamesService;

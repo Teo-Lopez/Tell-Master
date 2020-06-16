@@ -5,21 +5,42 @@ const SavedGame = require("../models/SavedGame.model");
 const Choice = require("../models/Choice.model");
 const Chapter = require("../models/Chapters.model");
 const User = require("../models/User.model");
+const Character = require("../models/Character.model");
 
 router.get("/user", (req, res, next) => {
   const _id = req.query.userId || "";
-
   User.findById({ _id })
-    .populate("savedGames")
+    .populate({
+      path: "savedGames",
+      populate: {
+        path: "character",
+      },
+    })
     .select({ savedGames: true })
     .then((savedGamesFound) => {
-      console.log(savedGamesFound);
       res.json(savedGamesFound);
     });
 });
 
+router.get("/full", (req, res, next) => {
+  const _id = req.query.saveId;
+
+  SavedGame.findById(_id)
+    .populate("character")
+    .populate({
+      path: "currentChapter",
+      populate: {
+        path: "choices",
+      },
+    })
+    .select({ savedGames: true })
+    .then((savedGame) => {
+      res.json(savedGame);
+    });
+});
+
 router.post("/", (req, res) => {
-  console.log(req.body);
+  console.log("comienza a crear");
   const { gameId, currentChapter, character, userId } = req.body;
   const newSavedGame = {
     gameId,
@@ -30,14 +51,17 @@ router.post("/", (req, res) => {
   SavedGame.create(newSavedGame)
     .then((newSavedGame) => {
       User.findByIdAndUpdate(userId, { $push: { savedGames: newSavedGame } }).then((updatedUser) => {
-        res.json(newSavedGame);
+        SavedGame.populate(newSavedGame, { path: "character" }).then((populatedSave) => {
+          console.log("-------------------------", populatedSave, "caramelo");
+
+          res.json(populatedSave);
+        });
       });
     })
     .catch((err) => res.json({ err }));
 });
 
 router.post("/assign", (req, res) => {
-  console.log(req.body.saveId);
   const { userId, saveId } = req.body;
 
   User.findByIdAndUpdate(userId, { $push: { savedGames: saveId } }, { new: true })
@@ -45,7 +69,6 @@ router.post("/assign", (req, res) => {
     .populate("savedGames")
     .populate("characters")
     .then((updatedUser) => {
-      console.log(updatedUser);
       res.json(updatedUser);
     })
     .catch((err) => console.log(err));

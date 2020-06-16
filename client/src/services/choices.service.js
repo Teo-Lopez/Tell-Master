@@ -2,7 +2,7 @@ import axios from "axios";
 
 class gamesService {
   constructor() {
-    this.baseURL = "http://localhost:5000/api/choices/";
+    this.baseURL = `${process.env.REACT_APP_API}/choices/`;
     this.service = axios.create({ baseURL: this.baseURL, withCredentials: true });
   }
 

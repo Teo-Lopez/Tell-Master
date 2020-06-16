@@ -2,14 +2,14 @@ import axios from "axios";
 
 class gamesService {
   constructor() {
-    this.baseURL = "http://localhost:5000/api/games/";
+    this.baseURL = `${process.env.REACT_APP_API}/games/`;
     this.service = axios.create({ baseURL: this.baseURL, withCredentials: true });
   }
 
   getOneGame(id) {
     return this.service
       .get(`/?gameId=${id}`)
-      .then((res) => res.data.gameFound)
+      .then((res) => res.data)
       .catch((err) => console.log(err));
   }
 

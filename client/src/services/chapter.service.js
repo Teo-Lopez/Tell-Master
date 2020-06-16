@@ -6,9 +6,16 @@ class gamesService {
     this.service = axios.create({ baseURL: this.baseURL, withCredentials: true });
   }
 
+  getChapter(id) {
+    return this.service
+      .get(`/?chapterId=${id}`)
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
+  }
+
   getChaptersFromGame(id) {
     return this.service
-      .get(`/?gameId=${id}`)
+      .get(`/fromGame/?gameId=${id}`)
       .then((res) => res.data)
       .catch((err) => console.log(err));
   }

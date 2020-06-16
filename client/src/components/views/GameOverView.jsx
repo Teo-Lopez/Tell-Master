@@ -28,7 +28,7 @@ function GameOverView(props) {
   }, []);
 
   return props.noUser ? (
-    <GameBriefing />
+    <GameBriefing game={game} noUser={props.noUser} />
   ) : (
     <Row style={{ justifyContent: "space-between" }}>
       <Col lg={5}>

@@ -6,13 +6,29 @@ import { Link } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 
 function GameBriefing(props) {
-
-  const {game, savedGames} = props
-  
+  const { game, savedGames } = props;
+  console.log(props);
   const loggedInUser = useContext(UserContext);
 
+  return props.noUser ? (
+    !game ? (
+      <p>Loading game</p>
+    ) : (
+      <section>
+        <article>
+          <h1>{game.title}</h1>
+          <p>{game.description}</p>
+          <Dropdown>
+            <Dropdown.Toggle variant="failure" id="dropdown-basic">
+              Para jugar, registrate.
+            </Dropdown.Toggle>
 
-  return !game ? (
+            <Dropdown.Menu></Dropdown.Menu>
+          </Dropdown>
+        </article>
+      </section>
+    )
+  ) : !game ? (
     <p>loading game</p>
   ) : (
     <section>

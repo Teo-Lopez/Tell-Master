@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
-import gamesService from "../services/games.service";
+import React, { useEffect, useState, useContext } from "react";
+
 import { withRouter } from "react-router-dom";
+import UserContext from "../UserContext";
+import { Link } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 
 function GameBriefing(props) {
-  const GamesService = new gamesService();
-  const [game, setGame] = useState(null);
-  useEffect(() => {
-    GamesService.getOneGame(props.match.params.gameId).then((game) => setGame(game));
-  }, []);
+
+  const {game, savedGames} = props
+  
+  const loggedInUser = useContext(UserContext);
+
 
   return !game ? (
     <p>loading game</p>
@@ -16,7 +19,25 @@ function GameBriefing(props) {
       <article>
         <h1>{game.title}</h1>
         <p>{game.description}</p>
-        <button disabled={true}>Continuar la aventura!</button>
+        {loggedInUser ? (
+          <>
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Continua la aventura
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {savedGames.map((save) => (
+                  <Link to={`/chapter/${save._id}`}>
+                    <Dropdown.Item disabled>{save.character.name}</Dropdown.Item>
+                  </Link>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </>
+        ) : (
+          <button disabled={true}>Continuar la aventura</button>
+        )}
       </article>
     </section>
   );

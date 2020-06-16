@@ -15,6 +15,7 @@ app.use("/api/games", require("./routes/games.routes"));
 app.use("/api/chapters", require("./routes/chapter.routes"));
 app.use("/api/choices", require("./routes/choices.routes"));
 app.use("/api/savedGames", require("./routes/savedGames.routes"));
+app.use("/api/characters", require("./routes/character.routes"));
 
 app.use((req, res) => {
   res.sendFile(__dirname + "/public/index.html");

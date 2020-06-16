@@ -4,6 +4,19 @@ const Game = require("../models/Game.model");
 const Chapter = require("../models/Chapters.model");
 
 router.get("/", (req, res, next) => {
+  const { chapterId } = req.query;
+
+  Chapter.findById(chapterId)
+    .lean()
+    .populate("choices")
+    .then((chapterFound) => {
+      console.log(chapterFound);
+      res.json(chapterFound);
+    })
+    .catch((err) => console.log(err));
+});
+
+router.get("/fromGame", (req, res, next) => {
   const { gameId } = req.query;
 
   Game.findById(gameId)
@@ -13,7 +26,8 @@ router.get("/", (req, res, next) => {
     .then((chaptersFound) => {
       console.log(chaptersFound);
       res.json(chaptersFound);
-    });
+    })
+    .catch((err) => console.log(err));
 });
 
 router.post("/", (req, res) => {
@@ -28,7 +42,5 @@ router.post("/", (req, res) => {
     })
     .catch((err) => res.json({ err }));
 });
-
-
 
 module.exports = router;

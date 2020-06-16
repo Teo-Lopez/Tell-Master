@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class gamesService {
+class choicesService {
   constructor() {
     this.baseURL = `${process.env.REACT_APP_API}/choices/`;
     this.service = axios.create({ baseURL: this.baseURL, withCredentials: true });
@@ -28,4 +28,4 @@ class gamesService {
   }
 }
 
-export default gamesService;
+export default choicesService;

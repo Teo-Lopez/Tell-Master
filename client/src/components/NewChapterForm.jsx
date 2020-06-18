@@ -1,42 +1,79 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import ChoiceForm from "./ChoiceForm";
-import gamesService from "../services/games.service";
 import chapterService from "../services/chapter.service";
-import choicesService from "../services/choices.service";
-
+import ChoiceCard from "./ChoiceCard";
 import { withRouter } from "react-router-dom";
 
 function NewChapterForm(props) {
-  const { loggedInUser, updateLastGames, match, location, history } = props;
-  const GamesService = new gamesService();
+  const { updateLastGames, match, chapterId } = props;
+
   const ChapterService = new chapterService();
 
-  const gameId = match.params.gameId;
+  let gameId = match.params.gameId;
+
   const [description, setDescription] = useState("");
   const [choices, setChoices] = useState([]);
+  const [choicesObj, setChoicesObj] = useState([]);
   const [choiceForms, setChoiceForms] = useState([]);
 
-  function retrieveChoicesIds(id) {
-    const choicesCopy = [...choices];
-    if (choicesCopy.includes(id)) {
-      const idx = choicesCopy.indexOf(id);
-      choicesCopy.splice(idx, 1);
-    } else {
-      choicesCopy.push(id);
-      setChoices(choicesCopy);
+  useEffect(() => {
+    if (chapterId) {
+      ChapterService.getChapter(chapterId).then((chapter) => {
+        setDescription(chapter.description);
+        setChoicesObj(chapter.choices);
+        setChoices(chapter.choices.filter((choice) => choice._id));
+      });
     }
+
+    console.log("render");
+  }, []);
+
+  function retrieveChoicesIds(id, idx) {
+    const choicesCopy = [...choices];
+    choicesCopy.push(id);
+    setChoices(choicesCopy);
   }
 
-  function submitForm(e) {
-    e.preventDefault();
-    ChapterService.createChapter({ description, choices, gameId })
+  function createChoiceCard(choiceObj) {
+    const choicesObjCopy = [...choicesObj];
+    choicesObjCopy.push(choiceObj);
+    setChoicesObj(choicesObjCopy);
+  }
+
+  function finishChoiceForm(id, idx, choiceObj) {
+    retrieveChoicesIds(id, idx);
+    createChoiceCard(choiceObj);
+    closeChoiceForm(idx);
+  }
+
+  function closeChoiceForm(idx) {
+    const choiceFormsCopy = [...choiceForms];
+    choiceFormsCopy.splice(idx, 1);
+    setChoiceForms(choiceFormsCopy);
+  }
+
+  function createChapter(chapter) {
+    ChapterService.createChapter(chapter)
       .then((createdChapter) => {
         updateLastGames();
         console.log(createdChapter);
       })
-      .catch((err) => console.log(err))
-      .finally(() => history.push("/"));
+      .catch((err) => console.log(err));
+  }
+
+  function updateChapter(chapter) {
+    ChapterService.updateChapter(chapter)
+      .then((updatedChapter) => {
+        updateLastGames();
+        console.log(updatedChapter);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function submitForm(e) {
+    e.preventDefault();
+    chapterId ? updateChapter({ _id: chapterId, description, choices }) : createChapter({ description, choices, gameId });
   }
 
   function onChange(e) {
@@ -52,15 +89,26 @@ function NewChapterForm(props) {
 
   function addChoice() {
     const choiceFormsCopy = [...choiceForms];
-    choiceFormsCopy.push(<ChoiceForm retrieveChoicesIds={retrieveChoicesIds} />);
+    choiceFormsCopy.push(true);
     setChoiceForms(choiceFormsCopy);
   }
 
-  return (
+  function toogleCard(idx) {
+    console.log(idx);
+    const choicesObjCopy = [...choicesObj];
+    const choiceCopy = { ...choicesObjCopy[idx] };
+    choiceCopy.show = !choicesObj[idx].show;
+    choicesObjCopy.splice(idx, 1, choiceCopy);
+    setChoicesObj(choicesObjCopy);
+  }
+
+  return chapterId && !description ? (
+    "loading"
+  ) : (
     <div>
       <Form onSubmit={submitForm}>
         <Form.Group controlId="description">
-          <Form.Label>Escribe tu nuevo capitulo:</Form.Label>
+          <Form.Label>Texto</Form.Label>
           <Form.Control
             as="textarea"
             name="description"
@@ -69,13 +117,22 @@ function NewChapterForm(props) {
             placeholder="En un lugar de la Costa de la Espada, de cuyo nombre no quiero acordarme..."
           />
         </Form.Group>
-        <Button type="submit">Crear</Button>
+        <Button type="submit">{chapterId ? "Modificar" : "Crear"}</Button>
       </Form>
       <Button onClick={addChoice}>Añadir elección</Button>
       <Row>
-        {choiceForms.map((eachform, key) => (
-          <Col key={key} lg={4}>
-            {eachform}
+        {choicesObj.map((eachChoice, idx) => (
+          <Col key={idx} lg={4}>
+            {!eachChoice.show ? (
+              <ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} />
+            ) : (
+              <ChoiceForm toogleCard={toogleCard} choice={eachChoice} idx={idx} />
+            )}
+          </Col>
+        ))}
+        {choiceForms.map((eachform, idx) => (
+          <Col key={idx} lg={4}>
+            {React.cloneElement(<ChoiceForm />, { idx, finishChoiceForm, closeChoiceForm })}
           </Col>
         ))}
       </Row>

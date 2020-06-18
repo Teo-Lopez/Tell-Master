@@ -16,16 +16,20 @@ function NewChapterForm(props) {
   const [choices, setChoices] = useState([]);
   const [choicesObj, setChoicesObj] = useState([]);
   const [choiceForms, setChoiceForms] = useState([]);
-
-  useEffect(() => {
+  const [ready, setReady] = useState(false);
+  function populateThisChapter() {
     if (chapterId) {
       ChapterService.getChapter(chapterId).then((chapter) => {
         setDescription(chapter.description);
         setChoicesObj(chapter.choices);
         setChoices(chapter.choices.filter((choice) => choice._id));
+        setReady(true);
       });
     }
+  }
 
+  useEffect(() => {
+    populateThisChapter();
     console.log("render");
   }, []);
 
@@ -66,6 +70,7 @@ function NewChapterForm(props) {
     ChapterService.updateChapter(chapter)
       .then((updatedChapter) => {
         updateLastGames();
+        populateThisChapter();
         console.log(updatedChapter);
       })
       .catch((err) => console.log(err));
@@ -102,7 +107,7 @@ function NewChapterForm(props) {
     setChoicesObj(choicesObjCopy);
   }
 
-  return chapterId && !description ? (
+  return chapterId && !ready ? (
     "loading"
   ) : (
     <div>

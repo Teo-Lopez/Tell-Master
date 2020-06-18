@@ -82,7 +82,7 @@ function App() {
                 <Route
                   exact
                   path="/modify/:gameId"
-                  render={() => <EditChapters updateLastGames={updateLastGames} loggedInUser={loggedInUser} />}
+                  render={({ match }) => <EditChapters match={match} updateLastGames={updateLastGames} loggedInUser={loggedInUser} />}
                 />
                 <Route exact path="/chapter/:savedGameId" render={() => <ChapterWrapper />} />
                 <Route exact path="/read/:gameId" render={() => <GameOverview setUser={setUser} loggedInUser={loggedInUser} />} />

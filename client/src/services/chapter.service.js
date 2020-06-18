@@ -16,14 +16,21 @@ class gamesService {
   getChaptersFromGame(id) {
     return this.service
       .get(`/fromGame/?gameId=${id}`)
-      .then((res) => res.data)
+      .then((res) => res.data.chapters)
       .catch((err) => console.log(err));
   }
 
   createChapter({ description, choices, gameId }) {
     return this.service
       .post("", { description, choices, gameId })
-      .then((res) => res.data.createdChapter)
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
+  }
+
+  updateChapter(chapter) {
+    return this.service
+      .patch("/", chapter)
+      .then((res) => res.data)
       .catch((err) => console.log(err));
   }
 }

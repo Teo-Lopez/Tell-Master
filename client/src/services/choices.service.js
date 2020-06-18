@@ -20,6 +20,13 @@ class choicesService {
       .catch((err) => console.log(err));
   }
 
+  updateChoice(choice) {
+    return this.service
+      .patch("/", choice)
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
+  }
+
   deleteChoice(choiceId) {
     return this.service
       .delete("", { choiceId })

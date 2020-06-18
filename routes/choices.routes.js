@@ -37,7 +37,8 @@ router.post("/", (req, res) => {
 });
 
 router.patch("/", (req, res) => {
-  const { choiceId, chapterId, description, trial, successTargetChapter, failureTargetChapter, pxGranted } = req.body;
+  console.log("-----------------------------------", req.body);
+  const { _id, chapterId, description, trial, successTargetChapter, failureTargetChapter, pxGranted } = req.body;
   const newChoice = {
     chapterId,
     description,
@@ -47,7 +48,7 @@ router.patch("/", (req, res) => {
     pxGranted,
   };
 
-  Choice.updateOne({ _id: choiceId }, newChoice)
+  Choice.findByIdAndUpdate(_id, newChoice)
     .then((updatedChoice) => {
       res.json(updatedChoice);
     })

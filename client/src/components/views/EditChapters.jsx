@@ -7,9 +7,9 @@ function EditChapters({ loggedInUser, updateLastGames, match }) {
   const ChapterService = new chapterService();
   const [allChapters, setallChapters] = useState([]);
   const [showNewForm, setShowNewForm] = useState(false);
+
   function getAllChapters() {
     ChapterService.getChaptersFromGame(match.params.gameId).then((allChapters) => {
-      console.log(allChapters);
       setallChapters(allChapters);
     });
   }
@@ -19,16 +19,13 @@ function EditChapters({ loggedInUser, updateLastGames, match }) {
     const chapterCopy = { ...allChaptersCopy[idx] };
     chapterCopy.show = !allChapters[idx].show;
     allChaptersCopy.splice(idx, 1, chapterCopy);
-    console.log(allChaptersCopy);
     setallChapters(allChaptersCopy);
   }
 
   useEffect(() => {
-    console.log("se lanza");
     getAllChapters();
   }, []);
 
-  console.log("render");
   return (
     <>
       <ListGroup>

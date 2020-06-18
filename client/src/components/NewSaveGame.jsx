@@ -18,8 +18,8 @@ function NewSaveGame({ loggedInUser, setUser, match, updateSavedGames }) {
 
   function newSave(chosenCharacter) {
     ChapterService.getChaptersFromGame(match.params.gameId)
-      .then((chaptersList) => {
-        const { chapters } = chaptersList;
+      .then((chapters) => {
+        
 
         return SavedGamesService.createSavedGame({
           gameId: match.params.gameId,

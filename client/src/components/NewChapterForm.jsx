@@ -6,7 +6,7 @@ import ChoiceCard from "./ChoiceCard";
 import { withRouter } from "react-router-dom";
 
 function NewChapterForm(props) {
-  const { updateLastGames, match, chapterId } = props;
+  const { updateLastGames, match, chapterId, getAllChapters } = props;
 
   const ChapterService = new chapterService();
 
@@ -17,6 +17,7 @@ function NewChapterForm(props) {
   const [choicesObj, setChoicesObj] = useState([]);
   const [choiceForms, setChoiceForms] = useState([]);
   const [ready, setReady] = useState(false);
+
   function populateThisChapter() {
     if (chapterId) {
       ChapterService.getChapter(chapterId).then((chapter) => {
@@ -30,7 +31,6 @@ function NewChapterForm(props) {
 
   useEffect(() => {
     populateThisChapter();
-    console.log("render");
   }, []);
 
   function retrieveChoicesIds(id, idx) {
@@ -60,8 +60,8 @@ function NewChapterForm(props) {
   function createChapter(chapter) {
     ChapterService.createChapter(chapter)
       .then((createdChapter) => {
+        getAllChapters();
         updateLastGames();
-        console.log(createdChapter);
       })
       .catch((err) => console.log(err));
   }
@@ -71,7 +71,7 @@ function NewChapterForm(props) {
       .then((updatedChapter) => {
         updateLastGames();
         populateThisChapter();
-        console.log(updatedChapter);
+        getAllChapters();
       })
       .catch((err) => console.log(err));
   }

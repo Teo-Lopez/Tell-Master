@@ -19,6 +19,7 @@
     "start": "dotenv -e .env.dev react-scripts start",
     "build-dev": "dotenv -e .env.dev react-scripts build",
     "build-prod": "dotenv -e .env.prod react-scripts build",
+    "master-build": "rm -rf ./build/*; rm -rf ../server/public/*; npm run build-prod; mv ./build/* ../server/public/; cp -R ../server/publicbackup/* ../server/public/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

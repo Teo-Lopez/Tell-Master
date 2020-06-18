@@ -11,7 +11,7 @@ module.exports = (app) => {
       secret: "carmen de mairena",
       resave: true,
       saveUninitialized: true,
-      cookie: { secure: false, maxAge: 60000 },
+      cookie: { secure: false, maxAge: 1000 * 60 * 60 * 7 },
       store: new MongoStore({ mongooseConnection: mongoose.connection }),
     })
   );

@@ -34,7 +34,7 @@ function ChoiceCard({ choice, idx, toogleCard }) {
   return (
     <Card>
       <Card.Header onClick={() => toogleCard(idx)}>Editar</Card.Header>
-      <Card.Body>
+      <Card.Body style={{ backgroundColor: choice.successTargetChapter && choice.failureTargetChapter ? "lightgreen" : "orange" }}>
         <p>{choice.description}</p>
         <p>{returnCharacteristic(choice.trial.characteristic)}</p>
         <p>{choice.trial.difficulty}</p>

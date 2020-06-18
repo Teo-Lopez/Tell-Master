@@ -19,8 +19,12 @@ function Chapter(props) {
     <div>
       <p>{currentChapter.description}</p>
       {currentChapter.choices.map((choice) => {
-        return (
+        return choice.successTargetChapter && choice.failureTargetChapter ? (
           <button onClick={makeChoice} id={choice._id}>
+            {choice.description}
+          </button>
+        ) : (
+          <button disabled onClick={makeChoice} id={choice._id}>
             {choice.description}
           </button>
         );

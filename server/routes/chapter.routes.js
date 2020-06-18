@@ -45,7 +45,7 @@ router.post("/", (req, res) => {
 
 router.patch("/", (req, res) => {
   const { description, choices, _id } = req.body;
-  const newChapter = { description, choices: Array.isArray(choices) && choices.length > 0 ? choices : undefined };
+  const newChapter = { description, choices: Array.isArray(choices) && choices.length > 0 ? choices : [] };
   Chapter.findByIdAndUpdate(_id, newChapter, { new: true })
     .then((updatedChapter) => {
       res.json(updatedChapter);

@@ -20,6 +20,18 @@ router.get("/owned", (req, res) => {
     .catch((err) => res.json({ err }));
 });
 
+router.get("/full", (req, res) => {
+  Game.findById(req.query.gameId)
+    .populate({
+      path: "chapters",
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: { path: "choices" },
+    })
+    .then((game) => {
+      res.json(game);
+    });
+});
+
 //Get last games created
 router.get("/last", (req, res, next) => {
   const today = new Date();

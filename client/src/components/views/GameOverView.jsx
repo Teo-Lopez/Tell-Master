@@ -24,7 +24,7 @@ function GameOverView(props) {
 
   useEffect(() => {
     GamesService.getOneGame(props.match.params.gameId).then((game) => setGame(game));
-    loggedInUser && SavedGamesService.getUserSaves(loggedInUser._id).then((savedGames) => setSavedGames(savedGames));
+    loggedInUser && SavedGamesService.getUserSaves(loggedInUser._id, gameId).then((savedGames) => setSavedGames(savedGames));
   }, []);
 
   return props.noUser ? (

@@ -6,10 +6,12 @@ class savedGamesService {
     this.service = axios.create({ baseURL: this.baseURL, withCredentials: true });
   }
 
-  getUserSaves(userId) {
+  getUserSaves(userId, gameId) {
+    const query = gameId ? `/user/?userId=${userId}&gameId=${gameId}` : `/user/?userId=${userId}`;
+
     return this.service
-      .get(`/user/?userId=${userId}`)
-      .then((res) => res.data.savedGames)
+      .get(query)
+      .then((res) => res.data)
       .catch((err) => console.log(err));
   }
 

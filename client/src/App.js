@@ -72,35 +72,39 @@ function App() {
             showLogin={() => setloginModal(true)}
             loggedInUser={loggedInUser}
           />
-          <Container>
-            <Route exact path="/" render={() => <LastGames loggedInUser={loggedInUser} games={lastGames} />} />
-            {loggedInUser ? (
-              <>
-                <Route exact path="/myGames" render={() => <MyGames loggedInUser={loggedInUser} />} />
-                <Route exact path="/newGame" render={() => <NewGame updateLastGames={updateLastGames} loggedInUser={loggedInUser} />} />
-                <Route exact path="/myCharacters" render={() => <CharacterList characters={loggedInUser.characters} />} />
-                <Route
-                  exact
-                  path="/modify/:gameId"
-                  render={({ match }) => <EditChapters match={match} updateLastGames={updateLastGames} loggedInUser={loggedInUser} />}
-                />
-                <Route exact path="/chapter/:savedGameId" render={() => <ChapterWrapper />} />
-                <Route exact path="/read/:gameId" render={() => <GameOverview setUser={setUser} loggedInUser={loggedInUser} />} />
-              </>
-            ) : (
-              <>
-                <Route exact path="/read/:gameId" render={() => <GameOverview noUser setUser={setUser} loggedInUser={loggedInUser} />} />
-                <Route exact path="/:algo">
-                  <h1>Para ver este contenido has de estar logueado</h1>
-                </Route>
-                <CenteredModal title={"Login"} show={loginModal} onHide={() => setloginModal(false)}>
-                  <LoginForm setUser={setUser} />
-                </CenteredModal>
-                <CenteredModal title={"Signup"} show={signupModal} onHide={() => setSignupModal(false)}>
-                  <SignupForm setUser={setUser} />
-                </CenteredModal>
-              </>
-            )}
+          <Container fluid>
+            <main className="app-wrapper">
+              <Route exact path="/" render={() => <LastGames loggedInUser={loggedInUser} games={lastGames} />} />
+              {loggedInUser ? (
+                <>
+                  <Route exact path="/myGames" render={() => <MyGames loggedInUser={loggedInUser} />} />
+                  <Route exact path="/newGame" render={() => <NewGame updateLastGames={updateLastGames} loggedInUser={loggedInUser} />} />
+                  <Route exact path="/myCharacters" render={() => <CharacterList characters={loggedInUser.characters} />} />
+                  <Route
+                    exact
+                    path="/modify/:gameId"
+                    render={({ match, history }) => (
+                      <EditChapters history={history} match={match} updateLastGames={updateLastGames} loggedInUser={loggedInUser} />
+                    )}
+                  />
+                  <Route exact path="/chapter/:savedGameId" render={() => <ChapterWrapper />} />
+                  <Route exact path="/read/:gameId" render={() => <GameOverview setUser={setUser} loggedInUser={loggedInUser} />} />
+                </>
+              ) : (
+                <>
+                  <Route exact path="/read/:gameId" render={() => <GameOverview noUser setUser={setUser} loggedInUser={loggedInUser} />} />
+                  <Route exact path="/:algo">
+                    <h1>Para ver este contenido has de estar logueado</h1>
+                  </Route>
+                  <CenteredModal title={"Login"} show={loginModal} onHide={() => setloginModal(false)}>
+                    <LoginForm setUser={setUser} />
+                  </CenteredModal>
+                  <CenteredModal title={"Signup"} show={signupModal} onHide={() => setSignupModal(false)}>
+                    <SignupForm setUser={setUser} />
+                  </CenteredModal>
+                </>
+              )}
+            </main>
           </Container>
         </UserProvider>
       </>

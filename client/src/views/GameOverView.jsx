@@ -18,7 +18,7 @@ function GameOverView(props) {
   useEffect(() => {
     GamesService.getOneGame(props.match.params.gameId).then((game) => setGame(game));
     loggedInUser && SavedGamesService.getUserSaves(loggedInUser._id, gameId).then((savedGames) => setSavedGames(savedGames));
-  }, [props.match.params.gameId, loggedInUser._id]);
+  }, [props.match.params.gameId, loggedInUser]);
 
   function updateSavedGames(newSave) {
     const savedGamesCopy = [...savedGames];

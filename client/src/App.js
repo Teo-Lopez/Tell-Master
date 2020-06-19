@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Navbar from "./layout/Navbar";
-import LastGames from "./components/views/LastGames";
-import MyGames from "./components/views/MyGames";
+import LastGames from "./views/LastGames";
+import MyGames from "./views/MyGames";
 import gamesService from "./services/games.service";
 import authService from "./services/auth.service";
-import LoginForm from "./components/LoginForm";
-import SignupForm from "./components/SignupForm";
-import CenteredModal from "./components/Modal";
-import NewGame from "./components/views/NewGame";
-import EditChapters from "./components/views/EditChapters";
-import GameOverview from "./components/views/GameOverView";
-import CharacterList from "./components/CharacterList";
-import ChapterWrapper from "./components/views/ChapterWrapper";
+import LoginForm from "./components/Auth/LoginForm";
+import SignupForm from "./components/Auth/SignupForm";
+import CenteredModal from "./components/utils/Modal";
+import NewGame from "./views/NewGame";
+import EditChapters from "./views/EditChapters";
+import GameOverview from "./views/GameOverView";
+import CharacterList from "./components/Character/CharacterList";
+import ChapterWrapper from "./views/ChapterWrapper";
 import { UserProvider } from "./UserContext";
 
 function App() {
@@ -26,7 +25,7 @@ function App() {
   const [loggedInUser, setloggedInUser] = useState(false);
 
   function logout() {
-    AuthService.logout().then((res) => setloggedInUser(null));
+    AuthService.logout().then(() => setloggedInUser(null));
   }
 
   function setUser(user) {
@@ -35,7 +34,7 @@ function App() {
 
   function updateLastGames() {
     GamesService.getLastGames().then((last10) => {
-      if (Array.isArray(last10) && !last10.every((elm) => lastGames.find((game) => game._id == elm._id))) {
+      if (Array.isArray(last10) && !last10.every((elm) => lastGames.find((game) => game._id === elm._id))) {
         setlastGames(last10);
       }
     });
@@ -50,14 +49,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (loggedInUser == false) {
+    if (loggedInUser === false) {
       AuthService.loggedin().then((user) => {
         if (user) setloggedInUser(user);
         else setloggedInUser(null);
       });
     }
     return () => {};
-  }, [loggedInUser]);
+  }, []);
 
   const [loginModal, setloginModal] = useState(false);
   const [signupModal, setSignupModal] = useState(false);

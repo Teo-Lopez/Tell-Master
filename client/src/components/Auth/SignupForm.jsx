@@ -1,22 +1,15 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import authService from "../services/auth.service";
-function LoginForm({ setUser, onHide }) {
+import authService from "../../services/auth.service";
+function SignupForm({ setUser, onHide }) {
   const AuthService = new authService();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function clearForm() {
-    setUsername("");
-    setEmail("");
-    setPassword("");
-  }
-
   function submitForm(e) {
     e.preventDefault();
-    AuthService.login({ username, email, password }).then((loggedInUser) => setUser(loggedInUser));
-    clearForm();
+    AuthService.signup({ username, email, password }).then((loggedInUser) => setUser(loggedInUser));
     if (onHide) onHide();
   }
 
@@ -62,4 +55,4 @@ function LoginForm({ setUser, onHide }) {
   );
 }
 
-export default LoginForm;
+export default SignupForm;

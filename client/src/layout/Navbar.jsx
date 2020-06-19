@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { Container, Nav, NavDropdown, Row, Col, Spinner } from "react-bootstrap";
-import authService from "../services/auth.service";
 
 function Navbar({ loggedInUser, showLogin, showSignup, logout }) {
   return loggedInUser === false ? (

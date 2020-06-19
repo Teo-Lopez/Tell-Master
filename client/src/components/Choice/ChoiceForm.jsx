@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Form, Button } from "react-bootstrap";
-import choicesService from "../services/choices.service";
-import chapterService from "../services/chapter.service";
+import choicesService from "../../services/choices.service";
+import chapterService from "../../services/chapter.service";
 import { withRouter } from "react-router-dom";
 
 function ChoiceForm({ finishChoiceForm, idx, choice, toogleCard, closeChoiceForm, match }) {
@@ -14,11 +14,12 @@ function ChoiceForm({ finishChoiceForm, idx, choice, toogleCard, closeChoiceForm
   const [successTargetChapter, setSuccessTargetChapter] = useState(choice ? choice.successTargetChapter : null);
   const [failureTargetChapter, setFailureTargetChapter] = useState(choice ? choice.failureTargetChapter : null);
   const [chapterList, setChapterList] = useState([]);
+
   useEffect(() => {
     ChapterService.getChaptersFromGame(match.params.gameId).then((chapterList) => {
       setChapterList(chapterList);
     });
-  }, []);
+  }, [match.params.gameId]);
 
   function createChoice(choice) {
     ChoicesService.createChoice(choice).then((createdChoice) => {

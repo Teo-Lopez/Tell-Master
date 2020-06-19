@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import gameService from "../../services/games.service";
-import NewChapterForm from "../NewChapterForm";
-import chapterService from "../../services/chapter.service";
+import gameService from "../services/games.service";
+import NewChapterForm from "../components/Chapter/NewChapterForm";
+import chapterService from "../services/chapter.service";
 import { ListGroup } from "react-bootstrap";
 
 function EditChapters({ loggedInUser, updateLastGames, match, history }) {
@@ -12,7 +12,7 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
 
   function checkOwnership() {
     GameService.getOneGame(match.params.gameId).then((game) => {
-      if (!(game.creator == loggedInUser._id)) history.replace(`/read/${match.params.gameId}`);
+      if (!(game.creator === loggedInUser._id)) history.replace(`/read/${match.params.gameId}`);
     });
   }
 

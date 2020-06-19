@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import CharacterForm from "./CharacterForm";
-import CharacterList from "./CharacterList";
-import savedGamesService from "../services/savedGames.service";
-import chapterService from "../services/chapter.service";
-import { Row, Col } from "react-bootstrap";
+import CharacterForm from "../Character/CharacterForm";
+import CharacterList from "../Character/CharacterList";
+import savedGamesService from "../../services/savedGames.service";
+import chapterService from "../../services/chapter.service";
 
 function NewSaveGame({ loggedInUser, setUser, match, updateSavedGames }) {
   const ChapterService = new chapterService();
   const SavedGamesService = new savedGamesService();
-  const [character, setCharacter] = useState(null);
+  const [, setCharacter] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
   function toogleForm() {
@@ -19,8 +18,6 @@ function NewSaveGame({ loggedInUser, setUser, match, updateSavedGames }) {
   function newSave(chosenCharacter) {
     ChapterService.getChaptersFromGame(match.params.gameId)
       .then((chapters) => {
-        
-
         return SavedGamesService.createSavedGame({
           gameId: match.params.gameId,
           currentChapter: chapters[0]._id,

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
-import ChoiceForm from "./ChoiceForm";
-import chapterService from "../services/chapter.service";
-import ChoiceCard from "./ChoiceCard";
+import { Button, Row, Col } from "react-bootstrap";
+import ChoiceForm from "../Choice/ChoiceForm";
+import ChoiceCard from "../Choice/ChoiceCard";
+import chapterService from "../../services/chapter.service";
 import { withRouter } from "react-router-dom";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";

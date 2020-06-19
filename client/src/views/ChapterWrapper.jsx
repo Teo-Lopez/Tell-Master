@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import savedGamesService from "../../services/savedGames.service";
-import Chapter from "../Chapter";
+import savedGamesService from "../services/savedGames.service";
+import Chapter from "../components/Chapter/Chapter";
 import { Spinner } from "react-bootstrap";
 
 function ChapterWrapper(props) {
@@ -10,9 +10,17 @@ function ChapterWrapper(props) {
 
   const [savedGame, setSavedGame] = useState(null);
   const [ready, setReady] = useState(false);
+
   useEffect(() => {
-    updateChapter();
-  }, []);
+    //Not sure if this is good practice for removing the warning...
+    const update = () =>
+      SavedGamesService.getFullSave(match.params.savedGameId).then((savedGame) => {
+        console.log(savedGame, match.params.savedGameId);
+        setSavedGame(savedGame);
+        setReady(true);
+      });
+    update();
+  }, [match.params.savedGameId]);
 
   function updateChapter() {
     SavedGamesService.getFullSave(match.params.savedGameId).then((savedGame) => {

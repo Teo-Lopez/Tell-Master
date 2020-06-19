@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 
 import { withRouter } from "react-router-dom";
-import UserContext from "../UserContext";
+import UserContext from "../../UserContext";
 import { Link } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 

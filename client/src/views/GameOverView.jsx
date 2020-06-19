@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
-import gamesService from "../../services/games.service";
-import savedGamesService from "../../services/savedGames.service";
-import NewSaveGame from "../NewSaveGame";
-import GameBriefing from "../GameBriefing";
+import gamesService from "../services/games.service";
+import savedGamesService from "../services/savedGames.service";
+import NewSaveGame from "../components/Game/NewSaveGame";
+import GameBriefing from "../components/Game/GameBriefing";
 import { Row, Col } from "react-bootstrap";
 
 function GameOverView(props) {
   const GamesService = new gamesService();
   const SavedGamesService = new savedGamesService();
 
-  const { match, location, history, loggedInUser, setUser } = props;
+  const { match, loggedInUser, setUser } = props;
   const gameId = match.params.gameId;
   const [game, setGame] = useState(null);
   const [savedGames, setSavedGames] = useState([]);
+
+  useEffect(() => {
+    GamesService.getOneGame(props.match.params.gameId).then((game) => setGame(game));
+    loggedInUser && SavedGamesService.getUserSaves(loggedInUser._id, gameId).then((savedGames) => setSavedGames(savedGames));
+  }, [props.match.params.gameId, loggedInUser._id]);
 
   function updateSavedGames(newSave) {
     const savedGamesCopy = [...savedGames];
@@ -21,11 +26,6 @@ function GameOverView(props) {
     console.log(savedGamesCopy, "--------------COPIA------------");
     setSavedGames(savedGamesCopy);
   }
-
-  useEffect(() => {
-    GamesService.getOneGame(props.match.params.gameId).then((game) => setGame(game));
-    loggedInUser && SavedGamesService.getUserSaves(loggedInUser._id, gameId).then((savedGames) => setSavedGames(savedGames));
-  }, []);
 
   return props.noUser ? (
     <GameBriefing game={game} noUser={props.noUser} />

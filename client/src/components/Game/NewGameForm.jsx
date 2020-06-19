@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import gamesService from "../services/games.service";
+import gamesService from "../../services/games.service";
 import { withRouter } from "react-router-dom";
 
 function NewGameForm(props) {
-  const { loggedInUser, updateLastGames, match, location, history } = props;
+  const { loggedInUser, updateLastGames, history } = props;
   const GamesService = new gamesService();
   const [title, setTitle] = useState("");
   const [minLevel, setMinLevel] = useState(1);

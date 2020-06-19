@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import characterService from "../services/character.service";
+import characterService from "../../services/character.service";
 
 function CharacterForm({ setCharacter, hideForm, setUser, loggedInUser }) {
   const CharacterService = new characterService();
   console.log(characterService);
   const [name, setName] = useState("");
-  const [hp, setHp] = useState(100);
+  const [hp] = useState(100);
   const [str, setStr] = useState(10);
   const [des, setDes] = useState(10);
   const [agi, setAgi] = useState(10);

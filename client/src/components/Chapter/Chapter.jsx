@@ -1,11 +1,9 @@
-import React, { useContext } from "react";
-import UserContext from "../UserContext";
-import characterChoicesService from "../services/characterChoices.service";
+import React from "react";
+import characterChoicesService from "../../services/characterChoices.service";
 import { withRouter } from "react-router-dom";
 
 function Chapter(props) {
   const CharacterChoiceService = new characterChoicesService();
-  const loggedInUser = useContext(UserContext);
   const { currentChapter, character } = props.game;
 
   function makeChoice(e) {

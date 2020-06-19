@@ -1,4 +1,4 @@
-import React, { Children, isValidElement, cloneElement } from "react";
+import React, { cloneElement } from "react";
 import { Modal } from "react-bootstrap";
 
 function CenteredModal({ show, children, onHide, title }) {

@@ -23,7 +23,6 @@ function GameOverView(props) {
   function updateSavedGames(newSave) {
     const savedGamesCopy = [...savedGames];
     savedGamesCopy.push(newSave);
-    console.log(savedGamesCopy, "--------------COPIA------------");
     setSavedGames(savedGamesCopy);
   }
 

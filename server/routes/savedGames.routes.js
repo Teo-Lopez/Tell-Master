@@ -9,7 +9,10 @@ const Character = require("../models/Character.model");
 
 router.get("/user", (req, res, next) => {
   const _id = req.query.userId || "";
-  User.findById({ _id })
+  const gameId = req.query.gameId;
+  const query = { _id };
+
+  User.findById(query)
     .populate({
       path: "savedGames",
       populate: {
@@ -17,7 +20,8 @@ router.get("/user", (req, res, next) => {
       },
     })
     .select({ savedGames: true })
-    .then((savedGamesFound) => {
+    .then((user) => {
+      const savedGamesFound = user.savedGames.filter((save) => save.gameId == gameId);
       res.json(savedGamesFound);
     });
 });

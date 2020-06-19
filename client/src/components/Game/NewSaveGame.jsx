@@ -5,7 +5,7 @@ import CharacterList from "../Character/CharacterList";
 import savedGamesService from "../../services/savedGames.service";
 import chapterService from "../../services/chapter.service";
 
-function NewSaveGame({ loggedInUser, setUser, match, updateSavedGames }) {
+function NewSaveGame({ loggedInUser, setUser, match, updateSavedGames, history }) {
   const ChapterService = new chapterService();
   const SavedGamesService = new savedGamesService();
   const [, setCharacter] = useState(null);
@@ -26,6 +26,7 @@ function NewSaveGame({ loggedInUser, setUser, match, updateSavedGames }) {
       })
       .then((savedGame) => {
         updateSavedGames(savedGame);
+        history.push(`/chapter/${savedGame._id}`);
         return SavedGamesService.assignSaveToUser(loggedInUser._id, savedGame._id);
       })
       .then((updatedUser) => {

@@ -69,7 +69,7 @@ function ChoiceForm({ finishChoiceForm, idx, choice, toogleCard, closeChoiceForm
         console.log(value);
         setSuccessTargetChapter(value);
         break;
-      case "failuterTargetChapter":
+      case "failureTargetChapter":
         console.log(value);
         setFailureTargetChapter(value);
         break;

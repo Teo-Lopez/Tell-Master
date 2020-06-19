@@ -17,7 +17,7 @@ function Chapter(props) {
 
   return (
     <div>
-      <p>{currentChapter.description}</p>
+      <div dangerouslySetInnerHTML={{ __html: currentChapter.description }}></div>
       {currentChapter.choices.map((choice) => {
         return choice.successTargetChapter && choice.failureTargetChapter ? (
           <button onClick={makeChoice} id={choice._id}>

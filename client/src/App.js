@@ -15,7 +15,11 @@ import EditChapters from "./views/EditChapters";
 import GameOverview from "./views/GameOverView";
 import CharacterList from "./components/Character/CharacterList";
 import ChapterWrapper from "./views/ChapterWrapper";
+import GameFlowChart from "./components/utils/GameFlowchart";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
+
 import { UserProvider } from "./UserContext";
+import { darkTheme } from "./themeContext";
 
 function App() {
   const GamesService = new gamesService();
@@ -61,10 +65,29 @@ function App() {
   const [loginModal, setloginModal] = useState(false);
   const [signupModal, setSignupModal] = useState(false);
 
+  const GlobalStyle = createGlobalStyle`
+    html, body {
+      overflow: hidden;
+    }
+    body {
+      color: rgb(200, 200, 200);
+      background-color: ${darkTheme.background.dark};
+      -webkit-overflow-scrolling: touch;
+    }
+    a {
+      color: #eee;
+    }
+    a:hover {
+      color: #eee;
+      text-decoration: none;
+    }
+`;
+
   return (
     <Switch>
-      <>
+      <ThemeProvider theme={darkTheme}>
         <UserProvider value={loggedInUser}>
+          <GlobalStyle />
           <Navbar
             logout={logout}
             showSignup={() => setSignupModal(true)}
@@ -88,6 +111,7 @@ function App() {
                   />
                   <Route exact path="/chapter/:savedGameId" render={() => <ChapterWrapper />} />
                   <Route exact path="/read/:gameId" render={() => <GameOverview setUser={setUser} loggedInUser={loggedInUser} />} />
+                  {/* <Route exact path="/flowchart/:gameId" render={() => <GameFlowChart />} /> */}
                 </>
               ) : (
                 <>
@@ -106,7 +130,7 @@ function App() {
             </main>
           </Container>
         </UserProvider>
-      </>
+      </ThemeProvider>
     </Switch>
   );
 }

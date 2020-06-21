@@ -8,6 +8,7 @@ const gameSchema = new Schema(
     minLevel: { type: Number, required: true },
     description: { type: String, required: true },
     chapters: { type: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Chapter" }], default: [] },
+    simple: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

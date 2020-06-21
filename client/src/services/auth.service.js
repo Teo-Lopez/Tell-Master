@@ -17,6 +17,7 @@ class authService {
       .then((res) => res.data)
       .catch((err) => {
         console.log({ err });
+        if (err.response.status == "401") return null;
         if (err.code === "ECONNABORTED") console.error(err.message);
       });
   }

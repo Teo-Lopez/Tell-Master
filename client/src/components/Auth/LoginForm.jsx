@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import authService from "../../services/auth.service";
+import { Button } from "../Buttons";
+
 function LoginForm({ setUser, onHide }) {
   const AuthService = new authService();
   const [username, setUsername] = useState("");
@@ -42,22 +44,20 @@ function LoginForm({ setUser, onHide }) {
       <Form.Group controlId="username">
         <Form.Label>Username</Form.Label>
         <Form.Control onChange={onChange} name="username" value={username} type="text" placeholder="Enter username" />
-        <Form.Text className="text-muted">Choose an username.</Form.Text>
+        <Form.Text>Choose an username.</Form.Text>
       </Form.Group>
 
       <Form.Group controlId="email" value={email}>
         <Form.Label>Email address</Form.Label>
         <Form.Control onChange={onChange} name="email" type="email" placeholder="Enter email" />
-        <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
+        <Form.Text>We'll never share your email with anyone else.</Form.Text>
       </Form.Group>
 
       <Form.Group controlId="password" value={password}>
         <Form.Label>Password</Form.Label>
         <Form.Control onChange={onChange} name="password" type="password" placeholder="Password" />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
+      <Button text="Submit" type="submit"></Button>
     </Form>
   );
 }

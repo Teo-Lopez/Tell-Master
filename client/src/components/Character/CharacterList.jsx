@@ -1,20 +1,20 @@
 import React from "react";
-
+import { Button } from "../Buttons";
+import styled from "styled-components";
 function CharacterList({ characters, newSave }) {
+  const CustomLi = styled.li`
+    margin: 15px 0;
+  `;
   console.log(newSave);
   return (
     <ul>
       {characters.map((char) => (
-        <li>
-          <p>
-            <button onClick={newSave ? () => newSave(char._id) : null}>
-              {char.name}. Nivel: {char.level}{" "}
-            </button>
-          </p>
+        <CustomLi>
+          <Button text={`${char.name}. Nivel: ${char.level}`} onClick={newSave ? () => newSave(char._id) : null} />
           <small>
             Fue: {char.str} Des: {char.des} Agi: {char.agi} Int: {char.int} Sab: {char.wis} Car: {char.char}
           </small>
-        </li>
+        </CustomLi>
       ))}
     </ul>
   );

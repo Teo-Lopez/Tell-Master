@@ -8,7 +8,7 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 function NewChapterForm(props) {
-  const { updateLastGames, match, chapterId, getAllChapters, closeNewChapterForm } = props;
+  const { updateLastGames, match, chapterId, getAllChapters, closeNewChapterForm, simple } = props;
 
   const ChapterService = new chapterService();
 
@@ -80,6 +80,7 @@ function NewChapterForm(props) {
 
   function submitForm(e) {
     e.preventDefault();
+    if (!description) return;
     if (chapterId) {
       updateChapter({ _id: chapterId, description, choices });
     } else {
@@ -134,15 +135,15 @@ function NewChapterForm(props) {
         {choicesObj.map((eachChoice, idx) => (
           <Col key={idx} lg={3}>
             {!eachChoice.show ? (
-              <ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} />
+              <ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} simple={simple} />
             ) : (
-              <ChoiceForm toogleCard={toogleCard} choice={eachChoice} idx={idx} />
+              <ChoiceForm simple={simple} toogleCard={toogleCard} choice={eachChoice} idx={idx} />
             )}
           </Col>
         ))}
         {choiceForms.map((eachform, idx) => (
           <Col key={idx} lg={3}>
-            {React.cloneElement(<ChoiceForm />, { idx, finishChoiceForm, closeChoiceForm })}
+            {React.cloneElement(<ChoiceForm />, { idx, finishChoiceForm, closeChoiceForm, simple })}
           </Col>
         ))}
       </Row>

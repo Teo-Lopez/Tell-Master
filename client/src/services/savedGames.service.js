@@ -15,6 +15,15 @@ class savedGamesService {
       .catch((err) => console.log(err));
   }
 
+  getAllSaves(userId) {
+    const query = `/user/all/?userId=${userId}`;
+
+    return this.service
+      .get(query)
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
+  }
+
   getFullSave(saveId) {
     return this.service
       .get(`/full/?saveId=${saveId}`)

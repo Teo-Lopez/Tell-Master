@@ -13,6 +13,13 @@ class gamesService {
       .catch((err) => console.log(err));
   }
 
+  getOwnedGames(id) {
+    return this.service
+      .get(`/owned?creatorId=${id}`)
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
+  }
+
   getLastGames() {
     return this.service
       .get("/last?limit=5")

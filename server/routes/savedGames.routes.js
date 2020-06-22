@@ -26,6 +26,24 @@ router.get("/user", (req, res, next) => {
     });
 });
 
+router.get("/user/all", (req, res, next) => {
+  const _id = req.query.userId || "";
+  const gameId = req.query.gameId;
+  const query = { _id };
+
+  User.findById(query)
+    .populate({
+      path: "savedGames",
+      populate: {
+        path: "gameId",
+      },
+    })
+    .select({ savedGames: true })
+    .then((user) => {
+      res.json(user.savedGames);
+    });
+});
+
 router.get("/full", (req, res, next) => {
   const _id = req.query.saveId;
 

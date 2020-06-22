@@ -9,12 +9,12 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
     height: 60px;
     p,
     a {
-      color: rgba(240, 240, 240, 0.9) !important;
+      color: ${(props) => props.theme.colors.light + "!important"};
     }
     .dropdown-menu {
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: ${(props) => props.theme.background.semiSolid};
       .dropdown-item:hover {
-        background-color: rgba(44, 44, 44, 1);
+        background-color: ${(props) => props.theme.background.modals};
       }
     }
   `;
@@ -56,7 +56,7 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <NavDropdown title="Mis partidas" id="nav-dropdown" drop="down">
+          <NavDropdown title="Mis historias" id="nav-dropdown" drop="down">
             <NavDropdown.Item>
               <Nav.Link as={NavLink} to={"/myGames"}>
                 En juego

@@ -5,8 +5,14 @@ import chapterService from "../services/chapter.service";
 import { ListGroup } from "react-bootstrap";
 import styled, { createGlobalStyle } from "styled-components";
 
+const StyledListGroup = styled(ListGroup)`
+  div {
+    background-color: ${(props) => props.theme.background.overlay};
+  }
+`;
+
 function EditChapters({ loggedInUser, updateLastGames, match, history }) {
-  const OverrideScroll = createGlobalStyle`
+  const RestaurateScroll = createGlobalStyle`
     html, body {
       overflow: auto
     }
@@ -48,37 +54,50 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
 
   return (
     <>
-      <OverrideScroll />
-      <ListGroup>
-        {allChapters.map((chapter, idx) => (
-          <>
-            <ListGroup.Item active={chapter.show} onClick={() => expandChapter(idx)}>
-              <div dangerouslySetInnerHTML={{ __html: chapter.description }} />
-            </ListGroup.Item>
-            {chapter.show ? (
-              <ListGroup.Item>
-                <NewChapterForm
-                  simple={simple}
-                  chapterId={chapter._id}
-                  getAllChapters={getAllChapters}
-                  loggedInUser={loggedInUser}
-                  updateLastGames={updateLastGames}
-                ></NewChapterForm>
-              </ListGroup.Item>
-            ) : null}
-          </>
-        ))}
-        <ListGroup.Item onClick={() => setShowNewForm(!showNewForm)}>O escribe un nuevo capitulo</ListGroup.Item>
-        {showNewForm ? (
-          <NewChapterForm
-            simple={simple}
-            closeNewChapterForm={() => setShowNewForm(false)}
-            getAllChapters={getAllChapters}
-            loggedInUser={loggedInUser}
-            updateLastGames={updateLastGames}
-          ></NewChapterForm>
-        ) : null}
-      </ListGroup>
+      <RestaurateScroll />
+      <StyledListGroup>
+        {allChapters.length && (
+          <div>
+            <h1>Edita los capitulos ya creados</h1>
+            {allChapters.map((chapter, idx) => (
+              <>
+                <StyledListGroup.Item active={chapter.show} onClick={() => expandChapter(idx)}>
+                  <div dangerouslySetInnerHTML={{ __html: chapter.description }} />
+                </StyledListGroup.Item>
+                {chapter.show ? (
+                  <StyledListGroup.Item>
+                    <NewChapterForm
+                      simple={simple}
+                      chapterId={chapter._id}
+                      getAllChapters={getAllChapters}
+                      loggedInUser={loggedInUser}
+                      updateLastGames={updateLastGames}
+                    ></NewChapterForm>
+                  </StyledListGroup.Item>
+                ) : null}
+              </>
+            ))}
+          </div>
+        )}
+      </StyledListGroup>
+
+      <StyledListGroup>
+        <div>
+          <h1>Escribe un nuevo capitulo</h1>
+          <StyledListGroup.Item onClick={() => setShowNewForm(!showNewForm)}>
+            {allChapters.length ? "Escribe un nuevo capitulo" : "Escribe el primer capítulo"}
+          </StyledListGroup.Item>
+          {showNewForm ? (
+            <NewChapterForm
+              simple={simple}
+              closeNewChapterForm={() => setShowNewForm(false)}
+              getAllChapters={getAllChapters}
+              loggedInUser={loggedInUser}
+              updateLastGames={updateLastGames}
+            ></NewChapterForm>
+          ) : null}
+        </div>
+      </StyledListGroup>
     </>
   );
 }

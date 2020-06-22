@@ -70,8 +70,8 @@ function App() {
       overflow: hidden;
     }
     body {
-      color: rgb(200, 200, 200);
-      background-color: ${darkTheme.background.dark};
+      color: ${darkTheme.colors.general};
+      background-color: ${darkTheme.background.general};
       -webkit-overflow-scrolling: touch;
     }
     a {
@@ -95,7 +95,7 @@ function App() {
             loggedInUser={loggedInUser}
           />
           <Container fluid>
-            <main className="app-wrapper">
+            <main style={{ height: "calc(100vh - 60px)" }} className="app-wrapper">
               <Route exact path="/" render={() => <LastGames loggedInUser={loggedInUser} games={lastGames} />} />
               {loggedInUser ? (
                 <>

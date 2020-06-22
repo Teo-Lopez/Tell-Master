@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import playingTable from "./assets/playingTable.png";
-import "./LastGames.css";
+import D6 from "../components/Game/assets/d6book.svg";
+import D20 from "../components/Game/assets/d20.svg";
 
 const MainsSectionWrapper = styled.section`
-  background-color: rgba(255, 255, 255, 0.01);
+  background-color: ${(props) => props.theme.background.lightOverlay};
   text-align: center;
   height: 80vh;
   padding-top: 40px;
@@ -70,7 +71,7 @@ const appear = keyframes`
 const Title = styled.h1`
   font-size: 3em;
   animation: ${appear} 5s ease-out;
-  color: rgb(200, 200, 200);
+  color: ${(props) => props.theme.colors.general};
   font-weight: 900;
   letter-spacing: 5px;
   text-align: center;
@@ -90,11 +91,36 @@ const GameCard = styled.div`
       font-size: 1.4em;
     }
     font-size: 1.3em;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: ${(props) => props.theme.background.overlay};
   }
 `;
 
 function LastGames({ games, loggedInUser }) {
+  const [preloadSet, setPreloadSet] = useState(false);
+  useEffect(() => {
+    if (!preloadSet) {
+      const mainBackgroundPreload = document.createElement("link");
+      mainBackgroundPreload.rel = "preload";
+      mainBackgroundPreload.as = "image";
+      mainBackgroundPreload.href = playingTable;
+
+      const d6Prefetch = document.createElement("link");
+      const d20Prefetch = document.createElement("link");
+      d6Prefetch.rel = "prefetch";
+      d20Prefetch.rel = "prefetch";
+      d6Prefetch.href = D6;
+      d20Prefetch.href = D20;
+      d6Prefetch.as = "image";
+      d20Prefetch.as = "image";
+
+      document.head.append(d6Prefetch);
+      document.head.append(d20Prefetch);
+      document.head.append(mainBackgroundPreload);
+
+      setPreloadSet(true);
+    }
+  }, []);
+
   return (
     <div id="container1" style={{ overflow: "hidden" }}>
       <Title>Últimas historias</Title>

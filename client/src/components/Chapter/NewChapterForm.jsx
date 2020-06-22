@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import ChoiceForm from "../Choice/ChoiceForm";
+import ChoiceFormRow from "../Choice/ChoiceFormRow";
 import ChoiceCard from "../Choice/ChoiceCard";
 import chapterService from "../../services/chapter.service";
 import { withRouter } from "react-router-dom";
@@ -28,6 +29,8 @@ function NewChapterForm(props) {
         setChoices(chapter.choices.filter((choice) => choice._id));
         setReady(true);
       });
+    } else {
+      setDescription("El texto de tu capítulo va aquí");
     }
   }
 
@@ -110,7 +113,7 @@ function NewChapterForm(props) {
     <div className=".ck-editor">
       <CKEditor
         editor={ClassicEditor}
-        data={description || "El texto de tu capitulo va aquí"}
+        data={description}
         onInit={(editor) => {
           // You can store the "editor" and use when it is needed.
           console.log("Editor is ready to use!", editor);
@@ -128,25 +131,22 @@ function NewChapterForm(props) {
         }}
       />
 
-      <Button onClick={submitForm}>{chapterId ? "Modificar" : "Crear"}</Button>
-
       <Button onClick={addChoice}>Añadir elección</Button>
-      <Row>
-        {choicesObj.map((eachChoice, idx) => (
-          <Col key={idx} lg={3}>
-            {!eachChoice.show ? (
-              <ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} simple={simple} />
-            ) : (
-              <ChoiceForm simple={simple} toogleCard={toogleCard} choice={eachChoice} idx={idx} />
-            )}
-          </Col>
-        ))}
-        {choiceForms.map((eachform, idx) => (
-          <Col key={idx} lg={3}>
-            {React.cloneElement(<ChoiceForm />, { idx, finishChoiceForm, closeChoiceForm, simple })}
-          </Col>
-        ))}
-      </Row>
+
+      {choicesObj.map((eachChoice, idx) => (
+        <Col key={idx} lg={3}>
+          {!eachChoice.show ? (
+            <ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} simple={simple} />
+          ) : (
+            <ChoiceForm simple={simple} toogleCard={toogleCard} choice={eachChoice} idx={idx} />
+          )}
+        </Col>
+      ))}
+      {choiceForms.map((eachform, idx) => (
+        <div key={idx}>{React.cloneElement(<ChoiceFormRow />, { idx, finishChoiceForm, closeChoiceForm, simple })}</div>
+      ))}
+
+      <Button onClick={submitForm}>{chapterId ? "Modificar" : "Crear"}</Button>
     </div>
   );
 }

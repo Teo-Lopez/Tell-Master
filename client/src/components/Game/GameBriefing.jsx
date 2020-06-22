@@ -7,7 +7,6 @@ import { Dropdown } from "react-bootstrap";
 
 function GameBriefing(props) {
   const { game, savedGames } = props;
-  console.log(props);
   const loggedInUser = useContext(UserContext);
 
   return props.noUser ? (

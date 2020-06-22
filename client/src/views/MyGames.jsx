@@ -1,17 +1,30 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React, { useEffect, useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import savedGamesService from "../services/savedGames.service";
+import UserContext from "../UserContext";
 
-function MyGames() {
-  return (
-    <Container>
-      <Row>
-        <Col lg={6}>Imagen</Col>
-        <Col lg={6}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique pariatur magni nesciunt soluta expedita molestiae suscipit
-          deleniti consequuntur dolor impedit. Itaque iure libero perspiciatis, cum asperiores eveniet non error totam?
-        </Col>
-      </Row>
-    </Container>
+function MyGames(props) {
+  const loggedInUser = useContext(UserContext);
+  const SavedGamesService = new savedGamesService();
+  const [savedGames, setSavedGames] = useState(null);
+  useEffect(() => {
+    SavedGamesService.getAllSaves(loggedInUser._id).then((saves) => setSavedGames(saves));
+  }, []);
+
+  return !savedGames ? (
+    <></>
+  ) : savedGames.length ? (
+    <ul>
+      {savedGames.map((save) => {
+        return (
+          <Link to={`/read/${save.gameId}`}>
+            <li>{save.gameId.description}</li>
+          </Link>
+        );
+      })}
+    </ul>
+  ) : (
+    <p>Aún no tienes historias en juego</p>
   );
 }
 

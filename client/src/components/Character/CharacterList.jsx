@@ -6,7 +6,7 @@ function CharacterList({ characters, newSave }) {
     margin: 15px 0;
   `;
   console.log(newSave);
-  return (
+  return characters.length ? (
     <ul>
       {characters.map((char) => (
         <CustomLi>
@@ -17,6 +17,10 @@ function CharacterList({ characters, newSave }) {
         </CustomLi>
       ))}
     </ul>
+  ) : (
+    <div>
+      <p>Aún no tienes personajes creados.</p>
+    </div>
   );
 }
 

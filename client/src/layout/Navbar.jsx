@@ -64,7 +64,7 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
             </NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item>
-              <Nav.Link as={NavLink} to={"/myGames"}>
+              <Nav.Link as={NavLink} to={"/myCreatedGames"}>
                 Creadas por mí
               </Nav.Link>
             </NavDropdown.Item>

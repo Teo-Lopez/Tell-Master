@@ -16,6 +16,7 @@ import GameOverview from "./views/GameOverView";
 import CharacterList from "./components/Character/CharacterList";
 import ChapterWrapper from "./views/ChapterWrapper";
 import GameFlowChart from "./components/utils/GameFlowchart";
+import MyCreatedGames from "./views/MyCreatedGames";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 
 import { UserProvider } from "./UserContext";
@@ -100,6 +101,7 @@ function App() {
               {loggedInUser ? (
                 <>
                   <Route exact path="/myGames" render={() => <MyGames loggedInUser={loggedInUser} />} />
+                  <Route exact path="/myCreatedGames" render={() => <MyCreatedGames loggedInUser={loggedInUser} />} />
                   <Route exact path="/newGame" render={() => <NewGame updateLastGames={updateLastGames} loggedInUser={loggedInUser} />} />
                   <Route exact path="/myCharacters" render={() => <CharacterList characters={loggedInUser.characters} />} />
                   <Route

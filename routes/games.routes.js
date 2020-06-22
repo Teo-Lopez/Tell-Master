@@ -49,7 +49,7 @@ router.get("/last", (req, res, next) => {
 //Create game
 router.post("/", (req, res) => {
   const { creator, title, minLevel, description, simple } = req.body;
-  
+
   Game.create({ creator, title, minLevel, description, simple })
     .then((createdGame) => res.json(createdGame))
     .catch((err) => res.json({ err }));

@@ -34,7 +34,12 @@ function ChoiceCard({ choice, idx, toogleCard }) {
   return (
     <Card>
       <Card.Header onClick={() => toogleCard(idx)}>Editar</Card.Header>
-      <Card.Body style={{ backgroundColor: choice.successTargetChapter && choice.failureTargetChapter ? "lightgreen" : "orange" }}>
+      <Card.Body
+        style={{
+          color: "black",
+          backgroundColor: choice.successTargetChapter && choice.failureTargetChapter ? "rgba(0,255,127, 0.3)" : "rgba(255,165,0, 0.5)",
+        }}
+      >
         <p>{choice.description}</p>
         <p>{returnCharacteristic(choice.trial.characteristic)}</p>
         <p>{choice.trial.difficulty}</p>

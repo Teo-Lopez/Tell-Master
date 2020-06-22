@@ -4,12 +4,25 @@ import chapterService from "../../services/chapter.service";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
+const ChoiceFormWrapper = styled.div`
+  border: ${(props) => "1px solid " + props.theme.colors.general};
+  margin: 15px 0;
+  color: ${(props) => props.theme.colors.light};
+  form {
+    border-top: 1px solid rgba(200, 200, 200, 1);
+    background-color: ${(props) => props.theme.background.modals};
+  }
+`;
+
 const Row = styled.div`
   display: flex;
+  background-color: ${(props) => props.theme.background.modals};
+  padding: 10px;
 `;
 
 const Col4 = styled.div`
   width: 25%;
+  /* background-color: ${(props) => props.theme.background.modals}; */
 `;
 
 function ChoiceFormRow(props) {
@@ -107,18 +120,36 @@ function ChoiceFormRow(props) {
   }
 
   return (
-    <div>
+    <ChoiceFormWrapper>
       <Row>
         <div
           onClick={() => {
             closeChoiceForm ? closeChoiceForm(idx) : toogleCard(idx);
           }}
-          style={{ width: "40px" }}
-          variant="danger"
+          style={{
+            borderRadius: "5px",
+            padding: "2px",
+            marginRight: "20px",
+            height: "30px",
+            width: "30px",
+            backgroundColor: "red",
+            textAlign: "center",
+          }}
         >
           <i className="fas fa-times"></i>
         </div>
-        <div onClick={submitForm} style={{ width: "40px" }} variant="success">
+        <div
+          onClick={submitForm}
+          style={{
+            borderRadius: "5px",
+            padding: "2px",
+            marginRight: "20px",
+            height: "30px",
+            width: "30px",
+            backgroundColor: "green",
+            textAlign: "center",
+          }}
+        >
           <i className="fas fa-check"></i>
         </div>
       </Row>
@@ -209,7 +240,7 @@ function ChoiceFormRow(props) {
           </Col4>
         </Row>
       </form>
-    </div>
+    </ChoiceFormWrapper>
   );
 }
 

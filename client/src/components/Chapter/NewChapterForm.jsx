@@ -111,37 +111,40 @@ function NewChapterForm(props) {
     "loading"
   ) : (
     <div className=".ck-editor">
-      <CKEditor
-        editor={ClassicEditor}
-        data={description}
-        onInit={(editor) => {
-          // You can store the "editor" and use when it is needed.
-          console.log("Editor is ready to use!", editor);
-        }}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          setDescription(data);
-          console.log({ event, editor, data });
-        }}
-        onBlur={(event, editor) => {
-          console.log("Blur.", editor);
-        }}
-        onFocus={(event, editor) => {
-          console.log("Focus.", editor);
-        }}
-      />
+      <div style={{ marginBottom: "10px" }}>
+        <CKEditor
+          editor={ClassicEditor}
+          data={description}
+          onInit={(editor) => {
+            // You can store the "editor" and use when it is needed.
+            console.log("Editor is ready to use!", editor);
+          }}
+          onChange={(event, editor) => {
+            const data = editor.getData();
+            setDescription(data);
+            console.log({ event, editor, data });
+          }}
+          onBlur={(event, editor) => {
+            console.log("Blur.", editor);
+          }}
+          onFocus={(event, editor) => {
+            console.log("Focus.", editor);
+          }}
+        />
 
-      <Button onClick={addChoice}>Añadir elección</Button>
-
-      {choicesObj.map((eachChoice, idx) => (
-        <Col key={idx} lg={3}>
-          {!eachChoice.show ? (
-            <ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} simple={simple} />
-          ) : (
-            <ChoiceForm simple={simple} toogleCard={toogleCard} choice={eachChoice} idx={idx} />
-          )}
-        </Col>
-      ))}
+        <Button onClick={addChoice}>Añadir elección</Button>
+      </div>
+      <Row>
+        {choicesObj.map((eachChoice, idx) => (
+          <Col key={idx} lg={3}>
+            {!eachChoice.show ? (
+              <ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} simple={simple} />
+            ) : (
+              <ChoiceForm simple={simple} toogleCard={toogleCard} choice={eachChoice} idx={idx} />
+            )}
+          </Col>
+        ))}
+      </Row>
       {choiceForms.map((eachform, idx) => (
         <div key={idx}>{React.cloneElement(<ChoiceFormRow />, { idx, finishChoiceForm, closeChoiceForm, simple })}</div>
       ))}

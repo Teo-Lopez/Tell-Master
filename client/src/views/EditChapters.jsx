@@ -5,9 +5,18 @@ import chapterService from "../services/chapter.service";
 import { ListGroup } from "react-bootstrap";
 import styled, { createGlobalStyle } from "styled-components";
 
-const StyledListGroup = styled(ListGroup)`
-  div {
-    background-color: ${(props) => props.theme.background.overlay};
+const List = styled.div`
+  background-color: ${(props) => props.theme.background.modals};
+  border-radius: 2px;
+  padding: 15px;
+`;
+
+const ListPoint = styled.div`
+  border-radius: 3px;
+  background-color: ${(props) => props.theme.background.list};
+  padding: 15px;
+  margin-bottom: 15px;
+  &:hover {
   }
 `;
 
@@ -17,7 +26,6 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
       overflow: auto
     }
   `;
-
   const ChapterService = new chapterService();
   const GameService = new gameService();
   const [allChapters, setallChapters] = useState([]);
@@ -55,17 +63,17 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
   return (
     <>
       <RestaurateScroll />
-      <StyledListGroup>
+      <List>
         {allChapters.length && (
           <div>
             <h1>Edita los capitulos ya creados</h1>
             {allChapters.map((chapter, idx) => (
-              <>
-                <StyledListGroup.Item active={chapter.show} onClick={() => expandChapter(idx)}>
+              <ListPoint>
+                <div  active={chapter.show} onClick={() => expandChapter(idx)}>
                   <div dangerouslySetInnerHTML={{ __html: chapter.description }} />
-                </StyledListGroup.Item>
+                </div>
                 {chapter.show ? (
-                  <StyledListGroup.Item>
+                  <div>
                     <NewChapterForm
                       simple={simple}
                       chapterId={chapter._id}
@@ -73,20 +81,20 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
                       loggedInUser={loggedInUser}
                       updateLastGames={updateLastGames}
                     ></NewChapterForm>
-                  </StyledListGroup.Item>
+                  </div>
                 ) : null}
-              </>
+              </ListPoint>
             ))}
           </div>
         )}
-      </StyledListGroup>
+      </List>
 
-      <StyledListGroup>
+      <div>
         <div>
           <h1>Escribe un nuevo capitulo</h1>
-          <StyledListGroup.Item onClick={() => setShowNewForm(!showNewForm)}>
+          <div onClick={() => setShowNewForm(!showNewForm)}>
             {allChapters.length ? "Escribe un nuevo capitulo" : "Escribe el primer capítulo"}
-          </StyledListGroup.Item>
+          </div>
           {showNewForm ? (
             <NewChapterForm
               simple={simple}
@@ -97,7 +105,7 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
             ></NewChapterForm>
           ) : null}
         </div>
-      </StyledListGroup>
+      </div>
     </>
   );
 }

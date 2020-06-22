@@ -5,6 +5,7 @@ export const darkTheme = {
     solid: "rgba(11,11,11, 1)",
     light: "rgba(240, 240, 240, 0.9)",
     modals: "rgba(40, 40, 40, 1)",
+    list: "rgba(70, 70, 70, 1)",
     overlay: "rgba(255, 255, 255, 0.1)",
     lightOverlay: "rgba(255, 255, 255, 0.01)",
   },

@@ -15,10 +15,8 @@ import EditChapters from "./views/EditChapters";
 import GameOverview from "./views/GameOverView";
 import CharacterList from "./components/Character/CharacterList";
 import ChapterWrapper from "./views/ChapterWrapper";
-import GameFlowChart from "./components/utils/GameFlowchart";
 import MyCreatedGames from "./views/MyCreatedGames";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
-
 import { UserProvider } from "./UserContext";
 import { darkTheme } from "./themeContext";
 

@@ -30,7 +30,17 @@ function ChapterWrapper(props) {
     });
   }
 
-  return ready ? <Chapter updateChapter={updateChapter} game={savedGame} /> : <Spinner />;
+  return ready ? (
+    savedGame.currentChapter ? (
+      <Chapter updateChapter={updateChapter} game={savedGame} />
+    ) : (
+      <div>
+        <p>Esta aventura aún no tiene capitulos.</p>
+      </div>
+    )
+  ) : (
+    <Spinner />
+  );
 }
 
 export default withRouter(ChapterWrapper);

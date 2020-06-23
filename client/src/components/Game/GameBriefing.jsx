@@ -35,21 +35,27 @@ function GameBriefing(props) {
         <h1>{game.title}</h1>
         <p>{game.description}</p>
         {loggedInUser ? (
-          <>
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Continua la aventura
-              </Dropdown.Toggle>
+          savedGames.length === 0 ? (
+            <div>
+              <p>Haz click en un personaje para empezar a jugar</p>
+            </div>
+          ) : (
+            <>
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Continua la aventura
+                </Dropdown.Toggle>
 
-              <Dropdown.Menu>
-                {savedGames.map((save) => (
-                  <Link to={`/chapter/${save._id}`}>
-                    <Dropdown.Item disabled>{save.character.name}</Dropdown.Item>
-                  </Link>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </>
+                <Dropdown.Menu>
+                  {savedGames.map((save) => (
+                    <Link to={`/chapter/${save._id}`}>
+                      <Dropdown.Item disabled>{save.character.name}</Dropdown.Item>
+                    </Link>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </>
+          )
         ) : (
           <button disabled={true}>Continuar la aventura</button>
         )}

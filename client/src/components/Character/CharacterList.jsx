@@ -5,21 +5,19 @@ function CharacterList({ characters, newSave }) {
   const CustomLi = styled.li`
     margin: 15px 0;
   `;
-  console.log(newSave);
+
   return characters.length ? (
     <ul>
-      {characters.filter((char) =>
-        !char.name.includes("Simple Game") ? (
+      {characters.map((char) => {
+        return !char.name.includes("Simple Game") ? (
           <CustomLi>
             <Button text={`${char.name}. Nivel: ${char.level}`} onClick={newSave ? () => newSave(char._id) : null} />
             <small>
               Fue: {char.str} Des: {char.des} Agi: {char.agi} Int: {char.int} Sab: {char.wis} Car: {char.char}
             </small>
           </CustomLi>
-        ) : (
-          false
-        )
-      )}
+        ) : null;
+      })}
     </ul>
   ) : (
     <div>

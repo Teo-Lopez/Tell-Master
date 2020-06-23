@@ -33,7 +33,7 @@ function NewSaveGame({ loggedInUser, setUser, match, updateSavedGames, history }
         setUser(updatedUser);
       });
   }
-
+  console.log(loggedInUser.characters.length);
   return (
     <>
       <h3>Elige un personaje para jugar: </h3>

@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import gameService from "../services/games.service";
 import NewChapterForm from "../components/Chapter/NewChapterForm";
 import chapterService from "../services/chapter.service";
-import { ListGroup } from "react-bootstrap";
 import styled, { createGlobalStyle } from "styled-components";
-
+import { Button } from "../components/Buttons";
 const List = styled.div`
   background-color: ${(props) => props.theme.background.modals};
   border-radius: 2px;
@@ -64,13 +63,13 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
     <>
       <RestaurateScroll />
       <List>
-        {allChapters.length && (
+        {allChapters.length ? (
           <div>
             <h1>Edita los capitulos ya creados</h1>
             {allChapters.map((chapter, idx) => (
               <ListPoint>
-                <div  active={chapter.show} onClick={() => expandChapter(idx)}>
-                  <div dangerouslySetInnerHTML={{ __html: chapter.description }} />
+                <div style={{ width: "100%" }} active={chapter.show} onClick={() => expandChapter(idx)}>
+                  <div dangerouslySetInnerHTML={{ __html: chapter.title }} />
                 </div>
                 {chapter.show ? (
                   <div>
@@ -82,27 +81,35 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
                       updateLastGames={updateLastGames}
                     ></NewChapterForm>
                   </div>
-                ) : null}
+                ) : (
+                  <></>
+                )}
               </ListPoint>
             ))}
           </div>
+        ) : (
+          <></>
         )}
       </List>
 
       <div>
         <div>
-          <h1>Escribe un nuevo capitulo</h1>
-          <div onClick={() => setShowNewForm(!showNewForm)}>
-            {allChapters.length ? "Escribe un nuevo capitulo" : "Escribe el primer capítulo"}
+          <div style={{ margin: "10px 0" }}>
+            <h1>Escribe un nuevo capitulo</h1>
+            <div onClick={() => setShowNewForm(!showNewForm)}>
+              <Button text={allChapters.length ? "Escribe un nuevo capitulo" : "Escribe el primer capítulo"} />
+            </div>
           </div>
           {showNewForm ? (
-            <NewChapterForm
-              simple={simple}
-              closeNewChapterForm={() => setShowNewForm(false)}
-              getAllChapters={getAllChapters}
-              loggedInUser={loggedInUser}
-              updateLastGames={updateLastGames}
-            ></NewChapterForm>
+            <div style={{ backgroundColor: "rgba(255, 255, 255, 0.1)", padding: "10px" }}>
+              <NewChapterForm
+                simple={simple}
+                closeNewChapterForm={() => setShowNewForm(false)}
+                getAllChapters={getAllChapters}
+                loggedInUser={loggedInUser}
+                updateLastGames={updateLastGames}
+              ></NewChapterForm>
+            </div>
           ) : null}
         </div>
       </div>

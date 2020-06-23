@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Container, Navbar, Nav, NavDropdown, Row, Col, Spinner } from "react-bootstrap";
 import styled from "styled-components";
-
+import logo from "../invertedlogo.png";
 function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
   const StyledNavbar = styled(Navbar)`
     background-color: rgba(0, 0, 0, 0.7);
@@ -26,7 +26,7 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
       <Nav style={{ width: "80%" }}>
         <Nav.Item>
           <Nav.Link as={NavLink} to={"/"}>
-            <i className="fas fa-home"></i>
+            <img style={{ height: "36px" }} src={logo}></img>
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
@@ -52,7 +52,7 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
       <Nav style={{ width: "80%" }}>
         <Nav.Item>
           <Nav.Link as={NavLink} to={"/"}>
-            <i className="fas fa-home"></i>
+            <img style={{ height: "36px" }} src={logo}></img>
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>

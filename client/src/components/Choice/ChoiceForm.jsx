@@ -155,11 +155,9 @@ function ChoiceForm(props) {
             <option value="null">Ninguno</option>
             {chapterList.map((chapter) =>
               chapter._id === successTargetChapter ? (
-                <option selected value={chapter._id}>
-                  {chapter.description}
-                </option>
+                <option dangerouslySetInnerHTML={{ __html: chapter.title }} selected value={chapter._id}></option>
               ) : (
-                <option value={chapter._id}>{chapter.description}</option>
+                <option dangerouslySetInnerHTML={{ __html: chapter.title }} value={chapter._id}></option>
               )
             )}
           </Form.Control>
@@ -171,11 +169,9 @@ function ChoiceForm(props) {
               <option value="null">Ninguno</option>
               {chapterList.map((chapter) =>
                 chapter._id === failureTargetChapter ? (
-                  <option selected value={chapter._id}>
-                    {chapter.description}
-                  </option>
+                  <option dangerouslySetInnerHTML={{ __html: chapter.title }} selected value={chapter._id}></option>
                 ) : (
-                  <option value={chapter._id}>{chapter.description}</option>
+                  <option dangerouslySetInnerHTML={{ __html: chapter.title }} value={chapter._id}></option>
                 )
               )}
             </Form.Control>

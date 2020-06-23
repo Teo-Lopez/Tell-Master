@@ -211,10 +211,10 @@ function ChoiceFormRow(props) {
                 {chapterList.map((chapter) =>
                   chapter._id === successTargetChapter ? (
                     <option selected value={chapter._id}>
-                      {chapter.description}
+                      {chapter.title}
                     </option>
                   ) : (
-                    <option value={chapter._id}>{chapter.description}</option>
+                    <option value={chapter._id}>{chapter.title}</option>
                   )
                 )}
               </select>
@@ -228,10 +228,10 @@ function ChoiceFormRow(props) {
                   {chapterList.map((chapter) =>
                     chapter._id === failureTargetChapter ? (
                       <option selected value={chapter._id}>
-                        {chapter.description}
+                        {chapter.title}
                       </option>
                     ) : (
-                      <option value={chapter._id}>{chapter.description}</option>
+                      <option value={chapter._id}>{chapter.title}</option>
                     )
                   )}
                 </select>

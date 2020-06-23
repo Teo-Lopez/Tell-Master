@@ -7,7 +7,13 @@ import chapterService from "../../services/chapter.service";
 import { withRouter } from "react-router-dom";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import CenteredModal from "../utils/Modal";
+import styled from "styled-components";
 
+const EditorWrapper = styled.div`
+  margin-bottom: 10px;
+  color: black;
+`;
 function NewChapterForm(props) {
   const { updateLastGames, match, chapterId, getAllChapters, closeNewChapterForm, simple } = props;
 
@@ -20,17 +26,16 @@ function NewChapterForm(props) {
   const [choicesObj, setChoicesObj] = useState([]);
   const [choiceForms, setChoiceForms] = useState([]);
   const [ready, setReady] = useState(false);
-
+  const [title, setTitle] = useState("");
   function populateThisChapter() {
     if (chapterId) {
       ChapterService.getChapter(chapterId).then((chapter) => {
+        setTitle(chapter.title);
         setDescription(chapter.description);
         setChoicesObj(chapter.choices);
         setChoices(chapter.choices.filter((choice) => choice._id));
         setReady(true);
       });
-    } else {
-      setDescription("El texto de tu capítulo va aquí");
     }
   }
 
@@ -85,9 +90,9 @@ function NewChapterForm(props) {
     e.preventDefault();
     if (!description) return;
     if (chapterId) {
-      updateChapter({ _id: chapterId, description, choices });
+      updateChapter({ _id: chapterId, description, choices, title });
     } else {
-      createChapter({ description, choices, gameId });
+      createChapter({ description, choices, gameId, title });
       closeNewChapterForm();
     }
   }
@@ -107,50 +112,67 @@ function NewChapterForm(props) {
     setChoicesObj(choicesObjCopy);
   }
 
+  function onChange(e) {
+    setTitle(e.currentTarget.value);
+  }
+
   return chapterId && !ready ? (
     "loading"
   ) : (
-    <div className=".ck-editor">
-      <div style={{ marginBottom: "10px" }}>
-        <CKEditor
-          editor={ClassicEditor}
-          data={description}
-          onInit={(editor) => {
-            // You can store the "editor" and use when it is needed.
-            console.log("Editor is ready to use!", editor);
-          }}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            setDescription(data);
-            console.log({ event, editor, data });
-          }}
-          onBlur={(event, editor) => {
-            console.log("Blur.", editor);
-          }}
-          onFocus={(event, editor) => {
-            console.log("Focus.", editor);
-          }}
-        />
-
-        <Button onClick={addChoice}>Añadir elección</Button>
-      </div>
-      <Row>
-        {choicesObj.map((eachChoice, idx) => (
-          <Col key={idx} lg={3}>
-            {!eachChoice.show ? (
-              <ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} simple={simple} />
-            ) : (
-              <ChoiceForm simple={simple} toogleCard={toogleCard} choice={eachChoice} idx={idx} />
-            )}
-          </Col>
+    <>
+      <label>
+        Título del capítulo:
+        <input onChange={onChange} placeholder="#1.0 El comienzo" name="title" value={title} maxLength="230"></input>
+      </label>
+      <div className=".ck-editor">
+        <EditorWrapper>
+          <CKEditor
+            editor={ClassicEditor}
+            data={description}
+            placeholder="El texto del capitulo va aquí"
+            onInit={(editor) => {
+              // You can store the "editor" and use when it is needed.
+              console.log("Editor is ready to use!", editor);
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setDescription(data);
+              console.log({ event, editor, data });
+            }}
+            onBlur={(event, editor) => {
+              console.log("Blur.", editor);
+            }}
+            onFocus={(event, editor) => {
+              console.log("Focus.", editor);
+            }}
+          />
+          <div style={{ margin: "10px 0" }}>
+            <Button style={{ margin: "0 5px" }} onClick={addChoice}>
+              Añadir elección
+            </Button>
+            <Button style={{ margin: "0 5px" }} onClick={submitForm}>
+              {chapterId ? "Hecho" : "Crear"}
+            </Button>
+          </div>
+        </EditorWrapper>
+        <Row>
+          {choicesObj.map((eachChoice, idx) => (
+            <Col key={idx} lg={3}>
+              {!eachChoice.show ? (
+                <ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} simple={simple} />
+              ) : (
+                <CenteredModal noHeader show={true}>
+                  <ChoiceForm simple={simple} toogleCard={toogleCard} choice={eachChoice} idx={idx} />
+                </CenteredModal>
+              )}
+            </Col>
+          ))}
+        </Row>
+        {choiceForms.map((eachform, idx) => (
+          <div key={idx}>{React.cloneElement(<ChoiceFormRow />, { idx, finishChoiceForm, closeChoiceForm, simple })}</div>
         ))}
-      </Row>
-      {choiceForms.map((eachform, idx) => (
-        <div key={idx}>{React.cloneElement(<ChoiceFormRow />, { idx, finishChoiceForm, closeChoiceForm, simple })}</div>
-      ))}
-
-      <Button onClick={submitForm}>{chapterId ? "Modificar" : "Crear"}</Button>
-    </div>
+      </div>
+    </>
   );
 }
 

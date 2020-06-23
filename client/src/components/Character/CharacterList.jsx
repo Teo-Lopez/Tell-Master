@@ -8,14 +8,18 @@ function CharacterList({ characters, newSave }) {
   console.log(newSave);
   return characters.length ? (
     <ul>
-      {characters.map((char) => (
-        <CustomLi>
-          <Button text={`${char.name}. Nivel: ${char.level}`} onClick={newSave ? () => newSave(char._id) : null} />
-          <small>
-            Fue: {char.str} Des: {char.des} Agi: {char.agi} Int: {char.int} Sab: {char.wis} Car: {char.char}
-          </small>
-        </CustomLi>
-      ))}
+      {characters.filter((char) =>
+        !char.name.includes("Simple Game") ? (
+          <CustomLi>
+            <Button text={`${char.name}. Nivel: ${char.level}`} onClick={newSave ? () => newSave(char._id) : null} />
+            <small>
+              Fue: {char.str} Des: {char.des} Agi: {char.agi} Int: {char.int} Sab: {char.wis} Car: {char.char}
+            </small>
+          </CustomLi>
+        ) : (
+          false
+        )
+      )}
     </ul>
   ) : (
     <div>

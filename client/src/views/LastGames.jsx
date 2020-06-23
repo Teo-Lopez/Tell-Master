@@ -88,6 +88,7 @@ const GameCard = styled.div`
 
   &:hover {
     h2 {
+      transition: font-size 500ms;
       font-size: 1.4em;
     }
     font-size: 1.3em;

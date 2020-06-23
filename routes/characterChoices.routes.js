@@ -38,9 +38,10 @@ router.post("/makeChoice", (req, res) => {
 
       function rollDice(dif, char, character) {
         const playerChar = character[char];
-        const roll = parseInt(Math.random() * 20) + calcBonus(playerChar);
-        if (roll >= dif) return { number: roll, result: true };
-        else return { number: roll, result: false };
+        const roll = parseInt(Math.random() * 20);
+        const rollResult = parseInt(roll + calcBonus(playerChar));
+        if (roll >= dif) return { roll, number: rollResult, result: true };
+        else return { roll, number: rollResult, result: false };
       }
 
       const roll = rollDice(dif, char, characterFound);
@@ -56,12 +57,10 @@ router.post("/makeChoice", (req, res) => {
           });
         })
         .then((newSavedGame) => {
-          if (roll.result === true) res.json({ roll: roll.number, chapterTarget: newSavedGame._id });
-          else res.json({ roll: roll.number, chapterTarget: newSavedGame._id });
+          if (roll.result === true) res.json({ roll: roll.roll, rollResult: roll.number, chapterTarget: newSavedGame._id });
+          else res.json({ roll: roll.roll, rollResult: roll.number, chapterTarget: newSavedGame._id });
         })
         .catch((err) => console.log(err));
-
-      //enviar resultado
     });
   });
 });

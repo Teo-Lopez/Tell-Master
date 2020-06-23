@@ -28,6 +28,10 @@ function GameOverView(props) {
 
   return props.noUser ? (
     <GameBriefing game={game} noUser={props.noUser} />
+  ) : !game ? (
+    <>Loading</>
+  ) : game.simple ? (
+    <GameBriefing simple updateSavedGames={updateSavedGames} setUser={setUser} game={game} savedGames={savedGames} />
   ) : (
     <Row style={{ justifyContent: "space-between" }}>
       <Col lg={5}>

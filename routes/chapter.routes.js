@@ -31,8 +31,8 @@ router.get("/fromGame", (req, res, next) => {
 });
 
 router.post("/", (req, res) => {
-  const { description, choices, gameId, title } = req.body;
-  const newChapter = { title, description, choices: Array.isArray(choices) && choices.length > 0 ? choices : undefined, gameId };
+  const { description, choices, gameId, title, last } = req.body;
+  const newChapter = { last, title, description, choices: Array.isArray(choices) && choices.length > 0 ? choices : undefined, gameId };
   Chapter.create(newChapter)
     .then((createdChapter) => {
       Game.updateOne({ _id: gameId }, { $push: { chapters: createdChapter } }).then((updatedGame) => {
@@ -44,8 +44,8 @@ router.post("/", (req, res) => {
 });
 
 router.patch("/", (req, res) => {
-  const { description, choices, _id, title } = req.body;
-  const newChapter = { title, description, choices: Array.isArray(choices) && choices.length > 0 ? choices : [] };
+  const { description, choices, _id, title, last } = req.body;
+  const newChapter = { last, title, description, choices: Array.isArray(choices) && choices.length > 0 ? choices : [] };
   Chapter.findByIdAndUpdate(_id, newChapter, { new: true })
     .then((updatedChapter) => {
       res.json(updatedChapter);

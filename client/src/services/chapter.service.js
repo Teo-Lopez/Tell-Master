@@ -20,9 +20,9 @@ class gamesService {
       .catch((err) => console.log(err));
   }
 
-  createChapter({ description, choices, gameId, title }) {
+  createChapter({ description, choices, gameId, title, last }) {
     return this.service
-      .post("", { description, choices, gameId, title })
+      .post("", { description, choices, gameId, title, last })
       .then((res) => res.data)
       .catch((err) => console.log(err));
   }

@@ -27,6 +27,8 @@ function NewChapterForm(props) {
   const [choiceForms, setChoiceForms] = useState([]);
   const [ready, setReady] = useState(false);
   const [title, setTitle] = useState("");
+  const [last, setLast] = useState(false);
+
   function populateThisChapter() {
     if (chapterId) {
       ChapterService.getChapter(chapterId).then((chapter) => {
@@ -35,6 +37,7 @@ function NewChapterForm(props) {
         setChoicesObj(chapter.choices);
         setChoices(chapter.choices.filter((choice) => choice._id));
         setReady(true);
+        setLast(chapter.last);
       });
     }
   }
@@ -90,9 +93,9 @@ function NewChapterForm(props) {
     e.preventDefault();
     if (!description) return;
     if (chapterId) {
-      updateChapter({ _id: chapterId, description, choices, title });
+      updateChapter({ _id: chapterId, description, choices, title, last });
     } else {
-      createChapter({ description, choices, gameId, title });
+      createChapter({ description, choices, gameId, title, last });
       closeNewChapterForm();
     }
   }
@@ -113,7 +116,18 @@ function NewChapterForm(props) {
   }
 
   function onChange(e) {
-    setTitle(e.currentTarget.value);
+    const { name, value, checked } = e.currentTarget;
+    switch (name) {
+      case "title":
+        setTitle(value);
+        break;
+      case "last":
+        console.log(checked);
+        setLast(checked);
+        break;
+      default:
+        throw Error("Error onChange");
+    }
   }
 
   return chapterId && !ready ? (
@@ -155,6 +169,15 @@ function NewChapterForm(props) {
             </Button>
           </div>
         </EditorWrapper>
+        {choiceForms.map((eachform, idx) => (
+          <div key={idx}>{React.cloneElement(<ChoiceFormRow />, { idx, finishChoiceForm, closeChoiceForm, simple })}</div>
+        ))}
+        <div>
+          <label>
+            Last chapter?
+            <input onChange={onChange} name="last" checked={last} type="checkbox" />
+          </label>
+        </div>
         <Row>
           {choicesObj.map((eachChoice, idx) => (
             <Col key={idx} lg={3}>
@@ -168,9 +191,6 @@ function NewChapterForm(props) {
             </Col>
           ))}
         </Row>
-        {choiceForms.map((eachform, idx) => (
-          <div key={idx}>{React.cloneElement(<ChoiceFormRow />, { idx, finishChoiceForm, closeChoiceForm, simple })}</div>
-        ))}
       </div>
     </>
   );

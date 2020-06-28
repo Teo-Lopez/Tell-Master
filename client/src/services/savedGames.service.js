@@ -49,8 +49,8 @@ class savedGamesService {
       .catch((err) => console.log(err));
   }
 
-  updateSavedGame({ savedGameId, gameId, currentChapter, character }) {
-    return this.service.patch("", { savedGameId, gameId, currentChapter, character }).then((res) => res.data);
+  updateSavedGame({ savedGameId, gameId, currentChapter, character, finished }) {
+    return this.service.patch("", { savedGameId, gameId, currentChapter, character, finished }).then((res) => res.data);
   }
 
   deleteSave(savedGameId) {

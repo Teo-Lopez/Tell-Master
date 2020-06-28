@@ -15,16 +15,18 @@ function ChapterWrapper(props) {
     //Not sure if this is good practice for removing the warning...
     const update = () =>
       SavedGamesService.getFullSave(match.params.savedGameId).then((savedGame) => {
-        console.log(savedGame, match.params.savedGameId);
         setSavedGame(savedGame);
         setReady(true);
       });
     update();
   }, [match.params.savedGameId]);
 
-  function updateChapter() {
+  function updateChapterOnSave() {
     SavedGamesService.getFullSave(match.params.savedGameId).then((savedGame) => {
-      console.log(savedGame, match.params.savedGameId);
+      if (savedGame.currentChapter.last) {
+        savedGame.finished = true;
+        SavedGamesService.updateSavedGame({ savedGameId: match.params.savedGameId, finished: true });
+      }
       setSavedGame(savedGame);
       setReady(true);
     });
@@ -32,7 +34,7 @@ function ChapterWrapper(props) {
 
   return ready ? (
     savedGame.currentChapter ? (
-      <Chapter updateChapter={updateChapter} game={savedGame} />
+      <Chapter updateChapterOnSave={updateChapterOnSave} game={savedGame} />
     ) : (
       <div>
         <p>Esta aventura aún no tiene capitulos.</p>

@@ -7,6 +7,7 @@ const savedGameSchema = new Schema(
     currentChapter: { type: mongoose.SchemaTypes.ObjectId, ref: "Chapter" },
     choicesTree: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Choice" }],
     character: { type: mongoose.SchemaTypes.ObjectId, ref: "Character" },
+    finished: { type: Boolean, required: true, default: false },
   },
   { timestamps: true }
 );

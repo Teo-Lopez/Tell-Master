@@ -36,16 +36,6 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
           <Nav.Link onClick={showSignup}>Signup</Nav.Link>
         </Nav.Item>
       </Nav>
-      <Nav style={{ width: "20%", justifyContent: "flex-end" }}>
-        <NavDropdown title="Mi perfil" id="nav-dropdown" drop="left">
-          <NavDropdown.Item eventKey="4.1">Action</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.2">Another action</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.3">Something else here</NavDropdown.Item>
-          <NavDropdown.Divider />
-          style={{ width: "100vw" }}
-          <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
-        </NavDropdown>
-      </Nav>
     </StyledNavbar>
   ) : (
     <StyledNavbar>

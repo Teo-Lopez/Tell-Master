@@ -97,15 +97,15 @@ router.post("/assign", (req, res) => {
 });
 
 router.patch("/", (req, res) => {
-  const { savedGameId, gameId, currentChapter, character } = req.body;
-  const newSavedGame = {
-    gameId,
-    currentChapter,
-    character,
-    choicesTree,
-  };
+  function collectBody(body) {
+    const obj = {};
+    for (let key in body) {
+      if (body[key]) obj[key] = body[key];
+    }
+    return obj;
+  }
 
-  SavedGame.updateOne({ _id: savedGameId }, newSavedGame)
+  SavedGame.findByIdAndUpdate(req.body.savedGameId, collectBody(req.body))
     .lean()
     .then((updatedSavedGame) => {
       res.json(updatedSavedGame);

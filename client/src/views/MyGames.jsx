@@ -16,8 +16,9 @@ function MyGames(props) {
   ) : savedGames.length ? (
     <ul>
       {savedGames.map((save) => {
+        console.log(save);
         return (
-          <Link to={`/read/${save.gameId}`}>
+          <Link to={`/read/${save.gameId._id}`}>
             <li>{save.gameId.description}</li>
           </Link>
         );

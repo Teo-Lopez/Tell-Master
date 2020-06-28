@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import characterChoicesService from "../../services/characterChoices.service";
 import { withRouter } from "react-router-dom";
 import DiceAnimation from "./DiceAnimation";
+import ChoicesList from "../Choice/ChoicesList";
 import r01 from "./assets/diceSprites/r01.png";
 import r02 from "./assets/diceSprites/r02.png";
 import r03 from "./assets/diceSprites/r03.png";
@@ -53,11 +54,11 @@ function Chapter(props) {
   const [showAnimation, setShowAnimation] = useState(false);
   function makeChoice(e) {
     CharacterChoiceService.makeChoice(props.game._id, e.currentTarget.id, character._id).then((result) => {
-      console.log(result);
+      console.log(result, "resultado de make choice");
       setSprite(rollSprites[result.roll]);
       setShowAnimation(true);
       // setTimeout(() => {
-      props.updateChapter();
+      props.updateChapterOnSave();
       // }, 6000);
     });
   }
@@ -66,17 +67,7 @@ function Chapter(props) {
     <div>
       {showAnimation && <DiceAnimation sprite={sprite} sound={rollSound} hideAnimation={() => setShowAnimation(false)} />}
       <div dangerouslySetInnerHTML={{ __html: currentChapter.description }}></div>
-      {currentChapter.choices.map((choice) => {
-        return choice.successTargetChapter && choice.failureTargetChapter ? (
-          <button onClick={makeChoice} id={choice._id}>
-            {choice.description}
-          </button>
-        ) : (
-          <button disabled onClick={makeChoice} id={choice._id}>
-            {choice.description}
-          </button>
-        );
-      })}
+      <ChoicesList makeChoice={makeChoice} choices={currentChapter.choices} />
     </div>
   );
 }

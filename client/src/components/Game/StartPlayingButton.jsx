@@ -33,11 +33,28 @@ function StartPlayingButton(props) {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  {savedGames.map((save) => (
-                    <Link to={`/chapter/${save._id}`}>
-                      <Dropdown.Item disabled>{save.character.name}</Dropdown.Item>
-                    </Link>
-                  ))}
+                  {savedGames.map((save) => {
+                    return !save.finished ? (
+                      <Link to={`/chapter/${save._id}`}>
+                        <Dropdown.Item disabled>{save.character.name}</Dropdown.Item>
+                      </Link>
+                    ) : null;
+                  })}
+                </Dropdown.Menu>
+              </Dropdown>
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  <Button text="Partidas terminadas" />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  {savedGames.map((save) => {
+                    return save.finished ? (
+                      <Link to={`/finished/${save._id}`}>
+                        <Dropdown.Item disabled>{save.character.name}</Dropdown.Item>
+                      </Link>
+                    ) : null;
+                  })}
                 </Dropdown.Menu>
               </Dropdown>
             </>

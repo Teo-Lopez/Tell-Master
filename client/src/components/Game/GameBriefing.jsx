@@ -6,11 +6,12 @@ import UserContext from "../../UserContext";
 import StartPlayingButton from "./StartPlayingButton";
 import SimpleStartPlaying from "./SimpleStartPlaying";
 function GameBriefing(props) {
-  const { game, savedGames, simple, updateSavedGames, setUser } = props;
+  const { game, savedGames, simple, updateSavedGames, setUser, noUser } = props;
   const loggedInUser = useContext(UserContext);
 
   return simple ? (
     <SimpleStartPlaying
+      noUser={noUser}
       updateSavedGames={updateSavedGames}
       setUser={setUser}
       loggedInUser={loggedInUser}
@@ -18,7 +19,7 @@ function GameBriefing(props) {
       savedGames={savedGames}
     />
   ) : (
-    <StartPlayingButton loggedInUser={loggedInUser} game={game} savedGames={savedGames} />
+    <StartPlayingButton noUser={noUser} loggedInUser={loggedInUser} game={game} savedGames={savedGames} />
   );
 }
 

@@ -16,6 +16,7 @@ import GameOverview from "./views/GameOverView";
 import CharacterList from "./components/Character/CharacterList";
 import ChapterWrapper from "./views/ChapterWrapper";
 import MyCreatedGames from "./views/MyCreatedGames";
+import FinishedGame from "./views/FinishedGame";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { UserProvider } from "./UserContext";
 import { darkTheme } from "./themeContext";
@@ -111,6 +112,8 @@ function App() {
                   />
                   <Route exact path="/chapter/:savedGameId" render={() => <ChapterWrapper />} />
                   <Route exact path="/read/:gameId" render={() => <GameOverview setUser={setUser} loggedInUser={loggedInUser} />} />
+                  <Route exact path="/finished/:saveId" render={() => <FinishedGame loggedInUser={loggedInUser} />} />
+
                   {/* <Route exact path="/flowchart/:gameId" render={() => <GameFlowChart />} /> */}
                 </>
               ) : (

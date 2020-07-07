@@ -5,7 +5,7 @@
 /*/node_modules
 /client/.pnp
 /client/.pnp.js
-
+/imagenes*
 
 # testing
 /client/coverage

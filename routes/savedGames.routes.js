@@ -50,13 +50,20 @@ router.get("/full", (req, res, next) => {
   SavedGame.findById(_id)
     .populate("character")
     .populate({
+      path: "choicesTree",
+      populate: {
+        path: "choice",
+      },
+    })
+    .populate({
       path: "currentChapter",
       populate: {
         path: "choices",
       },
     })
-    .select({ savedGames: true })
+    // .select({ savedGames: true })
     .then((savedGame) => {
+      console.log(savedGame);
       res.json(savedGame);
     });
 });

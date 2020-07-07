@@ -3,7 +3,14 @@ import { NavLink } from "react-router-dom";
 import { Container, Navbar, Nav, NavDropdown, Row, Col, Spinner } from "react-bootstrap";
 import styled from "styled-components";
 import logo from "../invertedlogo.png";
+import Searchbar from "./Searchbar";
+import gamesService from "../services/games.service";
 function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
+  const GameService = new gamesService();
+  const searchGames = (title) => {
+    return GameService.getByTitle(title);
+  };
+
   const StyledNavbar = styled(Navbar)`
     background-color: rgba(0, 0, 0, 0.7);
     height: 60px;
@@ -23,7 +30,7 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
     <Spinner />
   ) : loggedInUser === null ? (
     <StyledNavbar>
-      <Nav style={{ width: "80%" }}>
+      <Nav style={{ width: "60%" }}>
         <Nav.Item>
           <Nav.Link as={NavLink} to={"/"}>
             <img style={{ height: "36px" }} src={logo}></img>
@@ -36,10 +43,13 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
           <Nav.Link onClick={showSignup}>Signup</Nav.Link>
         </Nav.Item>
       </Nav>
+      <Nav style={{ width: "40%", justifyContent: "flex-end" }}>
+        <Searchbar cb={searchGames} />
+      </Nav>
     </StyledNavbar>
   ) : (
     <StyledNavbar>
-      <Nav style={{ width: "80%" }}>
+      <Nav style={{ width: "60%" }}>
         <Nav.Item>
           <Nav.Link as={NavLink} to={"/"}>
             <img style={{ height: "36px" }} src={logo}></img>
@@ -71,7 +81,10 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
           </Nav.Link>
         </Nav.Item>
       </Nav>
-      <Nav style={{ width: "20%", justifyContent: "flex-end" }}>
+      <Nav style={{ width: "40%", justifyContent: "flex-end" }}>
+        {/* <Nav.Item> */}
+        <Searchbar cb={searchGames} />
+        {/* </Nav.Item> */}
         <Nav.Item onClick={logout}>Logout</Nav.Item>
       </Nav>
     </StyledNavbar>

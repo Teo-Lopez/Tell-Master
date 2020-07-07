@@ -45,7 +45,6 @@ router.post("/makeChoice", (req, res) => {
       }
 
       const roll = rollDice(dif, char, characterFound);
-      //guardar resultado
       //TO-DO LEVEL UP
       CharacterChoices.create({ choice: choiceFound._id, didSuccess: roll.result, leveledUp: false })
         .then((characterChoiceCreated) => {

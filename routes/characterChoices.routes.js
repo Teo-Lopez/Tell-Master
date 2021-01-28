@@ -56,6 +56,7 @@ router.post("/makeChoice", (req, res) => {
           });
         })
         .then((newSavedGame) => {
+          //TO-DO
           if (roll.result === true) res.json({ roll: roll.roll, rollResult: roll.number, chapterTarget: newSavedGame._id });
           else res.json({ roll: roll.roll, rollResult: roll.number, chapterTarget: newSavedGame._id });
         })

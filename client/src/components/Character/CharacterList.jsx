@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../Buttons";
 import styled from "styled-components";
-function CharacterList({ characters, newSave }) {
+function CharacterList({ characters, onClick }) {
   const CustomLi = styled.li`
     margin: 15px 0;
   `;
@@ -11,7 +11,7 @@ function CharacterList({ characters, newSave }) {
       {characters.map((char) => {
         return !char.name.includes("Simple Game") ? (
           <CustomLi>
-            <Button text={`${char.name}. Nivel: ${char.level}`} onClick={newSave ? () => newSave(char._id) : null} />
+            <Button text={`${char.name}. Nivel: ${char.level}`} onClick={onClick ? () => onClick(char._id) : null} />
             <small>
               Fue: {char.str} Des: {char.des} Agi: {char.agi} Int: {char.int} Sab: {char.wis} Car: {char.char}
             </small>

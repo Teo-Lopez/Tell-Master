@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-function ChoiceCard({ choice, idx, toogleCard }) {
+function ChoiceCard({ choice, idx, toogleCard, simple }) {
   function returnCharacteristic(characteristic) {
     let result;
     switch (characteristic) {
@@ -41,9 +41,13 @@ function ChoiceCard({ choice, idx, toogleCard }) {
         }}
       >
         <p>{choice.description}</p>
-        <p>{returnCharacteristic(choice.trial.characteristic)}</p>
-        <p>{choice.trial.difficulty}</p>
-        <p>{choice.pxGranted}</p>
+        {!simple && (
+          <>
+            <p>{returnCharacteristic(choice.trial.characteristic)}</p>
+            <p>{choice.trial.difficulty}</p>
+            <p>{choice.pxGranted}</p>
+          </>
+        )}
       </Card.Body>
     </Card>
   );

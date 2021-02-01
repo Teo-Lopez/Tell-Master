@@ -37,7 +37,7 @@ class gamesService {
   createGame({ creator, title, minLevel, description, simple }) {
     return this.service
       .post("", { creator, title, minLevel, description, simple })
-      .then((res) => res.data.createdGame)
+      .then((res) => res.data)
       .catch((err) => console.log(err));
   }
 }

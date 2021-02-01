@@ -37,7 +37,7 @@ function NewSaveGame({ loggedInUser, setUser, match, updateSavedGames, history }
   return (
     <>
       <h3>Elige un personaje para jugar: </h3>
-      {loggedInUser.characters.length > 0 && <CharacterList newSave={newSave} characters={loggedInUser.characters} />}
+      {loggedInUser.characters.length > 0 && <CharacterList onClick={newSave} characters={loggedInUser.characters} />}
       <button onClick={toogleForm}>También puedes crear un nuevo personaje</button>
       {showForm && <CharacterForm hideForm={toogleForm} setUser={setUser} loggedInUser={loggedInUser} setCharacter={setCharacter} />}
     </>

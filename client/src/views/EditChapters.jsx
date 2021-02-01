@@ -1,120 +1,118 @@
-import React, { useState, useEffect } from "react";
-import gameService from "../services/games.service";
-import NewChapterForm from "../components/Chapter/NewChapterForm";
-import chapterService from "../services/chapter.service";
-import styled, { createGlobalStyle } from "styled-components";
-import { Button } from "../components/Buttons";
+import React, { useState, useEffect, useCallback } from 'react'
+import gameService from '../services/games.service'
+import NewChapterForm from '../components/Chapter/NewChapterForm'
+import chapterService from '../services/chapter.service'
+import styled, { createGlobalStyle } from 'styled-components'
+import { Button } from '../components/Buttons'
+const ChapterService = new chapterService()
+const GameService = new gameService()
+
 const List = styled.div`
-  background-color: ${(props) => props.theme.background.modals};
-  border-radius: 2px;
-  padding: 15px;
-`;
+	background-color: ${props => props.theme.background.modals};
+	border-radius: 2px;
+	padding: 15px;
+	transition: all 2s;
+`
 
 const ListPoint = styled.div`
-  border-radius: 3px;
-  background-color: ${(props) => props.theme.background.list};
-  padding: 15px;
-  margin-bottom: 15px;
-  &:hover {
-  }
-`;
+	border-radius: 3px;
+	background-color: ${props => props.theme.background.list};
+	padding: 15px;
+	margin-bottom: 15px;
+	transition: all 2s;
+	&:hover {
+	}
+`
 
 function EditChapters({ loggedInUser, updateLastGames, match, history }) {
-  const RestaurateScroll = createGlobalStyle`
+	const RestaurateScroll = createGlobalStyle`
     html, body {
       overflow: auto
     }
-  `;
-  const ChapterService = new chapterService();
-  const GameService = new gameService();
-  const [allChapters, setallChapters] = useState([]);
-  const [showNewForm, setShowNewForm] = useState(false);
-  const [simple, setSimple] = useState(null);
-  function checkOwnership() {
-    GameService.getOneGame(match.params.gameId).then((game) => {
-      setSimple(game.simple);
-      if (!(game.creator === loggedInUser._id)) history.replace(`/read/${match.params.gameId}`);
-    });
-  }
+  `
+	const [allChapters, setallChapters] = useState([])
+	const [showNewForm, setShowNewForm] = useState(false)
+	const [simple, setSimple] = useState(null)
 
-  function getAllChapters() {
-    ChapterService.getChaptersFromGame(match.params.gameId).then((allChapters) => {
-      setallChapters(allChapters);
-    });
-  }
+	const checkOwnership = useCallback(() => {
+		GameService.getOneGame(match.params.gameId).then(game => {
+			setSimple(game.simple)
+			if (!(game.creator === loggedInUser._id)) history.replace(`/read/${match.params.gameId}`)
+		})
+	}, [match.params.gameId, history, loggedInUser])
 
-  function expandChapter(idx) {
-    const allChaptersCopy = [...allChapters];
-    const chapterCopy = { ...allChaptersCopy[idx] };
-    chapterCopy.show = !allChapters[idx].show;
-    allChaptersCopy.splice(idx, 1, chapterCopy);
-    setallChapters(allChaptersCopy);
-  }
+  const getAllChapters = useCallback(
+		ChapterService.getChaptersFromGame(match.params.gameId).then(allChapters => {
+			setallChapters(allChapters)
+		}, [match.params.gameId])
+	)
 
-  useEffect(() => {
-    checkOwnership();
-  }, [loggedInUser]);
+	function expandChapter(idx) {
+		const allChaptersCopy = [...allChapters]
+		const chapterCopy = { ...allChaptersCopy[idx] }
+		chapterCopy.show = !allChapters[idx].show
+		allChaptersCopy.splice(idx, 1, chapterCopy)
+		setallChapters(allChaptersCopy)
+	}
 
-  useEffect(() => {
-    getAllChapters();
-  }, []);
+	useEffect(() => {
+		checkOwnership()
+	}, [loggedInUser, checkOwnership])
 
-  return (
-    <>
-      <RestaurateScroll />
-      <List>
-        {allChapters.length ? (
-          <div>
-            <h1>Edita los capitulos ya creados</h1>
-            {allChapters.map((chapter, idx) => (
-              <ListPoint>
-                <div style={{ width: "100%" }} active={chapter.show} onClick={() => expandChapter(idx)}>
-                  <div dangerouslySetInnerHTML={{ __html: chapter.title }} />
-                </div>
-                {chapter.show ? (
-                  <div>
-                    <NewChapterForm
-                      simple={simple}
-                      chapterId={chapter._id}
-                      getAllChapters={getAllChapters}
-                      loggedInUser={loggedInUser}
-                      updateLastGames={updateLastGames}
-                    ></NewChapterForm>
-                  </div>
-                ) : (
-                  <></>
-                )}
-              </ListPoint>
-            ))}
-          </div>
-        ) : (
-          <></>
-        )}
-      </List>
+	useEffect(() => {
+		getAllChapters()
+	}, [getAllChapters])
 
-      <div>
-        <div>
-          <div style={{ margin: "10px 0" }}>
-            <h1>Escribe un nuevo capitulo</h1>
-            <div onClick={() => setShowNewForm(!showNewForm)}>
-              <Button text={allChapters.length ? "Escribe un nuevo capitulo" : "Escribe el primer capítulo"} />
-            </div>
-          </div>
-          {showNewForm ? (
-            <div style={{ backgroundColor: "rgba(255, 255, 255, 0.1)", padding: "10px" }}>
-              <NewChapterForm
-                simple={simple}
-                closeNewChapterForm={() => setShowNewForm(false)}
-                getAllChapters={getAllChapters}
-                loggedInUser={loggedInUser}
-                updateLastGames={updateLastGames}
-              ></NewChapterForm>
-            </div>
-          ) : null}
-        </div>
-      </div>
-    </>
-  );
+	return (
+		<>
+			<RestaurateScroll />
+			{allChapters.length ? (
+				<List>
+					<div>
+						<h1>Edita los capitulos ya creados</h1>
+						{allChapters.map((chapter, idx) => (
+							<ListPoint>
+								<div style={{ width: '100%' }} active={chapter.show} onClick={() => expandChapter(idx)}>
+									<p dangerouslySetInnerHTML={{ __html: chapter.title }} />
+								</div>
+								{chapter.show && (
+									<NewChapterForm
+										simple={simple}
+										chapterId={chapter._id}
+										getAllChapters={getAllChapters}
+										loggedInUser={loggedInUser}
+										updateLastGames={updateLastGames}
+									></NewChapterForm>
+								)}
+							</ListPoint>
+						))}
+					</div>
+				</List>
+			) : null}
+
+			<div>
+				<div>
+					<div style={{ margin: '10px 0' }}>
+						<h1>Escribe un nuevo capitulo</h1>
+						<div onClick={() => setShowNewForm(!showNewForm)}>
+							<Button text={allChapters.length ? 'Escribe un nuevo capitulo' : 'Escribe el primer capítulo'} />
+						</div>
+					</div>
+					{showNewForm && (
+						<div style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', padding: '10px' }}>
+							<NewChapterForm
+								simple={simple}
+								closeNewChapterForm={() => setShowNewForm(false)}
+								getAllChapters={getAllChapters}
+								loggedInUser={loggedInUser}
+								updateLastGames={updateLastGames}
+							></NewChapterForm>
+						</div>
+					)}
+				</div>
+			</div>
+		</>
+	)
 }
 
-export default EditChapters;
+export default EditChapters

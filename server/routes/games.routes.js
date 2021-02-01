@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/title', (req, res, next) => {
 	const title = req.query.title
-	title && res.json([])
+	!title && res.json([])
 	Game.find({ title: { $regex: `.*${title}.*`, $options: 'i' } })
 		.lean()
 		.then(gamesFound => res.json(gamesFound.slice(0, 5)))

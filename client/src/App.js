@@ -45,16 +45,19 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const checkNewGames = oldGames => {
-	GamesService.getLastGames().then(last10 => {
-		if (Array.isArray(last10) && !last10.every(elm => oldGames.find(game => game._id === elm._id))) {
+	return GamesService.getLastGames().then(last10 => {
+		console.log(last10, Array.isArray(last10) && !last10.every(elm => oldGames.find(game => game._id === elm._id)))
+		if (Array.isArray(last10) && last10.every(elm => oldGames.find(game => game._id === elm._id))) {
 			return last10
 		}
 	})
 }
 
 function App() {
-	const [lastGames, setlastGames] = useState([])
+	const [loginModal, setloginModal] = useState(false)
+	const [signupModal, setSignupModal] = useState(false)
 	const [loggedInUser, setloggedInUser] = useState(false)
+	const [lastGames, setlastGames] = useState([])
 
 	function logout() {
 		AuthService.logout().then(() => setloggedInUser(null))
@@ -66,12 +69,11 @@ function App() {
 
 	//Recover games on mount
 	useEffect(() => {
-		const newGames = checkNewGames(lastGames)
-		newGames && setlastGames(newGames)
+		checkNewGames(lastGames).then(updatedList => updatedList && setlastGames(updatedList))
 		return () => {
 			setlastGames([])
 		}
-	}, [lastGames])
+	})
 
 	useEffect(() => {
 		if (loggedInUser === false) {
@@ -82,9 +84,6 @@ function App() {
 		}
 		return () => {}
 	}, [loggedInUser])
-
-	const [loginModal, setloginModal] = useState(false)
-	const [signupModal, setSignupModal] = useState(false)
 
 	return (
 		<Switch>

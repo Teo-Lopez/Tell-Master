@@ -97,33 +97,36 @@ const GameCard = styled.div`
 `
 
 const preloadDice = () => {
-  const mainBackgroundPreload = document.createElement('link')
-			mainBackgroundPreload.rel = 'preload'
-			mainBackgroundPreload.as = 'image'
-			mainBackgroundPreload.href = playingTable
+	const mainBackgroundPreload = document.createElement('link')
+	mainBackgroundPreload.rel = 'preload'
+	mainBackgroundPreload.as = 'image'
+	mainBackgroundPreload.href = playingTable
 
-			const d6Prefetch = document.createElement('link')
-			const d20Prefetch = document.createElement('link')
-			d6Prefetch.rel = 'prefetch'
-			d20Prefetch.rel = 'prefetch'
-			d6Prefetch.href = D6
-			d20Prefetch.href = D20
-			d6Prefetch.as = 'image'
-			d20Prefetch.as = 'image'
+	const d6Prefetch = document.createElement('link')
+	const d20Prefetch = document.createElement('link')
+	d6Prefetch.rel = 'prefetch'
+	d20Prefetch.rel = 'prefetch'
+	d6Prefetch.href = D6
+	d20Prefetch.href = D20
+	d6Prefetch.as = 'image'
+	d20Prefetch.as = 'image'
 
-			document.head.append(d6Prefetch)
-			document.head.append(d20Prefetch)
-			document.head.append(mainBackgroundPreload)
+	document.head.append(d6Prefetch)
+	document.head.append(d20Prefetch)
+	document.head.append(mainBackgroundPreload)
 }
 
 function LastGames({ games, loggedInUser }) {
 	const [isPreloaded, setisPreloaded] = useState(false)
+
 	useEffect(() => {
 		if (!isPreloaded) {
-      preloadDice()
+			preloadDice()
 			setisPreloaded(true)
 		}
 	}, [isPreloaded])
+
+	console.log(games)
 
 	return (
 		<div id='container1' style={{ overflow: 'hidden' }}>

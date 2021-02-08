@@ -36,7 +36,6 @@ gameSchema.statics.getLastTen = function (limit = 10) {
 		.then(gamesFound => {
 			gamesFound.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
 			const lastTen = gamesFound.slice(0, limit)
-			console.log(lastTen)
 			return { gamesFound: lastTen }
 		})
 		.catch(err => console.log(err))

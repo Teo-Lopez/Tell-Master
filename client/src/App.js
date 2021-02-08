@@ -1,5 +1,5 @@
 //#region IMPORTS
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import { Switch, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
@@ -21,55 +21,12 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { UserProvider } from './UserContext'
 import { darkTheme } from './themeContext'
 import MyCharacters from './views/MyCharacters'
+
 //#endregion IMPORTS
 const GamesService = new gamesService()
 const AuthService = new authService()
 
-function App() {
-	const [lastGames, setlastGames] = useState([])
-	const [loggedInUser, setloggedInUser] = useState(false)
-
-	function logout() {
-		AuthService.logout().then(() => setloggedInUser(null))
-	}
-
-	function setUser(user) {
-		setloggedInUser(user)
-	}
-
-	const updateLastGames = useCallback(() => {
-		const existNewGames = () =>
-			GamesService.getLastGames().then(last10 => lastGames.some(gameA => last10.some(gameB => gameA._id !== gameB._id)))
-		!existNewGames &&
-			GamesService.getLastGames().then(last10 => {
-				if (Array.isArray(last10) && !last10.every(elm => lastGames.find(game => game._id === elm._id))) {
-					setlastGames(last10)
-				}
-			})
-	}, [lastGames])
-
-	//Recover games on mount
-	useEffect(() => {
-		updateLastGames()
-		return () => {
-			setlastGames([])
-		}
-	}, [updateLastGames])
-
-	useEffect(() => {
-		if (loggedInUser === false) {
-			AuthService.loggedin().then(user => {
-				if (user) setloggedInUser(user)
-				else setloggedInUser(null)
-			})
-		}
-		return () => {}
-	}, [loggedInUser])
-
-	const [loginModal, setloginModal] = useState(false)
-	const [signupModal, setSignupModal] = useState(false)
-
-	const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
     html, body {
       overflow: hidden;
     }
@@ -86,6 +43,48 @@ function App() {
       text-decoration: none;
     }
 `
+
+const checkNewGames = oldGames => {
+	GamesService.getLastGames().then(last10 => {
+		if (Array.isArray(last10) && !last10.every(elm => oldGames.find(game => game._id === elm._id))) {
+			return last10
+		}
+	})
+}
+
+function App() {
+	const [lastGames, setlastGames] = useState([])
+	const [loggedInUser, setloggedInUser] = useState(false)
+
+	function logout() {
+		AuthService.logout().then(() => setloggedInUser(null))
+	}
+
+	function setUser(user) {
+		setloggedInUser(user)
+	}
+
+	//Recover games on mount
+	useEffect(() => {
+		const newGames = checkNewGames(lastGames)
+		newGames && setlastGames(newGames)
+		return () => {
+			setlastGames([])
+		}
+	}, [lastGames])
+
+	useEffect(() => {
+		if (loggedInUser === false) {
+			AuthService.loggedin().then(user => {
+				if (user) setloggedInUser(user)
+				else setloggedInUser(null)
+			})
+		}
+		return () => {}
+	}, [loggedInUser])
+
+	const [loginModal, setloginModal] = useState(false)
+	const [signupModal, setSignupModal] = useState(false)
 
 	return (
 		<Switch>
@@ -105,13 +104,13 @@ function App() {
 								<>
 									<Route exact path='/myGames' render={() => <MyGames loggedInUser={loggedInUser} />} />
 									<Route exact path='/myCreatedGames' render={() => <MyCreatedGames loggedInUser={loggedInUser} />} />
-									<Route exact path='/newGame' render={() => <NewGame updateLastGames={updateLastGames} loggedInUser={loggedInUser} />} />
+									<Route exact path='/newGame' render={() => <NewGame updateLastGames={setlastGames} loggedInUser={loggedInUser} />} />
 									<Route exact path='/myCharacters' render={() => <MyCharacters characters={loggedInUser.characters} />} />
 									<Route
 										exact
 										path='/modify/:gameId'
 										render={({ match, history }) => (
-											<EditChapters history={history} match={match} updateLastGames={updateLastGames} loggedInUser={loggedInUser} />
+											<EditChapters history={history} match={match} updateLastGames={setlastGames} loggedInUser={loggedInUser} />
 										)}
 									/>
 									<Route exact path='/chapter/:savedGameId' render={() => <ChapterWrapper />} />
@@ -123,9 +122,6 @@ function App() {
 							) : (
 								<>
 									<Route exact path='/read/:gameId' render={() => <GameOverview noUser setUser={setUser} loggedInUser={loggedInUser} />} />
-									<Route exact path='/:algo'>
-										<h1>Para ver este contenido has de estar logueado</h1>
-									</Route>
 									<CenteredModal title={'Login'} show={loginModal} onHide={() => setloginModal(false)}>
 										<LoginForm setUser={setUser} />
 									</CenteredModal>

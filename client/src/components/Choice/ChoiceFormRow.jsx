@@ -73,7 +73,6 @@ function ChoiceFormRow(props) {
 			choice.failureTargetChapter = failureTargetChapter
 			updateChoice(choice)
 		} else if (simple) {
-			console.log('creación simple')
 			const newChoice = {
 				description,
 				trial: { difficulty: -10, characteristic: 'str' },
@@ -81,7 +80,6 @@ function ChoiceFormRow(props) {
 				successTargetChapter,
 				failureTargetChapter: successTargetChapter,
 			}
-			console.log(newChoice, 'choice pa tu body')
 			createChoice(newChoice)
 		} else {
 			const newChoice = { description, trial, pxGranted, successTargetChapter, failureTargetChapter }
@@ -99,19 +97,15 @@ function ChoiceFormRow(props) {
 				setDifficulty(value)
 				break
 			case 'characteristic':
-				console.log(value)
 				setCharacteristic(value)
 				break
 			case 'pxGranted':
-				console.log(value)
 				setPxGranted(value)
 				break
 			case 'successTargetChapter':
-				console.log(value)
 				setSuccessTargetChapter(value)
 				break
 			case 'failureTargetChapter':
-				console.log(value)
 				setFailureTargetChapter(value)
 				break
 			default:

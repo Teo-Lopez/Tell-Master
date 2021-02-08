@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-import Select from './Select'
 import { Link } from 'react-router-dom'
+import { InputGroup, Dropdown, FormControl } from 'react-bootstrap'
+import DropdownMenu from 'react-bootstrap/DropdownMenu'
 
-const SearchBar = styled.span`
-	display: flex;
-`
-function Searchbar({ cb }) {
+function Searchbar({ fetchGames }) {
 	const [search, setSearch] = useState([])
 	const [searchText, setSearchText] = useState('')
-
-	const onSearch = text => setSearchText(text)
+	const [isOpen, setIsOpen] = useState(true)
+	const onSearch = e => setSearchText(e.currentTarget.value)
 
 	useEffect(() => {
-		cb(searchText).then(result => setSearch(result))
+		fetchGames(searchText).then(result => setSearch(result))
 		return () => {
 			setSearch([])
 		}
-	}, [searchText, cb])
+	}, [searchText, fetchGames])
 
 	return (
-		<SearchBar>
-			<Select onSearch={onSearch}>
-				{search.map(game => (
-					<li aria-selected className='dropdown__select-option' role='option'>
-						<Link to={`/read/${game._id}`}>{game.title}</Link>
-					</li>
-				))}
-			</Select>
-		</SearchBar>
+		<InputGroup onBlur={() => setIsOpen(false)} onFocus={() => setIsOpen(true)} className='mb-3'>
+			<Dropdown show={isOpen}>
+				<DropdownMenu>
+					{search?.map((elm, idx) => (
+						<Dropdown.Item key={idx} as={Link} to={`/read/${elm._id}`}>
+							{elm.title}
+						</Dropdown.Item>
+					))}
+				</DropdownMenu>
+			</Dropdown>
+			<FormControl value={searchText} onChange={onSearch} aria-describedby='basic-addon1' />
+		</InputGroup>
 	)
 }
 

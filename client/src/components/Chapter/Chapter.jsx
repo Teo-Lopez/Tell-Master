@@ -54,7 +54,6 @@ function Chapter(props) {
   const [showAnimation, setShowAnimation] = useState(false);
   function makeChoice(e) {
     CharacterChoiceService.makeChoice(props.game._id, e.currentTarget.id, character._id).then((result) => {
-      console.log(result, "resultado de make choice");
       setSprite(rollSprites[result.roll]);
       setShowAnimation(true);
       // setTimeout(() => {

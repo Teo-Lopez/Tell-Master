@@ -169,7 +169,6 @@ function GameFlowChart() {
           },
         };
         mainObj.nodes[choice._id] = chapNode;
-        console.log("2", nodes);
 
         //genera links en mainObj
         if (choice.successTargetChapter) {
@@ -194,7 +193,6 @@ function GameFlowChart() {
           mainObj.nodes[choice.successTargetChapter].ports[chapter._id] = { id: chapter._id, type: "input" };
         }
 
-        console.log("3", mainObj);
 
         if (choice.failureTargetChapter) {
           mainObj.links[choice.failureTargetChapter] = {
@@ -209,7 +207,6 @@ function GameFlowChart() {
             },
           };
 
-          console.log("4", nodes);
 
           if (!mainObj.nodes[choice.failureTargetChapter]) {
             mainObj.nodes[choice.failureTargetChapter] = {
@@ -217,7 +214,6 @@ function GameFlowChart() {
               links: {},
             };
           }
-          console.log("5", nodes);
 
           if (!mainObj.nodes[choice.failureTargetChapter].ports[chapter._id]) {
             mainObj.nodes[choice.failureTargetChapter].ports[chapter._id] = { id: chapter._id, type: "input" };
@@ -225,7 +221,6 @@ function GameFlowChart() {
         }
       });
 
-      console.log(nodes);
       for (let key in nodes) {
         if (nodes[key].position == undefined) nodes[key].position = { x: 600, y: 600 };
       }

@@ -45,11 +45,11 @@ function CharacterForm({ setCharacter, hideForm, setUser, loggedInUser }) {
   function onChange(e) {
     const { name, value } = e.currentTarget;
     let newTotal = totalPoints;
-    console.log(value);
+    
     if (name !== "name") {
       newTotal = calculatePoints(name, value);
     }
-    console.log(newTotal);
+    
     if (newTotal >= 0) {
       switch (name) {
         case "name":

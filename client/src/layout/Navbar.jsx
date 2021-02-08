@@ -6,26 +6,25 @@ import logo from '../invertedlogo.png'
 import Searchbar from './Searchbar'
 import gamesService from '../services/games.service'
 const GameService = new gamesService()
-const searchGames = title => {
-	return GameService.getByTitle(title)
-}
+
+const fetchGames = title => GameService.getByTitle(title)
+
+const StyledNavbar = styled(Navbar)`
+	background-color: rgba(0, 0, 0, 0.7);
+	height: 60px;
+	p,
+	a {
+		color: ${props => props.theme.colors.light + '!important'};
+	}
+	.dropdown-menu {
+		background-color: ${props => props.theme.background.semiSolid};
+		.dropdown-item:hover {
+			background-color: ${props => props.theme.background.modals};
+		}
+	}
+`
 
 function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
-	const StyledNavbar = styled(Navbar)`
-		background-color: rgba(0, 0, 0, 0.7);
-		height: 60px;
-		p,
-		a {
-			color: ${props => props.theme.colors.light + '!important'};
-		}
-		.dropdown-menu {
-			background-color: ${props => props.theme.background.semiSolid};
-			.dropdown-item:hover {
-				background-color: ${props => props.theme.background.modals};
-			}
-		}
-	`
-
 	return loggedInUser === false ? (
 		<Spinner />
 	) : loggedInUser === null ? (
@@ -44,7 +43,7 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
 				</Nav.Item>
 			</Nav>
 			<Nav style={{ width: '40%', justifyContent: 'flex-end' }}>
-				<Searchbar cb={searchGames} />
+				<Searchbar fetchGames={fetchGames} />
 			</Nav>
 		</StyledNavbar>
 	) : (
@@ -83,7 +82,7 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
 			</Nav>
 			<Nav style={{ width: '40%', justifyContent: 'flex-end' }}>
 				{/* <Nav.Item> */}
-				<Searchbar cb={searchGames} />
+				<Searchbar fetchGames={fetchGames} />
 				{/* </Nav.Item> */}
 				<Nav.Item onClick={logout}>Logout</Nav.Item>
 			</Nav>

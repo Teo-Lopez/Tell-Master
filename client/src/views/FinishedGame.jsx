@@ -14,9 +14,7 @@ function FinishedGame(props) {
 			})
 
 			Promise.all(chaptersPromise)
-				.then(chaptersTravelled => {
-					console.log(chaptersTravelled)
-				})
+				.then(chaptersTravelled => {})
 				.catch(err => console.log(err))
 		})
 	}, [props.match.params.saveId])

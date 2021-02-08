@@ -18,9 +18,7 @@ function NewGameForm(props) {
 
 		GamesService.createGame({ creator: loggedInUser._id, title, minLevel, description, simple }).then(createdGame => {
 			updateLastGames()
-			console.log(createdGame)
 			history.push(`/modify/${createdGame._id}`)
-			console.log(createdGame)
 		})
 	}
 

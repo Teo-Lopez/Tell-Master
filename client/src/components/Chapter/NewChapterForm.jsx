@@ -98,7 +98,6 @@ function NewChapterForm(props) {
 	}
 
 	function toogleCard(idx) {
-		console.log(idx)
 		const choicesObjCopy = [...choicesObj]
 		const choiceCopy = { ...choicesObjCopy[idx] }
 		choiceCopy.show = !choicesObj[idx].show
@@ -166,13 +165,12 @@ function NewChapterForm(props) {
 									onChange={(event, editor) => {
 										const data = editor.getData()
 										setDescription(data)
-										console.log({ event, editor, data })
 									}}
 									onBlur={(event, editor) => {
-										console.log('Blur.', editor)
+										// console.log('Blur.', editor)
 									}}
 									onFocus={(event, editor) => {
-										console.log('Focus.', editor)
+										// console.log('Focus.', editor)
 									}}
 								/>
 							</EditorWrapper>

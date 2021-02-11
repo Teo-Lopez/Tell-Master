@@ -24,6 +24,10 @@ const ListPoint = styled.div`
 	}
 `
 
+const isOwner = (creatorId, userId) => creatorId === userId
+
+const getAllChapters = id => ChapterService.getChaptersFromGame(id).then(allChapters => allChapters)
+
 function EditChapters({ loggedInUser, updateLastGames, match, history }) {
 	const RestaurateScroll = createGlobalStyle`
     html, body {
@@ -34,19 +38,6 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
 	const [showNewForm, setShowNewForm] = useState(false)
 	const [simple, setSimple] = useState(null)
 
-	const checkOwnership = useCallback(() => {
-		GameService.getOneGame(match.params.gameId).then(game => {
-			setSimple(game.simple)
-			if (!(game.creator === loggedInUser._id)) history.replace(`/read/${match.params.gameId}`)
-		})
-	}, [match.params.gameId, history, loggedInUser])
-
-  const getAllChapters = useCallback(
-		ChapterService.getChaptersFromGame(match.params.gameId).then(allChapters => {
-			setallChapters(allChapters)
-		}, [match.params.gameId])
-	)
-
 	function expandChapter(idx) {
 		const allChaptersCopy = [...allChapters]
 		const chapterCopy = { ...allChaptersCopy[idx] }
@@ -56,12 +47,15 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
 	}
 
 	useEffect(() => {
-		checkOwnership()
-	}, [loggedInUser, checkOwnership])
+		GameService.getOneGame(match.params.gameId).then(game => {
+			isOwner(game.creator, loggedInUser._id) && history.replace(`/read/${match.params.gameId}`)
+			setSimple(game.simple)
+		})
+	}, [match.params.gameId])
 
 	useEffect(() => {
-		getAllChapters()
-	}, [getAllChapters])
+		getAllChapters(match.params.gameId).then(chapters => setallChapters(chapters))
+	}, [match.params.gameId])
 
 	return (
 		<>

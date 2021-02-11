@@ -17,7 +17,6 @@ function NewGameForm(props) {
 		}
 
 		GamesService.createGame({ creator: loggedInUser._id, title, minLevel, description, simple }).then(createdGame => {
-			updateLastGames()
 			history.push(`/modify/${createdGame._id}`)
 		})
 	}
@@ -62,7 +61,7 @@ function NewGameForm(props) {
 
 				<Form.Group controlId='description'>
 					<Form.Label>El resumen de tu aventura! Hazlo atractivo de forma que la gente quiera jugarla ;)</Form.Label>
-					<Form.Control name='description' onChange={onChange} value={description} type='text' placeholder='El titulo de tu historia!' />
+					<Form.Control name='description' onChange={onChange} value={description} type='text' placeholder='Tu resumen' />
 				</Form.Group>
 				<SmallButton type='submit' text='Crear' />
 			</Form>

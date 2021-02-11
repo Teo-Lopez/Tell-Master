@@ -6,7 +6,6 @@ import { Container } from 'react-bootstrap'
 import Navbar from './layout/Navbar'
 import LastGames from './views/LastGames'
 import MyGames from './views/MyGames'
-import gamesService from './services/games.service'
 import authService from './services/auth.service'
 import LoginForm from './components/Auth/LoginForm'
 import SignupForm from './components/Auth/SignupForm'
@@ -23,7 +22,6 @@ import { darkTheme } from './themeContext'
 import MyCharacters from './views/MyCharacters'
 
 //#endregion IMPORTS
-const GamesService = new gamesService()
 const AuthService = new authService()
 
 const GlobalStyle = createGlobalStyle`
@@ -44,36 +42,20 @@ const GlobalStyle = createGlobalStyle`
     }
 `
 
-const checkNewGames = oldGames => {
-	return GamesService.getLastGames().then(last10 => {
-		console.log(last10, Array.isArray(last10) && !last10.every(elm => oldGames.find(game => game._id === elm._id)))
-		if (Array.isArray(last10) && last10.every(elm => oldGames.find(game => game._id === elm._id))) {
-			return last10
-		}
-	})
-}
 
 function App() {
 	const [loginModal, setloginModal] = useState(false)
 	const [signupModal, setSignupModal] = useState(false)
 	const [loggedInUser, setloggedInUser] = useState(false)
-	const [lastGames, setlastGames] = useState([])
-
+	
 	function logout() {
 		AuthService.logout().then(() => setloggedInUser(null))
 	}
-
+	
 	function setUser(user) {
 		setloggedInUser(user)
 	}
-
-	//Recover games on mount
-	useEffect(() => {
-		checkNewGames(lastGames).then(updatedList => updatedList && setlastGames(updatedList))
-		return () => {
-			setlastGames([])
-		}
-	})
+	
 
 	useEffect(() => {
 		if (loggedInUser === false) {
@@ -98,18 +80,18 @@ function App() {
 					/>
 					<Container fluid>
 						<main style={{ height: 'calc(100vh - 60px)' }} className='app-wrapper'>
-							<Route exact path='/' render={() => <LastGames loggedInUser={loggedInUser} games={lastGames} />} />
+							<Route exact path='/' render={() => <LastGames loggedInUser={loggedInUser}/>} />
 							{loggedInUser ? (
 								<>
 									<Route exact path='/myGames' render={() => <MyGames loggedInUser={loggedInUser} />} />
 									<Route exact path='/myCreatedGames' render={() => <MyCreatedGames loggedInUser={loggedInUser} />} />
-									<Route exact path='/newGame' render={() => <NewGame updateLastGames={setlastGames} loggedInUser={loggedInUser} />} />
+									<Route exact path='/newGame' render={() => <NewGame loggedInUser={loggedInUser} />} />
 									<Route exact path='/myCharacters' render={() => <MyCharacters characters={loggedInUser.characters} />} />
 									<Route
 										exact
 										path='/modify/:gameId'
 										render={({ match, history }) => (
-											<EditChapters history={history} match={match} updateLastGames={setlastGames} loggedInUser={loggedInUser} />
+											<EditChapters history={history} match={match} loggedInUser={loggedInUser} />
 										)}
 									/>
 									<Route exact path='/chapter/:savedGameId' render={() => <ChapterWrapper />} />

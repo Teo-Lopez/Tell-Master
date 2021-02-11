@@ -17,7 +17,16 @@ function Searchbar({ fetchGames }) {
 	}, [searchText, fetchGames])
 
 	return (
-		<InputGroup onBlur={() => setIsOpen(false)} onFocus={() => setIsOpen(true)} className='mb-3'>
+		<InputGroup
+			onBlur={() =>
+				//TODO Fix lose focus and link conflict
+				setTimeout(() => {
+					setIsOpen(false)
+				}, 200)
+			}
+			onFocus={() => setIsOpen(true)}
+			className='mb-3'
+		>
 			<Dropdown show={isOpen}>
 				<DropdownMenu>
 					{search?.map((elm, idx) => (

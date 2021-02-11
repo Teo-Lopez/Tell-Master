@@ -4,7 +4,11 @@ import styled, { keyframes } from 'styled-components'
 import playingTable from './assets/playingTable.png'
 import D6 from '../components/Game/assets/d6book.svg'
 import D20 from '../components/Game/assets/d20.svg'
+import gamesService from '../services/games.service'
 
+const GamesService = new gamesService()
+
+//#region styling
 const MainsSectionWrapper = styled.section`
 	background-color: ${props => props.theme.background.lightOverlay};
 	text-align: center;
@@ -95,6 +99,7 @@ const GameCard = styled.div`
 		background-color: ${props => props.theme.background.overlay};
 	}
 `
+//#endregion styling
 
 const preloadDice = () => {
 	const mainBackgroundPreload = document.createElement('link')
@@ -116,9 +121,24 @@ const preloadDice = () => {
 	document.head.append(mainBackgroundPreload)
 }
 
-function LastGames({ games, loggedInUser }) {
-	const [isPreloaded, setisPreloaded] = useState(false)
+const checkNewGames = oldGames => {
+	return GamesService.getLastGames().then(lastGames => {
+		return oldGames.every(old => lastGames.every(newGame => old._id === newGame._id)) ? lastGames : false
+	})
+}
 
+function LastGames({ loggedInUser }) {
+	const [isPreloaded, setisPreloaded] = useState(false)
+	const [lastGames, setlastGames] = useState([])
+
+	useEffect(() => {
+		checkNewGames(lastGames).then(updatedList => {
+			console.log(updatedList)
+			updatedList && setlastGames(updatedList)
+		})
+	}, [lastGames])
+
+	//preload dice for use in stories
 	useEffect(() => {
 		if (!isPreloaded) {
 			preloadDice()
@@ -126,23 +146,23 @@ function LastGames({ games, loggedInUser }) {
 		}
 	}, [isPreloaded])
 
-	console.log(games)
-
 	return (
 		<div id='container1' style={{ overflow: 'hidden' }}>
 			<Title>Últimas historias</Title>
 			<MainsSectionWrapper id='container2'>
 				<Background src={playingTable} />
 				<MainSection>
-					{games.map((game, idx) => (
-						<Link to={loggedInUser && loggedInUser._id === game.creator ? `/modify/${game._id}` : `/read/${game._id}`}>
-							<GameCard key={idx}>
-								<h2>{game.title}</h2>
-								<em>Nivel minimo: {game.minLevel}</em>
-								<p>{game.description.slice(0, 350)}</p>
-							</GameCard>
-						</Link>
-					))}
+					{lastGames.length
+						? lastGames.map((game, idx) => (
+								<Link key={idx} to={loggedInUser && loggedInUser._id === game.creator ? `/modify/${game._id}` : `/read/${game._id}`}>
+									<GameCard key={idx}>
+										<h2>{game.title}</h2>
+										<em>Nivel minimo: {game.minLevel}</em>
+										<p>{game.description.slice(0, 350)}</p>
+									</GameCard>
+								</Link>
+						  ))
+						: null}
 				</MainSection>
 			</MainsSectionWrapper>
 		</div>

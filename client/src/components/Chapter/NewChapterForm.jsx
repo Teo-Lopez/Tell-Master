@@ -141,77 +141,75 @@ function NewChapterForm(props) {
 			.catch(err => console.log(err))
 	}
 
-	return (
-		chapterId && (
-			<ChapterFormWrapper ready={ready}>
-				{!ready ? (
-					<p>loading</p>
-				) : (
-					<>
-						<label>
-							Título del capítulo:
-							<input onChange={onChange} placeholder='#1.0 El comienzo' name='title' value={title} maxLength='230'></input>
-						</label>
-						<div className='.ck-editor'>
-							<EditorWrapper>
-								<CKEditor
-									editor={ClassicEditor}
-									data={description}
-									placeholder='El texto del capitulo va aquí'
-									onInit={editor => {
-										// You can store the "editor" and use when it is needed.
-										console.log('Editor is ready to use!', editor)
-									}}
-									onChange={(event, editor) => {
-										const data = editor.getData()
-										setDescription(data)
-									}}
-									onBlur={(event, editor) => {
-										// console.log('Blur.', editor)
-									}}
-									onFocus={(event, editor) => {
-										// console.log('Focus.', editor)
-									}}
-								/>
-							</EditorWrapper>
+	return chapterId ? (
+		<ChapterFormWrapper ready={ready}>
+			{!ready ? (
+				<p>loading</p>
+			) : (
+				<>
+					<label>
+						Título del capítulo:
+						<input onChange={onChange} placeholder='#1.0 El comienzo' name='title' value={title} maxLength='230'></input>
+					</label>
+					<div className='.ck-editor'>
+						<EditorWrapper>
+							<CKEditor
+								editor={ClassicEditor}
+								data={description}
+								placeholder='El texto del capitulo va aquí'
+								onInit={editor => {
+									// You can store the "editor" and use when it is needed.
+									console.log('Editor is ready to use!', editor)
+								}}
+								onChange={(event, editor) => {
+									const data = editor.getData()
+									setDescription(data)
+								}}
+								onBlur={(event, editor) => {
+									// console.log('Blur.', editor)
+								}}
+								onFocus={(event, editor) => {
+									// console.log('Focus.', editor)
+								}}
+							/>
+						</EditorWrapper>
+						<div style={{ margin: '10px 0' }}>
+							<Row>
+								{choicesObj.map((eachChoice, idx) => (
+									<Col key={idx} lg={3}>
+										{!eachChoice.show ? (
+											<ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} simple={simple} />
+										) : (
+											<CenteredModal noHeader show={true}>
+												<ChoiceForm simple={simple} toogleCard={toogleCard} choice={eachChoice} idx={idx} />
+											</CenteredModal>
+										)}
+									</Col>
+								))}
+							</Row>
 							<div style={{ margin: '10px 0' }}>
-								<Row>
-									{choicesObj.map((eachChoice, idx) => (
-										<Col key={idx} lg={3}>
-											{!eachChoice.show ? (
-												<ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} simple={simple} />
-											) : (
-												<CenteredModal noHeader show={true}>
-													<ChoiceForm simple={simple} toogleCard={toogleCard} choice={eachChoice} idx={idx} />
-												</CenteredModal>
-											)}
-										</Col>
-									))}
-								</Row>
-								<div style={{ margin: '10px 0' }}>
-									<Button style={{ margin: '0 5px' }} onClick={addChoice}>
-										Añadir elección
-									</Button>
-									<Button style={{ margin: '0 5px' }} onClick={submitForm}>
-										{chapterId ? 'Guardar cambios' : 'Crear'}
-									</Button>
-								</div>
-							</div>
-							{choiceForms.map((eachform, idx) => (
-								<div key={idx}>{React.cloneElement(<ChoiceFormRow />, { idx, finishChoiceForm, closeChoiceForm, simple })}</div>
-							))}
-							<div>
-								<label>
-									Last chapter?
-									<input onChange={onChange} name='last' checked={last} type='checkbox' />
-								</label>
+								<Button style={{ margin: '0 5px' }} onClick={addChoice}>
+									Añadir elección
+								</Button>
+								<Button style={{ margin: '0 5px' }} onClick={submitForm}>
+									{chapterId ? 'Guardar cambios' : 'Crear'}
+								</Button>
 							</div>
 						</div>
-					</>
-				)}
-			</ChapterFormWrapper>
-		)
-	)
+						{choiceForms.map((eachform, idx) => (
+							<div key={idx}>{React.cloneElement(<ChoiceFormRow />, { idx, finishChoiceForm, closeChoiceForm, simple })}</div>
+						))}
+						<div>
+							<label>
+								Last chapter?
+								<input onChange={onChange} name='last' checked={last} type='checkbox' />
+							</label>
+						</div>
+					</div>
+				</>
+			)}
+		</ChapterFormWrapper>
+	) : null 
 }
 
 export default withRouter(NewChapterForm)

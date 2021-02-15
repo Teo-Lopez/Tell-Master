@@ -18,12 +18,11 @@ function Searchbar({ fetchGames }) {
 
 	return (
 		<InputGroup
-			onBlur={() =>
+			onBlur={e => {
 				//TODO Fix lose focus and link conflict
-				setTimeout(() => {
-					setIsOpen(false)
-				}, 200)
-			}
+				console.log(e.target)
+				setIsOpen(false)
+			}}
 			onFocus={() => setIsOpen(true)}
 			className='mb-3'
 		>

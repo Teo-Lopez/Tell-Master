@@ -48,7 +48,7 @@ function EditChapters({ loggedInUser, updateLastGames, match, history }) {
 
 	useEffect(() => {
 		GameService.getOneGame(match.params.gameId).then(game => {
-			isOwner(game.creator, loggedInUser._id) && history.replace(`/read/${match.params.gameId}`)
+			// isOwner(game.creator, loggedInUser._id) && history.replace(`/read/${match.params.gameId}`)
 			setSimple(game.simple)
 		})
 	}, [match.params.gameId])

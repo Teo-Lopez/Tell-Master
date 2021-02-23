@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 const gameSchema = new Schema(
 	{
+		active: { type: Boolean, default: true },
 		creator: mongoose.SchemaTypes.ObjectId,
 		title: { type: String, required: true, unique: true },
 		minLevel: { type: Number, required: true },
@@ -12,8 +13,15 @@ const gameSchema = new Schema(
 	},
 	{ timestamps: true }
 )
-gameSchema.statics.getFullGameById = function () {
-	return this.findById(gameId)
+
+gameSchema.statics.getByCreator = function (creator) {
+	return this.find({ creator, active: true })
+		.lean()
+		.catch(err => err)
+}
+
+gameSchema.statics.getFullGameById = function (_id) {
+	return this.findOne({ _id, active: true })
 		.populate({
 			path: 'chapters',
 			populate: { path: 'choices' },
@@ -22,23 +30,35 @@ gameSchema.statics.getFullGameById = function () {
 		.catch(err => err)
 }
 
-gameSchema.statics.getChaptersOnly = function (gameId) {
-	return this.findById(gameId)
+gameSchema.statics.getChaptersOnly = function (_id) {
+	console.log(_id, 'yay')
+	return this.findOne({ _id, active: true })
 		.lean()
 		.populate('chapters')
-		.select({ chapters: true })
+		.select({ chapters: true, _id: false })
 		.then(chaptersFound => chaptersFound)
 		.catch(err => err)
 }
 
 gameSchema.statics.getLastTen = function (limit = 10) {
-	return this.find({})
+	return this.find({ active: true })
 		.then(gamesFound => {
 			gamesFound.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
 			const lastTen = gamesFound.slice(0, limit)
 			return { gamesFound: lastTen }
 		})
 		.catch(err => console.log(err))
+}
+
+gameSchema.statics.disableGame = function (_id) {
+	return this.findByIdAndUpdate(_id, { active: false })
+		.then(disabledGame => {
+			const chapterPromises = disabledGame.chapters.map(chId => mongoose.model('Chapter').disableChapter(chId))
+			chapterPromises.push()
+			Promise.all()
+		})
+		.then(allDisabledChapters => allDisabledChapters)
+		.catch(err => err)
 }
 
 const Game = mongoose.model('Game', gameSchema)

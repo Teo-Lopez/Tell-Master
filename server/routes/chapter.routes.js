@@ -7,12 +7,7 @@ router.get('/', (req, res, next) => {
 	const { chapterId } = req.query
 
 	Chapter.getChapterAndChoices(chapterId)
-		.lean()
-		.populate('choices')
-		.then(chapterFound => {
-			console.log(chapterFound)
-			res.json(chapterFound)
-		})
+		.then(chapterFound => res.json(chapterFound))
 		.catch(err => console.log(err))
 })
 

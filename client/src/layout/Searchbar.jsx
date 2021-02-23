@@ -6,7 +6,7 @@ import DropdownMenu from 'react-bootstrap/DropdownMenu'
 function Searchbar({ fetchGames }) {
 	const [search, setSearch] = useState([])
 	const [searchText, setSearchText] = useState('')
-	const [isOpen, setIsOpen] = useState(true)
+	const [isOpen, setIsOpen] = useState(false)
 	const onSearch = e => setSearchText(e.currentTarget.value)
 
 	useEffect(() => {
@@ -35,7 +35,13 @@ function Searchbar({ fetchGames }) {
 					))}
 				</DropdownMenu>
 			</Dropdown>
-			<FormControl value={searchText} onChange={onSearch} aria-describedby='basic-addon1' />
+			<FormControl
+				placeholder='Busca tu nueva historia favorita'
+				style={{ backgroundColor: 'rgb(225, 225, 225)' }}
+				value={searchText}
+				onChange={onSearch}
+				aria-describedby='basic-addon1'
+			/>
 		</InputGroup>
 	)
 }

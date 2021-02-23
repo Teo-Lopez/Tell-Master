@@ -20,30 +20,6 @@ const MainsSectionWrapper = styled.section`
 	}
 `
 
-const upwardTransition = keyframes`
-    from {
-      opacity: 0;
-      transform: translateY(1000px)
-    }
-    
-    to {
-      opacity: 1;
-      transform: translateY(0px)
-    }
-  `
-
-const imgTransition = keyframes`
-    from {
-      transform: translateY(1000px) rotate(0deg)
-    }
-    
-    to {
-      rotate(-15deg)
-      /* rotate(-15deg) */
-      transform: translateY(0px) rotate(-15deg)
-    }
-    `
-
 const Background = styled.img`
 	position: absolute;
 	left: 5%;
@@ -53,13 +29,10 @@ const Background = styled.img`
 	opacity: 0.5;
 	filter: blur(1px);
 	filter: contrast(70%);
-	animation: ${imgTransition} 3s cubic-bezier(0.71, 0.57, 0.46, 0.92);
 `
 
 const MainSection = styled.article`
 	margin: 20px;
-	transform: translateY();
-	animation: ${upwardTransition} 4s ease-out;
 `
 
 const appear = keyframes`
@@ -73,11 +46,8 @@ const appear = keyframes`
     `
 
 const Title = styled.h1`
-	font-size: 3em;
-	animation: ${appear} 5s ease-out;
+	animation: ${appear} 3s ease-out;
 	color: ${props => props.theme.colors.general};
-	font-weight: 900;
-	letter-spacing: 5px;
 	text-align: center;
 `
 
@@ -85,18 +55,20 @@ const GameCard = styled.div`
 	margin: 10px 0;
 	padding: 10px 0;
 	border-radius: 2px;
+	animation: ${appear} 3s ease-out;
 
-	p {
-		font-size: 1.2em;
+	@for $i from 1 through 10 {
+		&:nth-child(#{$i}) {
+			animation-delay: #{$i * 2}s;
+		}
 	}
 
+	h2 {
+		text-transform: capitalize;
+	}
 	&:hover {
-		h2 {
-			transition: font-size 500ms;
-			font-size: 1.4em;
-		}
-		font-size: 1.3em;
 		background-color: ${props => props.theme.background.overlay};
+		transition: background-color 0.3s;
 	}
 `
 //#endregion styling
@@ -149,6 +121,7 @@ function LastGames({ loggedInUser }) {
 	return (
 		<div id='container1' style={{ overflow: 'hidden' }}>
 			<Title>Últimas historias</Title>
+			<hr />
 			<MainsSectionWrapper id='container2'>
 				<Background src={playingTable} />
 				<MainSection>

@@ -1,10 +1,25 @@
 import React, { useState } from 'react'
 import { Form } from 'react-bootstrap'
+import styled from 'styled-components'
 import gamesService from '../../services/games.service'
 import { withRouter } from 'react-router-dom'
-import { SmallButton } from '../Buttons'
+import { Button } from '../shared/Buttons'
+
+const FormWrapper = styled.div`
+	max-width: 800px;
+	background-color: ${props => props.theme.background.lightOverlay};
+	padding: 60px;
+	margin: auto;
+
+	input {
+		margin-top: 5px;
+		margin-bottom: 20px;
+		background-color: rgb(235, 235, 235);
+	}
+`
+
 function NewGameForm(props) {
-	const { loggedInUser, updateLastGames, history, simple } = props
+	const { loggedInUser, history, simple } = props
 	const GamesService = new gamesService()
 	const [title, setTitle] = useState('')
 	const [minLevel, setMinLevel] = useState(1)
@@ -39,7 +54,7 @@ function NewGameForm(props) {
 	}
 
 	return (
-		<div>
+		<FormWrapper>
 			<h2>Crear un nuevo juego es muy sencillo tan solo necesitas...</h2>
 			<Form onSubmit={submitForm}>
 				<Form.Group controlId='title'>
@@ -60,12 +75,12 @@ function NewGameForm(props) {
 				)}
 
 				<Form.Group controlId='description'>
-					<Form.Label>El resumen de tu aventura! Hazlo atractivo de forma que la gente quiera jugarla ;)</Form.Label>
+					<Form.Label>¡El resumen de tu aventura! Hazlo atractivo de forma que la gente quiera jugarla ;)</Form.Label>
 					<Form.Control name='description' onChange={onChange} value={description} type='text' placeholder='Tu resumen' />
 				</Form.Group>
-				<SmallButton type='submit' text='Crear' />
+				<Button type='submit' text='Crear historia' />
 			</Form>
-		</div>
+		</FormWrapper>
 	)
 }
 

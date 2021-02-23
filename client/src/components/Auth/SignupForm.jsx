@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import authService from "../../services/auth.service";
+
 function SignupForm({ setUser, onHide }) {
   const AuthService = new authService();
   const [username, setUsername] = useState("");

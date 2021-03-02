@@ -44,7 +44,6 @@ function LoginForm({ setUser, onHide }) {
 			<Form.Group controlId='username'>
 				<Form.Label>Username</Form.Label>
 				<Form.Control onChange={onChange} name='username' value={username} type='text' placeholder='Enter username' />
-				<Form.Text>Your username.</Form.Text>
 			</Form.Group>
 
 			<Form.Group controlId='password' value={password}>

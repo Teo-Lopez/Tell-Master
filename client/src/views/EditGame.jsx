@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import CustomSpinner from '../components/shared/Spinner'
 import gameService from '../services/games.service'
 import NewChapterForm from '../components/Chapter/NewChapterForm'
 import chapterService from '../services/chapter.service'
@@ -36,7 +37,7 @@ const RestaurateScroll = createGlobalStyle`
     }
   `
 
-function EditGame({ loggedInUser, updateLastGames, match }) {
+function EditGame({ loggedInUser, match }) {
 	const [allChapters, setallChapters] = useState(null)
 	const [showNewForm, setShowNewForm] = useState(false)
 	const [simple, setSimple] = useState(null)
@@ -67,47 +68,51 @@ function EditGame({ loggedInUser, updateLastGames, match }) {
 
 	return (
 		<>
-			<RestaurateScroll />
+			{!fetch ? (
+				<>
+					<List>
+						{allChapters?.map((chapter, idx) => (
+							<ListPoint key={idx}>
+								<PointHeader active={chapter.show} onClick={() => expandChapter(idx)}>
+									Capítulo {idx + 1}:
+								</PointHeader>
+								{chapter.show && (
+									<NewChapterForm
+										simple={simple}
+										chapter={chapter}
+										getAllChapters={getAllChapters}
+										loggedInUser={loggedInUser}
+										setallChapters={setallChapters}
+									></NewChapterForm>
+								)}
+							</ListPoint>
+						))}
+					</List>
 
-			<List>
-				{allChapters?.map((chapter, idx) => (
-					<ListPoint key={idx}>
-						<PointHeader active={chapter.show} onClick={() => expandChapter(idx)}>
-							Capítulo {idx + 1}:
-						</PointHeader>
-						{chapter.show && (
-							<NewChapterForm
-								simple={simple}
-								chapter={chapter}
-								getAllChapters={getAllChapters}
-								loggedInUser={loggedInUser}
-								setallChapters={setallChapters}
-							></NewChapterForm>
-						)}
-					</ListPoint>
-				))}
-			</List>
-
-			<div>
-				<div>
-					<div style={{ margin: '10px 0' }}>
-						<Button
-							onClick={() => setShowNewForm(!showNewForm)}
-							text={allChapters ? 'Escribe un nuevo capitulo' : 'Escribe el primer capítulo'}
-						/>
+					<div>
+						<div>
+							<div style={{ margin: '10px 0' }}>
+								<Button
+									onClick={() => setShowNewForm(!showNewForm)}
+									text={allChapters ? 'Escribe un nuevo capitulo' : 'Escribe el primer capítulo'}
+								/>
+							</div>
+							{showNewForm && (
+								<NewChapterForm
+									simple={simple}
+									first={!!!allChapters}
+									closeNewChapterForm={() => setShowNewForm(false)}
+									getAllChapters={getAllChapters}
+									loggedInUser={loggedInUser}
+									setallChapters={setallChapters}
+								></NewChapterForm>
+							)}
+						</div>
 					</div>
-					{showNewForm && (
-						<NewChapterForm
-							simple={simple}
-							first={!!!allChapters}
-							closeNewChapterForm={() => setShowNewForm(false)}
-							getAllChapters={getAllChapters}
-							loggedInUser={loggedInUser}
-							setallChapters={setallChapters}
-						></NewChapterForm>
-					)}
-				</div>
-			</div>
+				</>
+			) : (
+				<CustomSpinner />
+			)}
 		</>
 	)
 }

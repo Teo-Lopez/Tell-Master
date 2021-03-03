@@ -25,7 +25,7 @@ function GameOverView(props) {
 		setSavedGames(savedGamesCopy)
 	}
 
-	return props.noUser ? (
+	return loggedInUser === null ? (
 		<GameBriefing game={game} noUser={props.noUser} />
 	) : !game ? (
 		<>Loading</>

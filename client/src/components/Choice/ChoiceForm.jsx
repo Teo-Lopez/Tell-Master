@@ -75,12 +75,18 @@ function ChoiceForm(props) {
 				<Card.Body>
 					<Form.Group controlId='choice'>
 						<Form.Label>Describe la elección:</Form.Label>
-						<Form.Control as='textarea' name='description' onChange={onChange} value={description} placeholder='Fuerzo la puerta' />
+						<Form.Control
+							as='textarea'
+							name='description'
+							onChange={onChange}
+							value={choiceObj.description}
+							placeholder='Fuerzo la puerta'
+						/>
 
 						{!simple && (
 							<>
 								<Form.Label>¿Que dificultad tiene?</Form.Label>
-								<Form.Control type='number' name='difficulty' onChange={onChange} value={difficulty} />
+								<Form.Control type='number' name='difficulty' onChange={onChange} value={choiceObj.difficulty} />
 								{choice ? null : (
 									<Form.Text>
 										Dificultades de 10 son adecuadas para una persona media, 15 son para expertos y 20 para verdaderos prodígios.
@@ -102,7 +108,7 @@ function ChoiceForm(props) {
 					{!simple && (
 						<Form.Group controlId='choice'>
 							<Form.Label>Cuanta experiencia da el éxito:</Form.Label>
-							<Form.Control name='pxGranted' onChange={onChange} value={pxGranted} placeholder='100' type='number' />
+							<Form.Control name='pxGranted' onChange={onChange} value={choiceObj.pxGranted} placeholder='100' type='number' />
 						</Form.Group>
 					)}
 				</Card.Body>

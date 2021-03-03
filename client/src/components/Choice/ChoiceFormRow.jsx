@@ -26,23 +26,23 @@ const Col4 = styled.div`
 `
 
 const IconCross = styled.div`
-	border-radius: '5px';
-	padding: '2px';
-	margin-right: '20px';
-	height: '30px';
-	width: '30px';
-	background-color: 'red';
-	text-align: 'center';
+	border-radius: 5px;
+	padding: 2px;
+	margin-right: 20px;
+	height: 30px;
+	width: 30px;
+	background-color: red;
+	text-align: center;
 `
 
 const IconTick = styled.div`
-	border-radius: '5px';
-	padding: '2px';
-	margin-right: '20px';
-	height: '30px';
-	width: '30px';
-	background-color: 'green';
-	text-align: 'center';
+	border-radius: 5px;
+	padding: 2px;
+	margin-right: 20px;
+	height: 30px;
+	width: 30px;
+	background-color: green;
+	text-align: center;
 `
 
 function ChoiceFormRow(props) {
@@ -175,11 +175,11 @@ function ChoiceFormRow(props) {
 								<option value='null'>Ninguno</option>
 								{chapterList.map(chapter =>
 									chapter._id === successTargetChapter ? (
-										<option selected value={choiceObj.chapter._id}>
+										<option selected value={chapter._id}>
 											{chapter.title}
 										</option>
 									) : (
-										<option value={choiceObj.chapter._id}>{chapter.title}</option>
+										<option value={chapter._id}>{chapter.title}</option>
 									)
 								)}
 							</select>
@@ -192,11 +192,11 @@ function ChoiceFormRow(props) {
 									<option value='null'>Ninguno</option>
 									{chapterList.map(chapter =>
 										chapter._id === failureTargetChapter ? (
-											<option selected value={choiceObj.chapter._id}>
+											<option selected value={chapter._id}>
 												{chapter.title}
 											</option>
 										) : (
-											<option value={choiceObj.chapter._id}>{chapter.title}</option>
+											<option value={chapter._id}>{chapter.title}</option>
 										)
 									)}
 								</select>

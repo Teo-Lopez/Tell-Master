@@ -25,6 +25,26 @@ const Col4 = styled.div`
 	/* background-color: ${props => props.theme.background.modals}; */
 `
 
+const IconCross = styled.div`
+	border-radius: '5px';
+	padding: '2px';
+	margin-right: '20px';
+	height: '30px';
+	width: '30px';
+	background-color: 'red';
+	text-align: 'center';
+`
+
+const IconTick = styled.div`
+	border-radius: '5px';
+	padding: '2px';
+	margin-right: '20px';
+	height: '30px';
+	width: '30px';
+	background-color: 'green';
+	text-align: 'center';
+`
+
 function ChoiceFormRow(props) {
 	const { finishChoiceForm, idx, choice, toogleCard, closeChoiceForm, match, simple } = props
 	const ChapterService = new chapterService()
@@ -81,36 +101,16 @@ function ChoiceFormRow(props) {
 	return (
 		<ChoiceFormWrapper>
 			<Row>
-				<div
+				<IconCross
 					onClick={() => {
 						closeChoiceForm ? closeChoiceForm(idx) : toogleCard(idx)
 					}}
-					style={{
-						borderRadius: '5px',
-						padding: '2px',
-						marginRight: '20px',
-						height: '30px',
-						width: '30px',
-						backgroundColor: 'red',
-						textAlign: 'center',
-					}}
 				>
 					<i className='fas fa-times'></i>
-				</div>
-				<div
-					onClick={submitForm}
-					style={{
-						borderRadius: '5px',
-						padding: '2px',
-						marginRight: '20px',
-						height: '30px',
-						width: '30px',
-						backgroundColor: 'green',
-						textAlign: 'center',
-					}}
-				>
+				</IconCross>
+				<IconTick onClick={submitForm}>
 					<i className='fas fa-check'></i>
-				</div>
+				</IconTick>
 			</Row>
 			<form onSubmit={submitForm} className='choiceForm'>
 				<Row>

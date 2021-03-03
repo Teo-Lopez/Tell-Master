@@ -29,10 +29,18 @@ function ChoiceFormRow(props) {
 	const { finishChoiceForm, idx, choice, toogleCard, closeChoiceForm, match, simple } = props
 	const ChapterService = new chapterService()
 	const ChoicesService = new choicesService()
-	const [description, setDescription] = useState(choice ? choice.description : '')
-	const [difficulty, setDifficulty] = useState(choice ? choice.trial.difficulty : 10)
-	const [characteristic, setCharacteristic] = useState(choice ? choice.trial.characteristic : 'str')
-	const [pxGranted, setPxGranted] = useState(choice ? choice.pxGranted : 0)
+	const [choiceObj, setChoiceObj] = useState(
+		choice
+			? choice
+			: {
+					description: '',
+					trial: { difficulty: simple ? -10 : 10, characteristic: 'str' },
+					pxGranted: 0,
+					successTargetChapter: null,
+					failureTargetChapter: null,
+			  }
+	)
+
 	const [successTargetChapter, setSuccessTargetChapter] = useState(choice ? choice.successTargetChapter : null)
 	const [failureTargetChapter, setFailureTargetChapter] = useState(choice ? choice.failureTargetChapter : null)
 	const [chapterList, setChapterList] = useState([])
@@ -57,59 +65,16 @@ function ChoiceFormRow(props) {
 
 	function submitForm(e) {
 		e.preventDefault()
-		const trial = { difficulty, characteristic }
-		if (choice && simple) {
-			choice.trial = { difficulty: -10, characteristic: 'str' }
-			choice.description = description
-			choice.pxGranted = 0
-			choice.successTargetChapter = successTargetChapter
-			choice.failureTargetChapter = successTargetChapter
-			updateChoice(choice)
-		} else if (choice) {
-			choice.trial = trial
-			choice.description = description
-			choice.pxGranted = pxGranted
-			choice.successTargetChapter = successTargetChapter
-			choice.failureTargetChapter = failureTargetChapter
-			updateChoice(choice)
-		} else if (simple) {
-			const newChoice = {
-				description,
-				trial: { difficulty: -10, characteristic: 'str' },
-				pxGranted: 0,
-				successTargetChapter,
-				failureTargetChapter: successTargetChapter,
-			}
-			createChoice(newChoice)
-		} else {
-			const newChoice = { description, trial, pxGranted, successTargetChapter, failureTargetChapter }
-			createChoice(newChoice)
-		}
+		if (choice) updateChoice(choiceObj)
+		else createChoice(choiceObj)
 	}
 
 	function onChange(e) {
 		const { name, value } = e.currentTarget
-		switch (name) {
-			case 'description':
-				setDescription(value)
-				break
-			case 'difficulty':
-				setDifficulty(value)
-				break
-			case 'characteristic':
-				setCharacteristic(value)
-				break
-			case 'pxGranted':
-				setPxGranted(value)
-				break
-			case 'successTargetChapter':
-				setSuccessTargetChapter(value)
-				break
-			case 'failureTargetChapter':
-				setFailureTargetChapter(value)
-				break
-			default:
-				throw Error('Algo ha ido mal con el formulario')
+		if (name === 'difficulty' || name === 'characteristic') {
+			setChoiceObj({ ...choiceObj, trial: { ...choiceObj.trial, [name]: value } })
+		} else {
+			setChoiceObj({ ...choiceObj, [name]: value })
 		}
 	}
 
@@ -152,7 +117,13 @@ function ChoiceFormRow(props) {
 					<Col4>
 						<label>
 							Describe la elección:
-							<textarea id='description' name='description' onChange={onChange} value={description} placeholder='Fuerzo la puerta' />
+							<textarea
+								id='description'
+								name='description'
+								onChange={onChange}
+								value={choiceObj.description}
+								placeholder='Fuerzo la puerta'
+							/>
 						</label>
 					</Col4>
 					<Col4>
@@ -165,7 +136,7 @@ function ChoiceFormRow(props) {
 										type='number'
 										name='difficulty'
 										onChange={onChange}
-										value={difficulty}
+										value={choiceObj.trial.difficulty}
 										placeholder='Fuerzo la puerta'
 									/>
 								</label>
@@ -193,7 +164,7 @@ function ChoiceFormRow(props) {
 						{!simple && (
 							<label>
 								Cuanta experiencia da el éxito:
-								<input id='pxGranted' name='pxGranted' onChange={onChange} value={pxGranted} placeholder='100' type='number' />
+								<input id='pxGranted' name='pxGranted' onChange={onChange} value={choiceObj.pxGranted} placeholder='100' type='number' />
 							</label>
 						)}
 					</Col4>
@@ -204,11 +175,11 @@ function ChoiceFormRow(props) {
 								<option value='null'>Ninguno</option>
 								{chapterList.map(chapter =>
 									chapter._id === successTargetChapter ? (
-										<option selected value={chapter._id}>
+										<option selected value={choiceObj.chapter._id}>
 											{chapter.title}
 										</option>
 									) : (
-										<option value={chapter._id}>{chapter.title}</option>
+										<option value={choiceObj.chapter._id}>{chapter.title}</option>
 									)
 								)}
 							</select>
@@ -221,11 +192,11 @@ function ChoiceFormRow(props) {
 									<option value='null'>Ninguno</option>
 									{chapterList.map(chapter =>
 										chapter._id === failureTargetChapter ? (
-											<option selected value={chapter._id}>
+											<option selected value={choiceObj.chapter._id}>
 												{chapter.title}
 											</option>
 										) : (
-											<option value={chapter._id}>{chapter.title}</option>
+											<option value={choiceObj.chapter._id}>{chapter.title}</option>
 										)
 									)}
 								</select>

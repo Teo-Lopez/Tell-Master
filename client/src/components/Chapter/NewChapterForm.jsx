@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { Button } from '../shared/Buttons'
 import ChoiceForm from '../Choice/ChoiceForm'
-import ChoiceFormRow from '../Choice/ChoiceFormRow'
 import ChoiceCard from '../Choice/ChoiceCard'
 import chapterService from '../../services/chapter.service'
 import { withRouter } from 'react-router-dom'
@@ -10,7 +9,6 @@ import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import CenteredModal from '../utils/Modal'
 import styled, { keyframes } from 'styled-components'
-import CustomSpinner from '../shared/Spinner'
 const ChapterService = new chapterService()
 
 //#region styles
@@ -204,7 +202,14 @@ function NewChapterForm(props) {
 							</div>
 						</div>
 						{choiceForms.map((eachform, idx) => (
-							<div key={idx}>{React.cloneElement(<ChoiceFormRow />, { idx, finishChoiceForm, closeChoiceForm, simple })}</div>
+							<div key={idx}>
+								{React.cloneElement(
+									<CenteredModal noHeader show={true}>
+										<ChoiceForm />
+									</CenteredModal>,
+									{ idx, finishChoiceForm, closeChoiceForm, simple, toogleCard }
+								)}
+							</div>
 						))}
 					</div>
 				</>

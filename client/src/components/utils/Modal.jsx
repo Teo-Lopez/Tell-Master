@@ -24,7 +24,7 @@ function CenteredModal(props) {
 					<Modal.Title id='contained-modal-title-vcenter'>{title}</Modal.Title>
 				</Modal.Header>
 			)}
-			<Modal.Body>{cloneElement(children, { show, onHide })}</Modal.Body>
+			<Modal.Body>{cloneElement(children, { ...props })}</Modal.Body>
 		</Modal>
 	)
 }

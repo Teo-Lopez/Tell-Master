@@ -42,7 +42,7 @@ const EditorWrapper = styled.div``
 //#endregion styles
 
 function NewChapterForm(props) {
-	const { updateLastGames, match, chapter, getAllChapters, closeNewChapterForm, simple, setFetch } = props
+	const { updateLastGames, match, chapter, getAllChapters, closeNewChapterForm, simple } = props
 	let gameId = match.params.gameId
 
 	const [description, setDescription] = useState(chapter?.description || '')

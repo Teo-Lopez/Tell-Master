@@ -8,10 +8,17 @@ const ChoicesService = new choicesService()
 
 function ChoiceForm(props) {
 	const { finishChoiceForm, idx, choice, toogleCard, closeChoiceForm, match, simple } = props
-	const [description, setDescription] = useState(choice ? choice.description : '')
-	const [difficulty, setDifficulty] = useState(choice ? choice.trial.difficulty : 10)
-	const [characteristic, setCharacteristic] = useState(choice ? choice.trial.characteristic : 'str')
-	const [pxGranted, setPxGranted] = useState(choice ? choice.pxGranted : 0)
+	const [choiceObj, setChoiceObj] = useState(
+		choice
+			? choice
+			: {
+					description: '',
+					trial: { difficulty: simple ? -10 : 10, characteristic: 'str' },
+					pxGranted: 0,
+					successTargetChapter: null,
+					failureTargetChapter: null,
+			  }
+	)
 	const [successTargetChapter, setSuccessTargetChapter] = useState(choice ? choice.successTargetChapter : null)
 	const [failureTargetChapter, setFailureTargetChapter] = useState(choice ? choice.failureTargetChapter : null)
 	const [chapterList, setChapterList] = useState([])
@@ -33,62 +40,18 @@ function ChoiceForm(props) {
 			toogleCard(idx)
 		})
 	}
-
 	function submitForm(e) {
 		e.preventDefault()
-		const trial = { difficulty, characteristic }
-		if (choice && simple) {
-			choice.trial = { difficulty: -10, characteristic: 'str' }
-			choice.description = description
-			choice.pxGranted = 0
-			choice.successTargetChapter = successTargetChapter
-			choice.failureTargetChapter = successTargetChapter
-			updateChoice(choice)
-		} else if (choice) {
-			choice.trial = trial
-			choice.description = description
-			choice.pxGranted = pxGranted
-			choice.successTargetChapter = successTargetChapter
-			choice.failureTargetChapter = failureTargetChapter
-			updateChoice(choice)
-		} else if (simple) {
-			const newChoice = {
-				description,
-				trial: { difficulty: -10, characteristic: 'str' },
-				pxGranted: 0,
-				successTargetChapter,
-				failureTargetChapter: successTargetChapter,
-			}
-			createChoice(newChoice)
-		} else {
-			const newChoice = { description, trial, pxGranted, successTargetChapter, failureTargetChapter }
-			createChoice(newChoice)
-		}
+		if (choice) updateChoice(choiceObj)
+		else createChoice(choiceObj)
 	}
 
 	function onChange(e) {
 		const { name, value } = e.currentTarget
-		switch (name) {
-			case 'description':
-				setDescription(value)
-				break
-			case 'difficulty':
-				setDifficulty(value)
-				break
-			case 'characteristic':
-				setCharacteristic(value)
-				break
-			case 'pxGranted':
-				setPxGranted(value)
-				break
-			case 'successTargetChapter':
-				setSuccessTargetChapter(value)
-				break
-			case 'failureTargetChapter':
-				setFailureTargetChapter(value)
-				break
-			default:
-				throw Error('Algo ha ido mal con el formulario')
+		if (name === 'difficulty' || name === 'characteristic') {
+			setChoiceObj({ ...choiceObj, trial: { ...choiceObj.trial, [name]: value } })
+		} else {
+			setChoiceObj({ ...choiceObj, [name]: value })
 		}
 	}
 

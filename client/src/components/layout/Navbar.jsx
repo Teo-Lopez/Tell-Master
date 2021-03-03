@@ -2,9 +2,9 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Navbar, Nav, NavDropdown, Spinner } from 'react-bootstrap'
 import styled from 'styled-components'
-import logo from '../invertedlogo.png'
+import logo from './invertedlogo.png'
 import Searchbar from './Searchbar'
-import gamesService from '../services/games.service'
+import gamesService from '../../services/games.service'
 const GameService = new gamesService()
 
 const fetchGames = title => GameService.getByTitle(title)

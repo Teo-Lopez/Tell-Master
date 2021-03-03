@@ -1,9 +1,9 @@
 import React, { useEffect, useContext, useState } from 'react'
-import savedGamesService from '../services/savedGames.service'
-import UserContext from '../UserContext'
-import CustomSpinner from '../components/shared/Spinner'
+import savedGamesService from '../../services/savedGames.service'
+import UserContext from '../../UserContext'
+import CustomSpinner from '../shared/Spinner'
 import { Row, Col } from 'react-bootstrap'
-import GameCard from '../components/Game/GameCard'
+import GameCard from '../Game/GameCard'
 const SavedGamesService = new savedGamesService()
 
 function MyGames(props) {

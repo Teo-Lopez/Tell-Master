@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import NewGameForm from '../components/Game/NewGameForm'
-import ModeSelect from '../components/Game/ModeSelect'
+import NewGameForm from '../Game/NewGameForm'
+import ModeSelect from '../Game/ModeSelect'
 function NewGame({ loggedInUser, updateLastGames }) {
 	const [simple, setSimple] = useState(null)
 	if (simple === null) {

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Row, Col } from 'react-bootstrap'
 import playingTable from './assets/playingTable.png'
 import { Link } from 'react-router-dom'
-import UserContext from '../UserContext'
+import UserContext from '../../UserContext'
 
 const Hero = styled.section`
 	background-color: ${props => props.theme.background.lightOverlay};

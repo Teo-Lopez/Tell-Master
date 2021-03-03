@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
-import savedGamesService from '../services/savedGames.service'
-import Chapter from '../components/Chapter/Chapter'
+import savedGamesService from '../../services/savedGames.service'
+import Chapter from '../Chapter/Chapter'
 import { Spinner } from 'react-bootstrap'
 const SavedGamesService = new savedGamesService()
 

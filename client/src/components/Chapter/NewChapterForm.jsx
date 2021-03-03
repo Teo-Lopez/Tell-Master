@@ -7,7 +7,7 @@ import chapterService from '../../services/chapter.service'
 import { withRouter } from 'react-router-dom'
 import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import CenteredModal from '../utils/Modal'
+import CenteredModal from '../shared/Modal'
 import styled, { keyframes } from 'styled-components'
 const ChapterService = new chapterService()
 

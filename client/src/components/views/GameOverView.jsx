@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router'
-import gamesService from '../services/games.service'
-import savedGamesService from '../services/savedGames.service'
-import NewSaveGame from '../components/Game/NewSaveGame'
-import GameBriefing from '../components/Game/GameBriefing'
+import gamesService from '../../services/games.service'
+import savedGamesService from '../../services/savedGames.service'
+import NewSaveGame from '../Game/NewSaveGame'
+import GameBriefing from '../Game/GameBriefing'
 import { Row, Col } from 'react-bootstrap'
 const GamesService = new gamesService()
 const SavedGamesService = new savedGamesService()
@@ -26,7 +26,7 @@ function GameOverView(props) {
 	}
 
 	return loggedInUser === null ? (
-		<GameBriefing game={game} noUser={props.noUser} />
+		<GameBriefing game={game} noUser={!loggedInUser} />
 	) : !game ? (
 		<>Loading</>
 	) : game.simple ? (

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import playingTable from './assets/playingTable.png'
-import D6 from '../components/Game/assets/d6book.svg'
-import D20 from '../components/Game/assets/d20.svg'
-import gamesService from '../services/games.service'
+import D6 from '../Game/assets/d6book.svg'
+import D20 from '../Game/assets/d20.svg'
+import gamesService from '../../services/games.service'
 
 const GamesService = new gamesService()
 

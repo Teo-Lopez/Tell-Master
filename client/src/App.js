@@ -1,11 +1,11 @@
 //#region IMPORTS
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import Navbar from './layout/Navbar'
+import Navbar from './components/layout/Navbar'
 import authService from './services/auth.service'
 import LoginForm from './components/Auth/LoginForm'
 import SignupForm from './components/Auth/SignupForm'
-import CenteredModal from './components/utils/Modal'
+import CenteredModal from './components/shared/Modal'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { UserProvider } from './UserContext'
 import { darkTheme } from './themeContext'

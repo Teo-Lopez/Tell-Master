@@ -28,7 +28,7 @@ const PointHeader = styled.div`
 	cursor: pointer;
 `
 
-// const isOwner = (creatorId, userId) => creatorId === userId
+const isOwner = (creatorId, userId) => creatorId === userId
 
 const getAllChapters = id => ChapterService.getChaptersFromGame(id).then(allChapters => allChapters)
 const RestaurateScroll = createGlobalStyle`
@@ -37,7 +37,7 @@ const RestaurateScroll = createGlobalStyle`
     }
   `
 
-function EditGame({ loggedInUser, match }) {
+function EditGame({ loggedInUser, match, history }) {
 	const [allChapters, setallChapters] = useState(null)
 	const [showNewForm, setShowNewForm] = useState(false)
 	const [simple, setSimple] = useState(null)
@@ -53,7 +53,7 @@ function EditGame({ loggedInUser, match }) {
 
 	useEffect(() => {
 		GameService.getOneGame(match.params.gameId).then(game => {
-			// isOwner(game.creator, loggedInUser._id) && history.replace(`/read/${match.params.gameId}`)
+			!isOwner(game.creator, loggedInUser._id) && history.replace(`/read/${match.params.gameId}`)
 			setSimple(game.simple)
 		})
 	}, [match.params.gameId])

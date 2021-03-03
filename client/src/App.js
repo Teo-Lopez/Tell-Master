@@ -97,7 +97,7 @@ function App() {
 								<Route
 									exact
 									path='/modify/:gameId'
-									render={({ match, history }) => <EditGame history={history} match={match} loggedInUser={loggedInUser} />}
+									render={(props) => <EditGame {...props} loggedInUser={loggedInUser} />}
 								/>
 								<Route exact path='/chapter/:savedGameId' render={() => <ChapterWrapper />} />
 								<Route exact path='/read/:gameId' render={() => <GameOverview setUser={setUser} loggedInUser={loggedInUser} />} />

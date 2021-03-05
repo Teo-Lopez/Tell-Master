@@ -15,7 +15,7 @@ const ChapterService = new chapterService()
 
 const ChapterFormWrapper = styled.div`
 	background-color: ${({ theme }) => theme.background.lightOverlay};
-	padding: 20px;
+
 
 	input[name='title'] {
 		width: 600px;

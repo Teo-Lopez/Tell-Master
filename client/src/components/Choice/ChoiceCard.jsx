@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
-import arrow from './arrow.png'
+import arrow from '../shared/arrow.png'
 const charsDict = {
 	str: 'Fuerza',
 	des: 'Destreza',

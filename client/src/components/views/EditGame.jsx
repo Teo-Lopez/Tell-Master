@@ -5,6 +5,7 @@ import NewChapterForm from '../Chapter/NewChapterForm'
 import chapterService from '../../services/chapter.service'
 import styled, { createGlobalStyle } from 'styled-components'
 import { Button } from '../shared/Buttons'
+import arrowIcon from '../shared/arrow.png'
 const ChapterService = new chapterService()
 const GameService = new gameService()
 
@@ -12,36 +13,48 @@ const List = styled.div`
 	background-color: ${props => props.theme.background.modals};
 	border-radius: 2px;
 	transition: all 2s;
+	margin-bottom: 16px;
 `
 
 const ListPoint = styled.div`
 	border-radius: 3px;
 	background-color: ${props => props.theme.background.list};
-	padding: 15px;
-	margin-bottom: 15px;
+	padding: ${({ active }) => (active ? '15px 15px 0 15px' : '15px')};
+
 	transition: all 2s;
-	&:hover {
-	}
 `
 
 const PointHeader = styled.div`
 	cursor: pointer;
+	display: flex;
+	align-items: center;
+	margin: 8px 0;
+	.arrow {
+		/* transition: rotation 0.3s ease-in-out; */
+		margin: 0 10px;
+		width: 35px;
+		transition: all 0.6s;
+		transform: ${props => (props.active ? 'rotate(180deg)' : 'rotate(0)')};
+	}
+
+	p {
+		margin: 0;
+	}
+`
+
+const PointBody = styled.div`
+	padding: 0px 16px;
 `
 
 const isOwner = (creatorId, userId) => creatorId === userId
 
 const getAllChapters = id => ChapterService.getChaptersFromGame(id).then(allChapters => allChapters)
-const RestaurateScroll = createGlobalStyle`
-    html, body {
-      overflow: auto
-    }
-  `
 
 function EditGame({ loggedInUser, match, history }) {
 	const [allChapters, setallChapters] = useState(null)
 	const [showNewForm, setShowNewForm] = useState(false)
 	const [simple, setSimple] = useState(null)
-	const [fetch, setFetch] = useState(true)
+	const [ready, setReady] = useState(true)
 
 	function expandChapter(idx) {
 		const allChaptersCopy = [...allChapters]
@@ -62,52 +75,53 @@ function EditGame({ loggedInUser, match, history }) {
 		getAllChapters(match.params.gameId).then(chapters => {
 			console.log('pues me lanzo')
 			setallChapters(chapters)
-			setFetch(!fetch)
+			setReady(!ready)
 		})
 	}, [match.params.gameId])
 
 	return (
 		<>
-			{!fetch ? (
+			{!ready ? (
 				<>
 					<List>
 						{allChapters?.map((chapter, idx) => (
 							<ListPoint key={idx}>
 								<PointHeader active={chapter.show} onClick={() => expandChapter(idx)}>
-									Capítulo {idx + 1}:
+									<img className='arrow' src={arrowIcon}></img>
+									<p>Capítulo {idx + 1}:</p>
 								</PointHeader>
-								{chapter.show && (
-									<NewChapterForm
-										simple={simple}
-										chapter={chapter}
-										getAllChapters={getAllChapters}
-										loggedInUser={loggedInUser}
-										setallChapters={setallChapters}
-									></NewChapterForm>
-								)}
+								<PointBody>
+									{chapter.show && (
+										<NewChapterForm
+											simple={simple}
+											chapter={chapter}
+											getAllChapters={getAllChapters}
+											loggedInUser={loggedInUser}
+											setallChapters={setallChapters}
+										></NewChapterForm>
+									)}
+								</PointBody>
 							</ListPoint>
 						))}
 					</List>
 
 					<div>
-						<div>
-							<div style={{ margin: '10px 0' }}>
-								<Button
-									onClick={() => setShowNewForm(!showNewForm)}
-									text={allChapters ? 'Escribe un nuevo capitulo' : 'Escribe el primer capítulo'}
-								/>
-							</div>
-							{showNewForm && (
-								<NewChapterForm
-									simple={simple}
-									first={!!!allChapters}
-									closeNewChapterForm={() => setShowNewForm(false)}
-									getAllChapters={getAllChapters}
-									loggedInUser={loggedInUser}
-									setallChapters={setallChapters}
-								></NewChapterForm>
-							)}
+						<div style={{ margin: '10px 0' }}>
+							<Button
+								onClick={() => setShowNewForm(!showNewForm)}
+								text={allChapters ? 'Escribe un nuevo capitulo' : 'Escribe el primer capítulo'}
+							/>
 						</div>
+						{showNewForm && (
+							<NewChapterForm
+								simple={simple}
+								first={!!!allChapters}
+								closeNewChapterForm={() => setShowNewForm(false)}
+								getAllChapters={getAllChapters}
+								loggedInUser={loggedInUser}
+								setallChapters={setallChapters}
+							></NewChapterForm>
+						)}
 					</div>
 				</>
 			) : (

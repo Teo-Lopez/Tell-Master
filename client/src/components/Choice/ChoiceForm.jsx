@@ -111,27 +111,12 @@ function ChoiceForm(props) {
 							<Form.Control name='pxGranted' onChange={onChange} value={choiceObj.pxGranted} placeholder='100' type='number' />
 						</Form.Group>
 					)}
-				</Card.Body>
-				<Form.Group controlId='successTargetChapter'>
-					<Form.Label>{!simple ? 'Cap de destino con exito:' : 'Cap de destino'}</Form.Label>
-					<Form.Control as='select' custom name='successTargetChapter' onChange={onChange}>
-						<option value='null'>Ninguno</option>
-						{chapterList.map(chapter =>
-							chapter._id === successTargetChapter ? (
-								<option dangerouslySetInnerHTML={{ __html: chapter.title }} selected value={chapter._id}></option>
-							) : (
-								<option dangerouslySetInnerHTML={{ __html: chapter.title }} value={chapter._id}></option>
-							)
-						)}
-					</Form.Control>
-				</Form.Group>
-				{!simple && (
-					<Form.Group controlId='failureTargetChapter'>
-						<Form.Label>Cap de destino con fracaso:</Form.Label>
-						<Form.Control as='select' name='failureTargetChapter' custom onChange={onChange}>
+					<Form.Group controlId='successTargetChapter'>
+						<Form.Label>{!simple ? 'Cap de destino con exito:' : 'Cap de destino'}</Form.Label>
+						<Form.Control as='select' custom name='successTargetChapter' onChange={onChange}>
 							<option value='null'>Ninguno</option>
 							{chapterList.map(chapter =>
-								chapter._id === failureTargetChapter ? (
+								chapter._id === successTargetChapter ? (
 									<option dangerouslySetInnerHTML={{ __html: chapter.title }} selected value={chapter._id}></option>
 								) : (
 									<option dangerouslySetInnerHTML={{ __html: chapter.title }} value={chapter._id}></option>
@@ -139,7 +124,22 @@ function ChoiceForm(props) {
 							)}
 						</Form.Control>
 					</Form.Group>
-				)}
+					{!simple && (
+						<Form.Group controlId='failureTargetChapter'>
+							<Form.Label>Cap de destino con fracaso:</Form.Label>
+							<Form.Control as='select' name='failureTargetChapter' custom onChange={onChange}>
+								<option value='null'>Ninguno</option>
+								{chapterList.map(chapter =>
+									chapter._id === failureTargetChapter ? (
+										<option dangerouslySetInnerHTML={{ __html: chapter.title }} selected value={chapter._id}></option>
+									) : (
+										<option dangerouslySetInnerHTML={{ __html: chapter.title }} value={chapter._id}></option>
+									)
+								)}
+							</Form.Control>
+						</Form.Group>
+					)}
+				</Card.Body>
 			</Form>
 		</Card>
 	)

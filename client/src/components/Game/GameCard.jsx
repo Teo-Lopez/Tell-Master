@@ -7,10 +7,11 @@ function GameCard({ game }) {
 	const loggedInUser = useContext(UserContext)
 
 	return (
-		<Card bg='dark' style={{ width: '18rem', margin: '10px 0' }}>
+		<Card bg='dark' style={{ height: "200px", width: '16rem', margin: '10px 0' }}>
+			<Card.Header>
+				{game.title}
+			</Card.Header>
 			<Card.Body>
-				<Card.Title>{game.title}</Card.Title>
-				{!game.simple && <Card.Subtitle className='mb-2 text-muted'>Nivel mínimo: {game.minLevel}</Card.Subtitle>}
 				<Card.Text>{game.description}</Card.Text>
 				<Card.Link as={Link} to={`/read/${game._id}`}>
 					Jugar

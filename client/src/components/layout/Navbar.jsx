@@ -32,50 +32,55 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
 	return loggedInUser === false ? (
 		<Spinner />
 	) : loggedInUser === null ? (
-		<StyledNavbar>
-			<Nav style={{ width: '60%' }}>
-				<Nav.Link as={NavLink} to={'/'}>
-					<img style={{ height: '36px' }} src={logo} alt='Logo de dado icosaédrico'></img>
-				</Nav.Link>
-				<Nav.Link onClick={showLogin}>Login</Nav.Link>
-				<Nav.Link onClick={showSignup}>Signup</Nav.Link>
-			</Nav>
-
-			<Nav style={{ width: '40%', justifyContent: 'flex-end' }}>
-				<Searchbar fetchGames={fetchGames} />
-			</Nav>
+		<StyledNavbar collapseOnSelect expand="lg">
+			<Navbar.Brand as={NavLink} to={'/'}>
+				<img style={{ height: '36px' }} src={logo} alt='Logo de dado icosaédrico'></img>
+			</Navbar.Brand>
+			<Navbar.Toggle style={{ backgroundColor: "whitesmoke" }} aria-controls="responsive-navbar-nav" />
+			<Navbar.Collapse id="responsive-navbar-nav">
+				<Nav style={{ width: '60%' }}>
+					<Nav.Link onClick={showLogin}>Login</Nav.Link>
+					<Nav.Link onClick={showSignup}>Signup</Nav.Link>
+				</Nav>
+				<Nav style={{ width: '40%', justifyContent: 'flex-end' }}>
+					<Searchbar fetchGames={fetchGames} />
+				</Nav>
+			</Navbar.Collapse>
 		</StyledNavbar>
 	) : (
-		<StyledNavbar>
-			<Nav style={{ width: '60%' }}>
-				<Nav.Link as={NavLink} to={'/'}>
-					<img style={{ height: '36px' }} src={logo} alt='Logo de dado icosaédrico'></img>
-				</Nav.Link>
-				<NavDropdown title='Mis historias' id='nav-dropdown' drop='down'>
-					<Nav.Link as={NavLink} to={'/myGames'}>
-						En juego
+		<StyledNavbar collapseOnSelect expand="lg">
+			<Navbar.Brand as={NavLink} to={'/'}>
+				<img style={{ height: '36px' }} src={logo} alt='Logo de dado icosaédrico'></img>
+			</Navbar.Brand>
+			<Navbar.Toggle style={{ backgroundColor: "whitesmoke" }} aria-controls="responsive-navbar-nav" />
+			<Navbar.Collapse id="responsive-navbar-nav">
+				<Nav style={{ width: '60%' }}>
+					<NavDropdown title='Mis historias' id='nav-dropdown' drop='down'>
+						<Nav.Link as={NavLink} to={'/myGames'}>
+							En juego
 					</Nav.Link>
-					<NavDropdown.Divider />
+						<NavDropdown.Divider />
 
-					<Nav.Link as={NavLink} to={'/myCreatedGames'}>
-						Creadas por mí
+						<Nav.Link as={NavLink} to={'/myCreatedGames'}>
+							Creadas por mí
 					</Nav.Link>
-				</NavDropdown>
-				<Nav.Link as={NavLink} to={'/myCharacters'}>
-					Mis personajes
+					</NavDropdown>
+					<Nav.Link as={NavLink} to={'/myCharacters'}>
+						Mis personajes
 				</Nav.Link>
-				<Nav.Link as={NavLink} to={'/newGame'}>
-					Crear Partida
+					<Nav.Link as={NavLink} to={'/newGame'}>
+						Crear Partida
 				</Nav.Link>
-				<Nav.Link href='#' onClick={logout}>
-					Logout
+					<Nav.Link href='#' onClick={logout}>
+						Logout
 				</Nav.Link>
-			</Nav>
-			<Nav style={{ width: '40%', justifyContent: 'flex-end' }}>
-				<Nav.Item style={{ width: '100%' }}>
-					<Searchbar fetchGames={fetchGames} />
-				</Nav.Item>
-			</Nav>
+				</Nav>
+				<Nav style={{ width: '40%', justifyContent: 'flex-end' }}>
+					<Nav.Item style={{ width: '100%' }}>
+						<Searchbar fetchGames={fetchGames} />
+					</Nav.Item>
+				</Nav>
+			</Navbar.Collapse>
 		</StyledNavbar>
 	)
 }

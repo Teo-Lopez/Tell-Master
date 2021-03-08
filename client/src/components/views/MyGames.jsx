@@ -21,7 +21,7 @@ function MyGames(props) {
 		<Row>
 			{ready ? (
 				savedGames?.map(savedGame => (
-					<Col lg={3}>
+					<Col lg={3} md={6} sm={12}>
 						<GameCard game={savedGame.game} />
 					</Col>
 				)) || <p>Aún no tienes historias en juego.</p>

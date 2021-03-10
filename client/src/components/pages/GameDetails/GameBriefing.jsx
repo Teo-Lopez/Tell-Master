@@ -6,8 +6,8 @@ import UserContext from "../../../UserContext";
 import StartPlayingButton from "./StartPlayingButton";
 import SimpleStartPlaying from "./SimpleStartPlaying";
 function GameBriefing(props) {
-  const { game, savedGames, simple, updateSavedGames, setUser, noUser } = props;
-  const loggedInUser = useContext(UserContext);
+  const { game, savedGames, simple, updateSavedGames, noUser } = props;
+  const {loggedInUser, setUser} = useContext(UserContext);
 
   return simple ? (
     <SimpleStartPlaying

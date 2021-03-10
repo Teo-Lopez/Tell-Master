@@ -19,8 +19,6 @@ function ChoiceForm(props) {
 					failureTargetChapter: null,
 			  }
 	)
-	const [successTargetChapter, setSuccessTargetChapter] = useState(choice ? choice.successTargetChapter : null)
-	const [failureTargetChapter, setFailureTargetChapter] = useState(choice ? choice.failureTargetChapter : null)
 	const [chapterList, setChapterList] = useState([])
 
 	useEffect(() => {
@@ -116,7 +114,7 @@ function ChoiceForm(props) {
 						<Form.Control as='select' custom name='successTargetChapter' onChange={onChange}>
 							<option value='null'>Ninguno</option>
 							{chapterList.map(chapter =>
-								chapter._id === successTargetChapter ? (
+								chapter._id === choice.successTargetChapter ? (
 									<option dangerouslySetInnerHTML={{ __html: chapter.title }} selected value={chapter._id}></option>
 								) : (
 									<option dangerouslySetInnerHTML={{ __html: chapter.title }} value={chapter._id}></option>
@@ -130,7 +128,7 @@ function ChoiceForm(props) {
 							<Form.Control as='select' name='failureTargetChapter' custom onChange={onChange}>
 								<option value='null'>Ninguno</option>
 								{chapterList.map(chapter =>
-									chapter._id === failureTargetChapter ? (
+									chapter._id === choice.failureTargetChapter ? (
 										<option dangerouslySetInnerHTML={{ __html: chapter.title }} selected value={chapter._id}></option>
 									) : (
 										<option dangerouslySetInnerHTML={{ __html: chapter.title }} value={chapter._id}></option>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { Button } from '../shared/Buttons'
 import ChoiceForm from '../Choice/ChoiceForm'
@@ -8,14 +8,13 @@ import { withRouter } from 'react-router-dom'
 import CKEditor from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import CenteredModal from '../shared/Modal'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 const ChapterService = new chapterService()
 
 //#region styles
 
 const ChapterFormWrapper = styled.div`
 	background-color: ${({ theme }) => theme.background.lightOverlay};
-
 
 	input[name='title'] {
 		width: 600px;
@@ -40,31 +39,25 @@ const EditorWrapper = styled.div``
 //#endregion styles
 
 function NewChapterForm(props) {
-	const { updateLastGames, match, chapter, getAllChapters, closeNewChapterForm, simple } = props
-	let gameId = match.params.gameId
+	const { updateLastGames, getAllChapters, closeNewChapterForm, simple } = props
+	const providedChapter = props.chapter
+	//let gameId = match.params.gameId
 
-	const [description, setDescription] = useState(chapter?.description || '')
-	const [choices, setChoices] = useState(chapter?.choices || [])
+	const [chapter, setChapter] = useState({
+		description: providedChapter?.description || '',
+		choices: providedChapter?.choices || '',
+		title: providedChapter?.title || '',
+		last: providedChapter?.last,
+	})
 	const [choicesObj, setChoicesObj] = useState([])
 	const [choiceForms, setChoiceForms] = useState([])
-	const [title, setTitle] = useState(chapter?.title || '')
-	const [last, setLast] = useState(!!chapter?.last)
-	const [ready, setReady] = useState(!!chapter)
-
-	const populateThisChapter = chapter => {
-		setTitle(chapter.title)
-		setDescription(chapter.description)
-		setChoicesObj(chapter.choices)
-		setChoices(chapter.choices.filter(choice => choice._id))
-		setLast(chapter.last)
-	}
 
 	//#region Form Manipulation
 
-	function retrieveChoicesIds(id) {
-		const choicesCopy = [...choices]
-		choicesCopy.push(id)
-		setChoices(choicesCopy)
+	function saveNewChoice(id) {
+		const chapterCopy = [...chapter]
+		chapterCopy.choices.push(id)
+		setChapter(chapter)
 	}
 
 	function createChoiceCard(choiceObj) {
@@ -74,7 +67,7 @@ function NewChapterForm(props) {
 	}
 
 	function finishChoiceForm(id, idx, choiceObj) {
-		retrieveChoicesIds(id, idx)
+		saveNewChoice(id)
 		createChoiceCard(choiceObj)
 		closeChoiceForm(idx)
 	}
@@ -87,11 +80,11 @@ function NewChapterForm(props) {
 
 	function submitForm(e) {
 		e.preventDefault()
-		if (!description) return
-		if (chapter) {
-			updateChapter({ _id: chapter._id, description, choices, title, last })
+		if (!chapter.description) return
+		if (providedChapter) {
+			updateChapter(chapter)
 		} else {
-			createChapter({ description, choices, gameId, title, last })
+			createChapter(chapter)
 		}
 		closeNewChapterForm()
 	}
@@ -112,17 +105,8 @@ function NewChapterForm(props) {
 
 	function onChange(e) {
 		const { name, value, checked } = e.currentTarget
-		switch (name) {
-			case 'title':
-				setTitle(value)
-				break
-			case 'last':
-				console.log(checked)
-				setLast(checked)
-				break
-			default:
-				throw Error('Error onChange')
-		}
+		const chapterCopy = [...chapter]
+		chapterCopy[name] = name === 'last' ? checked : value
 	}
 
 	//#endregion Form Manipulation
@@ -132,7 +116,7 @@ function NewChapterForm(props) {
 			.then(createdChapter => {
 				getAllChapters()
 				updateLastGames()
-				populateThisChapter(createdChapter)
+				setChapter(createdChapter)
 			})
 			.catch(err => console.log(err))
 	}
@@ -141,38 +125,38 @@ function NewChapterForm(props) {
 		ChapterService.updateChapter(chapter)
 			.then(updatedChapter => {
 				updateLastGames()
-				populateThisChapter(updatedChapter)
+				setChapter(updatedChapter)
 				getAllChapters()
 			})
 			.catch(err => console.log(err))
 	}
 
 	return (
-		<ChapterFormWrapper ready={ready}>
+		<ChapterFormWrapper>
 			{
 				<>
 					<label>
-						<input onChange={onChange} placeholder='Capítulo #1.0 El comienzo' name='title' value={title} maxLength='230'></input>
+						<input onChange={onChange} placeholder='Capítulo #1.0 El comienzo' name='title' value={chapter.title} maxLength='230'></input>
 					</label>
 					<div>
 						<label>
 							<small>Si es el último capítulo de la aventura, marca esta casilla:</small>
-							<input onChange={onChange} name='last' checked={last} type='checkbox' />
+							<input onChange={onChange} name='last' checked={chapter.last} type='checkbox' />
 						</label>
 					</div>
 					<div className='.ck-editor'>
 						<EditorWrapper>
 							<CKEditor
 								editor={ClassicEditor}
-								data={description}
+								data={chapter.description}
 								placeholder='El texto del capitulo va aquí'
 								onInit={editor => {
 									// You can store the "editor" and use when it is needed.
 									console.log('Editor is ready to use!', editor)
 								}}
 								onChange={(event, editor) => {
-									const data = editor.getData()
-									setDescription(data)
+									const data = { name: 'description', value: editor.getData() }
+									onChange(data)
 								}}
 								onBlur={(event, editor) => {
 									// console.log('Blur.', editor)

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import gameService from '../../../services/games.service'
 import NewChapterForm from '../../Chapter/NewChapterForm'
 import chapterService from '../../../services/chapter.service'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 import CustomSpinner from '../../shared/Spinner'
 import { Button } from '../../shared/Buttons'
 import arrowIcon from '../../shared/arrow.png'
@@ -69,11 +69,10 @@ function EditGame({ loggedInUser, match, history }) {
 			!isOwner(game.creator, loggedInUser._id) && history.replace(`/read/${match.params.gameId}`)
 			setSimple(game.simple)
 		})
-	}, [match.params.gameId])
+	}, [match.params.gameId, loggedInUser._id, history])
 
 	useEffect(() => {
 		getAllChapters(match.params.gameId).then(chapters => {
-			console.log('pues me lanzo')
 			setallChapters(chapters)
 			setReady(!ready)
 		})
@@ -87,7 +86,7 @@ function EditGame({ loggedInUser, match, history }) {
 						{allChapters?.map((chapter, idx) => (
 							<ListPoint key={idx}>
 								<PointHeader active={chapter.show} onClick={() => expandChapter(idx)}>
-									<img className='arrow' src={arrowIcon}></img>
+									<img className='arrow' src={arrowIcon} alt="Icono de flecha"></img>
 									<p>Capítulo {idx + 1}:</p>
 								</PointHeader>
 								<PointBody>

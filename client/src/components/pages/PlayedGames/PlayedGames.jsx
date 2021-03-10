@@ -7,8 +7,8 @@ import { Row, Col } from 'react-bootstrap'
 import savedGamesService from '../../../services/savedGames.service'
 const SavedGamesService = new savedGamesService()
 
-function PlayedGames(props) {
-	const loggedInUser = useContext(UserContext)
+function PlayedGames() {
+	const {loggedInUser} = useContext(UserContext)
 	const [savedGames, setSavedGames] = useState(null)
 	const [ready, setReady] = useState(false)
 	useEffect(() => {

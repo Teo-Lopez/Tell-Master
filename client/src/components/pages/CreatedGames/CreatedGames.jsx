@@ -6,8 +6,8 @@ import UserContext from '../../../UserContext'
 import CustomSpinner from '../../shared/Spinner'
 const GamesService = new gamesService()
 
-function CreatedGames(props) {
-	const loggedInUser = useContext(UserContext)
+function CreatedGames() {
+	const {loggedInUser} = useContext(UserContext)
 	const [createdGames, setCreatedGames] = useState(null)
 	const [ready, setReady] = useState(false)
 

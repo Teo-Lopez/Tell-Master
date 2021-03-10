@@ -49,23 +49,18 @@ function App() {
 		AuthService.logout().then(() => setloggedInUser(null))
 	}
 
-	function setUser(user) {
-		setloggedInUser(user)
+	function setUser() {
+		AuthService.loggedin().then(user => setloggedInUser(user))
 	}
 
 	useEffect(() => {
-		if (loggedInUser === false) {
-			AuthService.loggedin().then(user => {
-				if (user) setloggedInUser(user)
-				else setloggedInUser(null)
-			})
-		}
+		setUser()
 		return () => {}
-	}, [loggedInUser])
+	}, [])
 
 	return (
 		<ThemeProvider theme={darkTheme}>
-			<UserProvider value={loggedInUser}>
+			<UserProvider value={{ loggedInUser, setUser }}>
 				<GlobalStyle />
 				<Navbar logout={logout} showSignup={() => setSignupModal(true)} showLogin={() => setloginModal(true)} loggedInUser={loggedInUser} />
 				<main>

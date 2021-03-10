@@ -4,13 +4,11 @@ import { Link } from 'react-router-dom'
 import UserContext from '../../UserContext'
 
 function GameCard({ game }) {
-	const loggedInUser = useContext(UserContext)
+	const { loggedInUser } = useContext(UserContext)
 
 	return (
-		<Card bg='dark' style={{ height: "200px", width: '16rem', margin: '10px 0' }}>
-			<Card.Header>
-				{game.title}
-			</Card.Header>
+		<Card bg='dark' style={{ height: '200px', width: '16rem', margin: '10px 0' }}>
+			<Card.Header>{game.title}</Card.Header>
 			<Card.Body>
 				<Card.Text>{game.description}</Card.Text>
 				<Card.Link as={Link} to={`/read/${game._id}`}>

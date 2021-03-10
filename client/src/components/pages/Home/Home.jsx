@@ -39,7 +39,7 @@ const Hero = styled.section`
 `
 
 function Home({ showLogin }) {
-	const loggedInUser = useContext(UserContext)
+	const {loggedInUser} = useContext(UserContext)
 
 	return (
 		<Hero>

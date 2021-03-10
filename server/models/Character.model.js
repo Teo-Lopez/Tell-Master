@@ -19,7 +19,7 @@ const characterSchema = new Schema(
 	{ timestamps: true }
 )
 
-characterSchema.statics.createSimpleCharacter = function () {
+characterSchema.statics.createSimpleCharacter = function (userId) {
 	const character = {
 		name: 'Simple Game',
 		hp: 1000,
@@ -36,6 +36,12 @@ characterSchema.statics.createSimpleCharacter = function () {
 	}
 
 	return this.create(character)
+		.then(char => {
+			mongoose.model('User').findByIdAndUpdate(userId, { $push: { characters: char._id } }, { new: true })
+			return char
+		})
+
+		.catch(err => res.json({ err }))
 }
 const Character = mongoose.model('Character', characterSchema)
 

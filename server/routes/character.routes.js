@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
     .catch((err) => res.json({ err }))
 })
 
-router.post("/simple", (req, res) => Character.createSimpleCharacter()
+router.post("/simple", (req, res) => Character.createSimpleCharacter(req.user._id)
   .then((createdCharacter) => res.json(createdCharacter))
   .catch((err) => res.json({ err }))
 )

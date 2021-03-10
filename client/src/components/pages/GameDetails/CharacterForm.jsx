@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import characterService from "../../services/character.service";
+import characterService from "../../../services/character.service";
 
 function CharacterForm({ setCharacter, hideForm, setUser, loggedInUser }) {
   const CharacterService = new characterService();

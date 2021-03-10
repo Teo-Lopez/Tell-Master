@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { withRouter } from "react-router-dom";
-import UserContext from "../../UserContext";
+import UserContext from "../../../UserContext";
 
 import StartPlayingButton from "./StartPlayingButton";
 import SimpleStartPlaying from "./SimpleStartPlaying";

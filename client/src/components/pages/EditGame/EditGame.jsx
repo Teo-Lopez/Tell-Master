@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import CustomSpinner from '../shared/Spinner'
-import gameService from '../../services/games.service'
-import NewChapterForm from '../Chapter/NewChapterForm'
-import chapterService from '../../services/chapter.service'
+import gameService from '../../../services/games.service'
+import NewChapterForm from '../../Chapter/NewChapterForm'
+import chapterService from '../../../services/chapter.service'
 import styled, { createGlobalStyle } from 'styled-components'
-import { Button } from '../shared/Buttons'
-import arrowIcon from '../shared/arrow.png'
+import CustomSpinner from '../../shared/Spinner'
+import { Button } from '../../shared/Buttons'
+import arrowIcon from '../../shared/arrow.png'
 const ChapterService = new chapterService()
 const GameService = new gameService()
 

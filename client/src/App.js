@@ -9,7 +9,7 @@ import CenteredModal from './components/shared/Modal'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { UserProvider } from './UserContext'
 import { darkTheme } from './themeContext'
-import Routes from './Routes'
+import Routes from './components/Routes'
 
 //#endregion IMPORTS
 const AuthService = new authService()

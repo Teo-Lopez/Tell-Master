@@ -1,0 +1,67 @@
+[
+	{
+		"_id": { "$oid": "603513067f79ca39707e6109" },
+		"active": true,
+		"chapters": [{ "$oid": "603513187f79ca39707e610a" }],
+		"simple": true,
+		"creator": { "$oid": "603512fb7f79ca39707e6108" },
+		"title": "Partida simple test",
+		"minLevel": { "$numberInt": "1" },
+		"description": "Testetest",
+		"createdAt": { "$date": { "$numberLong": "1614091014559" } },
+		"updatedAt": { "$date": { "$numberLong": "1614091032249" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "6035153eefeaeb46ce82e16d" },
+		"active": true,
+		"chapters": [{ "$oid": "60351549efeaeb46ce82e16e" }],
+		"simple": true,
+		"creator": { "$oid": "603512fb7f79ca39707e6108" },
+		"title": "Test2",
+		"minLevel": { "$numberInt": "1" },
+		"description": "test2 supertest",
+		"createdAt": { "$date": { "$numberLong": "1614091582360" } },
+		"updatedAt": { "$date": { "$numberLong": "1614091593154" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "603e43fca8eb0629d205b882" },
+		"active": true,
+		"chapters": [{ "$oid": "603f3b79c9dfba6918dbf597" }],
+		"simple": true,
+		"creator": { "$oid": "603512fb7f79ca39707e6108" },
+		"title": "El nombre",
+		"minLevel": { "$numberInt": "1" },
+		"description": "el resumen",
+		"createdAt": { "$date": { "$numberLong": "1614693372432" } },
+		"updatedAt": { "$date": { "$numberLong": "1614756729536" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "603f35dbc9dfba6918dbf594" },
+		"active": true,
+		"chapters": [],
+		"simple": true,
+		"creator": { "$oid": "603f35d2c9dfba6918dbf593" },
+		"title": "Partida de teo",
+		"minLevel": { "$numberInt": "1" },
+		"description": "teo",
+		"createdAt": { "$date": { "$numberLong": "1614755291142" } },
+		"updatedAt": { "$date": { "$numberLong": "1614755291142" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "603f437e546cee037b37f525" },
+		"active": true,
+		"chapters": [],
+		"simple": false,
+		"creator": { "$oid": "603512fb7f79ca39707e6108" },
+		"title": "Aventura compleja de test",
+		"minLevel": { "$numberInt": "3" },
+		"description": "complex",
+		"createdAt": { "$date": { "$numberLong": "1614758782807" } },
+		"updatedAt": { "$date": { "$numberLong": "1614758782807" } },
+		"__v": { "$numberInt": "0" }
+	}
+]

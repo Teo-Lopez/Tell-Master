@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
-import playingTable from './assets/playingTable.png'
-import D6 from '../Game/assets/d6book.svg'
-import D20 from '../Game/assets/d20.svg'
-import gamesService from '../../services/games.service'
+import playingTable from './playingTable.png'
+import D6 from '../../shared/assets/d6book.svg'
+import D20 from '../../shared/assets/d20.svg'
+import gamesService from '../../../services/games.service'
 
 const GamesService = new gamesService()
 
@@ -46,16 +46,17 @@ const appear = keyframes`
     `
 
 const Title = styled.h1`
-	animation: ${appear} 3s ease-out;
+	animation: ${appear} 1.5s ease-out;
 	color: ${props => props.theme.colors.general};
 	text-align: center;
 `
 
+//TODO animation appear
 const GameCard = styled.div`
 	margin: 10px 0;
 	padding: 10px 0;
 	border-radius: 2px;
-	animation: ${appear} 3s ease-out;
+	animation: ${appear} 1.5s ease-out;
 
 	@for $i from 1 through 10 {
 		&:nth-child(#{$i}) {

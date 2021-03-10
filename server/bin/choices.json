@@ -1,0 +1,61 @@
+[
+	{
+		"_id": { "$oid": "603f3801c9dfba6918dbf595" },
+		"description": "ASdasd",
+		"trial": { "difficulty": { "$numberInt": "-10" }, "characteristic": "str" },
+		"pxGranted": { "$numberInt": "0" },
+		"createdAt": { "$date": { "$numberLong": "1614755841227" } },
+		"updatedAt": { "$date": { "$numberLong": "1614755841227" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "603f3b48c9dfba6918dbf596" },
+		"description": "asdasdda",
+		"trial": { "difficulty": { "$numberInt": "-10" }, "characteristic": "str" },
+		"pxGranted": { "$numberInt": "0" },
+		"createdAt": { "$date": { "$numberLong": "1614756680783" } },
+		"updatedAt": { "$date": { "$numberLong": "1614756718971" } },
+		"__v": { "$numberInt": "0" },
+		"failureTargetChapter": null,
+		"successTargetChapter": null
+	},
+	{
+		"_id": { "$oid": "603f4398546cee037b37f526" },
+		"description": "",
+		"trial": { "difficulty": { "$numberInt": "10" }, "characteristic": "str" },
+		"pxGranted": { "$numberInt": "0" },
+		"createdAt": { "$date": { "$numberLong": "1614758808567" } },
+		"updatedAt": { "$date": { "$numberLong": "1614758808567" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "603f4724546cee037b37f527" },
+		"description": "Fuerzo la puerta",
+		"trial": { "difficulty": { "$numberInt": "10" }, "characteristic": "str" },
+		"pxGranted": { "$numberInt": "12" },
+		"createdAt": { "$date": { "$numberLong": "1614759716028" } },
+		"updatedAt": { "$date": { "$numberLong": "1614759716028" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "603f94721f00dc73e0759a9b" },
+		"description": "Bucle",
+		"trial": { "difficulty": { "$numberInt": "-10" }, "characteristic": "str" },
+		"successTargetChapter": { "$oid": "60351549efeaeb46ce82e16e" },
+		"pxGranted": { "$numberInt": "0" },
+		"createdAt": { "$date": { "$numberLong": "1614779506316" } },
+		"updatedAt": { "$date": { "$numberLong": "1614779506316" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "603f956f1f00dc73e0759a9c" },
+		"description": "test",
+		"trial": { "difficulty": { "$numberInt": "-10" }, "characteristic": "str" },
+		"successTargetChapter": { "$oid": "603513187f79ca39707e610a" },
+		"pxGranted": { "$numberInt": "0" },
+		"createdAt": { "$date": { "$numberLong": "1614779759488" } },
+		"updatedAt": { "$date": { "$numberLong": "1614779763066" } },
+		"__v": { "$numberInt": "0" },
+		"failureTargetChapter": null
+	}
+]

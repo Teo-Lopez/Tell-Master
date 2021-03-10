@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Form } from 'react-bootstrap'
 import styled from 'styled-components'
-import gamesService from '../../services/games.service'
+import gamesService from '../../../services/games.service'
 import { withRouter } from 'react-router-dom'
-import { Button } from '../shared/Buttons'
+import { Button } from '../../shared/Buttons'
 
 const FormWrapper = styled.div`
 	max-width: 800px;

@@ -1,0 +1,36 @@
+[
+	{
+		"_id": { "$oid": "603512fb7f79ca39707e6108" },
+		"savedGames": [
+			{ "$oid": "6035132a7f79ca39707e610c" },
+			{ "$oid": "60351556efeaeb46ce82e170" },
+			{ "$oid": "604396ef4b8649149b0518cc" },
+			{ "$oid": "604396fe4b8649149b0518ce" },
+			{ "$oid": "6043990c4f50b8241a8687bc" }
+		],
+		"characters": [
+			{ "$oid": "603513297f79ca39707e610b" },
+			{ "$oid": "60351555efeaeb46ce82e16f" },
+			{ "$oid": "604396ee4b8649149b0518cb" },
+			{ "$oid": "604396fd4b8649149b0518cd" },
+			{ "$oid": "6043990b4f50b8241a8687bb" }
+		],
+		"username": "test",
+		"password": "$2b$10$y/Rur8kug8VJEgYXZt1rfu.3qSjr23Q.wbN/PrURHCq1YR/WkDtgi",
+		"email": "test@test.com",
+		"createdAt": { "$date": { "$numberLong": "1614091003809" } },
+		"updatedAt": { "$date": { "$numberLong": "1615042828345" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "603f35d2c9dfba6918dbf593" },
+		"savedGames": [],
+		"characters": [],
+		"username": "teo",
+		"password": "$2b$10$6b6FtRCPuJ.nVEdpBhrZtelnVDC/MydFV.NuIh5hpjKSvo/tgjAB2",
+		"email": "teo@teo.com",
+		"createdAt": { "$date": { "$numberLong": "1614755282560" } },
+		"updatedAt": { "$date": { "$numberLong": "1614755282560" } },
+		"__v": { "$numberInt": "0" }
+	}
+]

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import CharacterList from '../Character/CharacterList'
-import CenteredModal from '../shared/Modal'
-import CharacterSummary from '../Character/CharacterSummary'
+import CharacterList from '../../shared/CharacterList'
+import CenteredModal from '../../shared/Modal'
+import CharacterSummary from '../../Character/CharacterSummary'
 
 const Section = styled.section``
 

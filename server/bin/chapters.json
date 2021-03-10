@@ -1,0 +1,35 @@
+[
+	{
+		"_id": { "$oid": "603513187f79ca39707e610a" },
+		"active": true,
+		"choices": [],
+		"last": false,
+		"title": "Cápitulo 1: el test",
+		"description": "<p>Supertest</p>",
+		"createdAt": { "$date": { "$numberLong": "1614091032185" } },
+		"updatedAt": { "$date": { "$numberLong": "1614091032185" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "60351549efeaeb46ce82e16e" },
+		"active": true,
+		"choices": [],
+		"last": false,
+		"title": "Cap 1 La leche",
+		"description": "<p>Que poco corriente</p>",
+		"createdAt": { "$date": { "$numberLong": "1614091593107" } },
+		"updatedAt": { "$date": { "$numberLong": "1614091593107" } },
+		"__v": { "$numberInt": "0" }
+	},
+	{
+		"_id": { "$oid": "603f3b79c9dfba6918dbf597" },
+		"active": true,
+		"choices": [{ "$oid": "603f3b48c9dfba6918dbf596" }],
+		"last": false,
+		"title": "Cap1",
+		"description": "<p>Cap1 desc</p>",
+		"createdAt": { "$date": { "$numberLong": "1614756729419" } },
+		"updatedAt": { "$date": { "$numberLong": "1614756902297" } },
+		"__v": { "$numberInt": "0" }
+	}
+]

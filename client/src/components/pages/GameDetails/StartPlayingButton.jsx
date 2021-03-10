@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Dropdown } from 'react-bootstrap'
-import { Button } from '../shared/Buttons'
+import { Button } from '../../shared/Buttons'
 
 function StartPlayingButton(props) {
 	const { game, savedGames, loggedInUser } = props

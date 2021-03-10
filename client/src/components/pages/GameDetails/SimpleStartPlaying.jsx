@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Dropdown } from 'react-bootstrap'
-import { Button } from '../shared/Buttons'
-import savedGamesService from '../../services/savedGames.service'
-import chapterService from '../../services/chapter.service'
-import characterService from '../../services/character.service'
+import { Button } from '../../shared/Buttons'
+import savedGamesService from '../../../services/savedGames.service'
+import chapterService from '../../../services/chapter.service'
+import characterService from '../../../services/character.service'
 import { withRouter } from 'react-router-dom'
 const CharacterService = new characterService()
 const SavedGamesService = new savedGamesService()

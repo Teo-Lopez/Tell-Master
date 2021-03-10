@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '../shared/Buttons'
+import { Button } from './Buttons'
 import styled from 'styled-components'
 
 function CharacterList({ characters, onClick }) {

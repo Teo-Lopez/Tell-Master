@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Row, Col } from 'react-bootstrap'
-import { BackgroundImage } from '../shared/Images'
-import EasyDice from './assets/d6book.svg'
-import D20Dice from './assets/d20.svg'
+import { BackgroundImage } from '../../shared/Images'
+import EasyDice from '../../shared/assets/d6book.svg'
+import D20Dice from '../../shared/assets/d20.svg'
 
 function ModeSelect(props) {
 	const { setMode } = props

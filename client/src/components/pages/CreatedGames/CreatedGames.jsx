@@ -1,12 +1,12 @@
 import React, { useEffect, useContext, useState } from 'react'
-import GameCard from '../Game/GameCard'
+import GameCard from '../../shared/GameCard'
 import { Row, Col } from 'react-bootstrap'
-import gamesService from '../../services/games.service'
-import UserContext from '../../UserContext'
-import CustomSpinner from '../shared/Spinner'
+import gamesService from '../../../services/games.service'
+import UserContext from '../../../UserContext'
+import CustomSpinner from '../../shared/Spinner'
 const GamesService = new gamesService()
 
-function MyCreatedGames(props) {
+function CreatedGames(props) {
 	const loggedInUser = useContext(UserContext)
 	const [createdGames, setCreatedGames] = useState(null)
 	const [ready, setReady] = useState(false)
@@ -33,4 +33,4 @@ function MyCreatedGames(props) {
 	)
 }
 
-export default MyCreatedGames
+export default CreatedGames

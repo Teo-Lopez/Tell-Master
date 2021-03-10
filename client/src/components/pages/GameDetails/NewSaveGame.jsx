@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import CharacterForm from "../Character/CharacterForm";
-import CharacterList from "../Character/CharacterList";
-import savedGamesService from "../../services/savedGames.service";
-import chapterService from "../../services/chapter.service";
+import CharacterForm from "./CharacterForm";
+import CharacterList from "../../shared/CharacterList";
+import savedGamesService from "../../../services/savedGames.service";
+import chapterService from "../../../services/chapter.service";
 
 function NewSaveGame({ loggedInUser, setUser, match, updateSavedGames, history }) {
   const ChapterService = new chapterService();

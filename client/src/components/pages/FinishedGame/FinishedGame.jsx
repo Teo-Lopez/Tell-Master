@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import savedGamesService from '../../services/savedGames.service'
-import chapterService from '../../services/chapter.service'
+import savedGamesService from '../../../services/savedGames.service'
+import chapterService from '../../../services/chapter.service'
 const SavedGamesService = new savedGamesService()
 const ChapterService = new chapterService()
 

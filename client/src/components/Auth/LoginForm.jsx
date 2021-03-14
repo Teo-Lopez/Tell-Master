@@ -4,7 +4,7 @@ import authService from '../../services/auth.service'
 import AlertContext from '../../AlertContext'
 import { Button } from '../shared/Buttons'
 
-function LoginForm({ setUser, onHide }) {
+function LoginForm({ setUser, onHideCallback }) {
 	const AuthService = new authService()
 	const [username, setUsername] = useState('')
 	const [email, setEmail] = useState('')
@@ -19,10 +19,15 @@ function LoginForm({ setUser, onHide }) {
 
 	function submitForm(e) {
 		e.preventDefault()
-		if (!username || !email || !password) setAlert({ show: true, text: 'Por favor rellena todos los campos', variant: 'warning' })
+		if (!username || !email || !password) {
+			setAlert({ show: true, text: 'Por favor rellena todos los campos', variant: 'warning' })
+			return
+		}
+
 		AuthService.login({ username, email, password }).then(loggedInUser => setUser(loggedInUser))
 		clearForm()
-		if (onHide) onHide()
+		
+		if (onHideCallback) onHideCallback()
 	}
 
 	function onChange(e) {

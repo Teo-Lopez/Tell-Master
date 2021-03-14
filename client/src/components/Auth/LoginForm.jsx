@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form } from 'react-bootstrap'
 import authService from '../../services/auth.service'
+import AlertContext from '../../AlertContext'
 import { Button } from '../shared/Buttons'
 
 function LoginForm({ setUser, onHide }) {
@@ -8,6 +9,7 @@ function LoginForm({ setUser, onHide }) {
 	const [username, setUsername] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const setAlert = useContext(AlertContext)
 
 	function clearForm() {
 		setUsername('')
@@ -17,6 +19,7 @@ function LoginForm({ setUser, onHide }) {
 
 	function submitForm(e) {
 		e.preventDefault()
+		if (!username || !email || !password) setAlert({ show: true, text: 'Por favor rellena todos los campos', variant: 'warning' })
 		AuthService.login({ username, email, password }).then(loggedInUser => setUser(loggedInUser))
 		clearForm()
 		if (onHide) onHide()

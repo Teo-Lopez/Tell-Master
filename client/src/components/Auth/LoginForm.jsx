@@ -19,14 +19,14 @@ function LoginForm({ setUser, onHideCallback }) {
 
 	function submitForm(e) {
 		e.preventDefault()
-		if (!username || !email || !password) {
+		if (!username || !password) {
 			setAlert({ show: true, text: 'Por favor rellena todos los campos', variant: 'warning' })
 			return
 		}
 
 		AuthService.login({ username, email, password }).then(loggedInUser => setUser(loggedInUser))
 		clearForm()
-		
+
 		if (onHideCallback) onHideCallback()
 	}
 

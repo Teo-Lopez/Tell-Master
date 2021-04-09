@@ -9,29 +9,26 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/login", (req, res, next) => {
-  console.log(req.body);
-  passport.authenticate("local", (err, theUser, failureDetails) => {
-    if (err) {
-      res.status(500).json({ message: "Something went wrong authenticating user" });
-      return;
-    }
+  const {username, password} = req.body
+    User.findOne({ username })
+			.lean()
+			.populate('characters')
+			.then(foundUser => {
+				if (!foundUser) {
+					res.json({ message: 'Usuario no registrado.' })
+					return
+				}
 
-    if (!theUser) {
-      res.status(401).json(failureDetails);
-      return;
-    }
-
-    // save user in session
-    req.login(theUser, (err) => {
-      if (err) {
-        res.status(500).json({ message: "Session save went bad." });
-        return;
-      }
-      console.log("autentica bien", theUser);
-      // We are now logged in (that's why we can also send req.user)
-      res.status(200).json(theUser);
-    });
-  })(req, res, next);
+				if (!bcrypt.compareSync(password, foundUser.password)) {
+					res.json({ message: 'Contraseña incorrecta.' })
+					return
+				}
+      
+        req.session.user = foundUser
+        req.user = foundUser
+				res.json(foundUser)
+			})
+			.catch(err => next(err))
 });
 
 router.post("/logout", (req, res, next) => {
@@ -42,8 +39,10 @@ router.post("/logout", (req, res, next) => {
 
 router.get("/loggedin", (req, res, next) => {
   // req.isAuthenticated() is defined by passport
-  if (req.isAuthenticated()) {
-    res.status(200).json(req.user);
+  console.log(req.session, "sesion")
+  console.log(req.user, 'user')
+  if (req.session) {
+    res.status(200).json(req.session.user);
     return;
   } else {
     res.status(403).json({ message: "Unauthorized" });

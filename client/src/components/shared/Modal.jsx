@@ -16,11 +16,19 @@ const ThemeModal = styled.div`
 `
 
 function CenteredModal(props) {
-	const { show, children, onHide, title, noHeader } = props
+	const { show, children, onHideCallback, title, noHeader } = props
 	return (
-		<Modal dialogAs={ThemeModal} show={show} onHide={onHide} size='lg' aria-labelledby='contained-modal-title-vcenter' centered autoFocus>
+		<Modal
+			dialogAs={ThemeModal}
+			show={show}
+			onHideCallback={onHideCallback}
+			size='lg'
+			aria-labelledby='contained-modal-title-vcenter'
+			centered
+			autoFocus
+		>
 			{!noHeader && (
-				<Modal.Header closeButton onHide={onHide}>
+				<Modal.Header closeButton onHideCallback={onHideCallback}>
 					<Modal.Title id='contained-modal-title-vcenter'>{title}</Modal.Title>
 				</Modal.Header>
 			)}

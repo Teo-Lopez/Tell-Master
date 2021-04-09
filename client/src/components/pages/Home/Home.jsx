@@ -25,7 +25,7 @@ const Hero = styled.section`
 	footer div {
 		padding: 30px 0;
 		border-radius: 10px;
-		background-color: ${props => props.theme.background.lightOverlay};
+		/* background-color: ${props => props.theme.background.lightOverlay}; */
 	}
 
 	button {
@@ -39,7 +39,7 @@ const Hero = styled.section`
 `
 
 function Home({ showLogin }) {
-	const {loggedInUser} = useContext(UserContext)
+	const { loggedInUser } = useContext(UserContext)
 
 	return (
 		<Hero>

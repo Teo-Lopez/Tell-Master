@@ -39,22 +39,34 @@ const EditorWrapper = styled.div``
 //#endregion styles
 
 function NewChapterForm(props) {
-	const { updateLastGames, getAllChapters, closeNewChapterForm, simple } = props
+	const { updateLastGames, getAllChapters, closeNewChapterForm, simple, match } = props
 	const providedChapter = props.chapter
 	//let gameId = match.params.gameId
 
 	const [chapter, setChapter] = useState({
 		description: providedChapter?.description || '',
-		choices: providedChapter?.choices || '',
+		choices: providedChapter?.choices || [],
 		title: providedChapter?.title || '',
-		last: providedChapter?.last,
+		last: providedChapter?.last || false,
+		gameId: match.params.gameId,
 	})
 	const [choicesObj, setChoicesObj] = useState([])
 	const [choiceForms, setChoiceForms] = useState([])
 
 	//#region Form Manipulation
+	function openNewChoiceForm() {
+		const choiceFormsCopy = [...choiceForms]
+		choiceFormsCopy.push(true)
+		setChoiceForms(choiceFormsCopy)
+	}
 
-	function saveNewChoice(id) {
+	function closeChoiceForm(idx) {
+		const choiceFormsCopy = [...choiceForms]
+		choiceFormsCopy.splice(idx, 1)
+		setChoiceForms(choiceFormsCopy)
+	}
+
+	function pushChoiceToChapter(id) {
 		const chapterCopy = [...chapter]
 		chapterCopy.choices.push(id)
 		setChapter(chapter)
@@ -67,32 +79,20 @@ function NewChapterForm(props) {
 	}
 
 	function finishChoiceForm(id, idx, choiceObj) {
-		saveNewChoice(id)
+		pushChoiceToChapter(id)
 		createChoiceCard(choiceObj)
 		closeChoiceForm(idx)
 	}
 
-	function closeChoiceForm(idx) {
-		const choiceFormsCopy = [...choiceForms]
-		choiceFormsCopy.splice(idx, 1)
-		setChoiceForms(choiceFormsCopy)
-	}
-
 	function submitForm(e) {
 		e.preventDefault()
-		if (!chapter.description) return
+		if (!chapter.description || !chapter.title) return
 		if (providedChapter) {
 			updateChapter(chapter)
 		} else {
 			createChapter(chapter)
 		}
 		closeNewChapterForm()
-	}
-
-	function addChoice() {
-		const choiceFormsCopy = [...choiceForms]
-		choiceFormsCopy.push(true)
-		setChoiceForms(choiceFormsCopy)
 	}
 
 	function toogleCard(idx) {
@@ -103,17 +103,20 @@ function NewChapterForm(props) {
 		setChoicesObj(choicesObjCopy)
 	}
 
-	function onChange(e) {
-		const { name, value, checked } = e.currentTarget
-		const chapterCopy = [...chapter]
+	function onChange(e, data) {
+		const { name, value, checked } = data || e.currentTarget
+		const chapterCopy = { ...chapter }
 		chapterCopy[name] = name === 'last' ? checked : value
+		setChapter(chapterCopy)
 	}
 
 	//#endregion Form Manipulation
 
 	function createChapter(chapter) {
+		console.log(chapter, 'chap enviado a back')
 		ChapterService.createChapter(chapter)
 			.then(createdChapter => {
+				console.log(createdChapter, 'chap que vuelve')
 				getAllChapters()
 				updateLastGames()
 				setChapter(createdChapter)
@@ -150,13 +153,14 @@ function NewChapterForm(props) {
 								editor={ClassicEditor}
 								data={chapter.description}
 								placeholder='El texto del capitulo va aquí'
+								name='description'
 								onInit={editor => {
 									// You can store the "editor" and use when it is needed.
 									console.log('Editor is ready to use!', editor)
 								}}
 								onChange={(event, editor) => {
 									const data = { name: 'description', value: editor.getData() }
-									onChange(data)
+									onChange(event, data)
 								}}
 								onBlur={(event, editor) => {
 									// console.log('Blur.', editor)
@@ -181,19 +185,17 @@ function NewChapterForm(props) {
 								))}
 							</Row>
 							<div style={{ margin: '10px 0' }}>
-								<Button text='Añadir elección' style={{ margin: '0 5px' }} onClick={addChoice} />
+								<Button text='Añadir elección' style={{ margin: '0 5px' }} onClick={openNewChoiceForm} />
 								<Button text={chapter ? 'Guardar cambios' : 'Crear capítulo'} style={{ margin: '0 5px' }} onClick={submitForm} />
 							</div>
 						</div>
 						{choiceForms.map((eachform, idx) => (
-							<div key={idx}>
-								{React.cloneElement(
-									<CenteredModal noHeader show={true}>
+								React.cloneElement(
+									<CenteredModal key={idx} noHeader show={true}>
 										<ChoiceForm />
 									</CenteredModal>,
 									{ idx, finishChoiceForm, closeChoiceForm, simple, toogleCard }
-								)}
-							</div>
+								)
 						))}
 					</div>
 				</>

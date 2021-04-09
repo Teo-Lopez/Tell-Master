@@ -53,7 +53,9 @@ function App() {
 	}
 
 	function setUser() {
-		AuthService.loggedin().then(user => setloggedInUser(user || null))
+		AuthService.loggedin().then(user => {
+			console.log(user)
+			setloggedInUser(user || null)})
 	}
 
 	useEffect(() => {
@@ -75,15 +77,21 @@ function App() {
 					<main>
 						<Routes loggedInUser={loggedInUser} setloginModal={setloginModal} setUser={setUser} />
 						<>
-							<CenteredModal title={'Login'} show={loginModal} onHide={() => setloginModal(false)}>
+							<CenteredModal title={'Login'} show={loginModal} onHideCallback={() => setloginModal(false)}>
 								<LoginForm setUser={setUser} />
 							</CenteredModal>
-							<CenteredModal title={'Signup'} show={signupModal} onHide={() => setSignupModal(false)}>
+							<CenteredModal title={'Signup'} show={signupModal} onHideCallback={() => setSignupModal(false)}>
 								<SignupForm setUser={setUser} />
 							</CenteredModal>
 						</>
 					</main>
-					<Alert onClose={()=>setAlert({show: false, text: ""})} style={{ display: 'inline-block', marginLeft: '16px' }} show={alert.show} variant={alert.variant} dismissible>
+					<Alert
+						onClose={() => setAlert({ show: false, text: '' })}
+						style={{ display: 'inline-block', marginLeft: '16px' }}
+						show={alert.show}
+						variant={alert.variant}
+						dismissible
+					>
 						{alert.text}
 					</Alert>
 				</UserProvider>

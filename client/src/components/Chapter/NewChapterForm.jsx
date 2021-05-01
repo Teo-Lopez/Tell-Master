@@ -48,7 +48,7 @@ function NewChapterForm(props) {
 		choices: providedChapter?.choices || [],
 		title: providedChapter?.title || '',
 		last: providedChapter?.last || false,
-		gameId: match.params.gameId,
+		gameId: match.params.gameId
 	})
 	const [choicesObj, setChoicesObj] = useState([])
 	const [choiceForms, setChoiceForms] = useState([])
@@ -113,10 +113,8 @@ function NewChapterForm(props) {
 	//#endregion Form Manipulation
 
 	function createChapter(chapter) {
-		console.log(chapter, 'chap enviado a back')
 		ChapterService.createChapter(chapter)
 			.then(createdChapter => {
-				console.log(createdChapter, 'chap que vuelve')
 				getAllChapters()
 				updateLastGames()
 				setChapter(createdChapter)
@@ -189,14 +187,14 @@ function NewChapterForm(props) {
 								<Button text={chapter ? 'Guardar cambios' : 'Crear capítulo'} style={{ margin: '0 5px' }} onClick={submitForm} />
 							</div>
 						</div>
-						{choiceForms.map((eachform, idx) => (
-								React.cloneElement(
-									<CenteredModal key={idx} noHeader show={true}>
-										<ChoiceForm />
-									</CenteredModal>,
-									{ idx, finishChoiceForm, closeChoiceForm, simple, toogleCard }
-								)
-						))}
+						{choiceForms.map((eachform, idx) =>
+							React.cloneElement(
+								<CenteredModal key={idx} noHeader show={true}>
+									<ChoiceForm />
+								</CenteredModal>,
+								{ idx, finishChoiceForm, closeChoiceForm, simple, toogleCard }
+							)
+						)}
 					</div>
 				</>
 			}

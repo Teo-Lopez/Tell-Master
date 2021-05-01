@@ -54,8 +54,8 @@ function App() {
 
 	function setUser() {
 		AuthService.loggedin().then(user => {
-			console.log(user)
-			setloggedInUser(user || null)})
+			setloggedInUser(user || null)
+		})
 	}
 
 	useEffect(() => {

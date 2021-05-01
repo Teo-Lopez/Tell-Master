@@ -20,7 +20,6 @@ function Searchbar({ fetchGames }) {
 		<InputGroup
 			onBlur={e => {
 				//TODO Fix lose focus and link conflict
-				console.log(e.target)
 				setIsOpen(false)
 			}}
 			onFocus={() => setIsOpen(true)}

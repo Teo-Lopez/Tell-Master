@@ -4,48 +4,43 @@ const Schema = mongoose.Schema
 const gameSchema = new Schema(
 	{
 		active: { type: Boolean, default: true },
-		creator: mongoose.SchemaTypes.ObjectId,
+		creator: { type: mongoose.SchemaTypes.ObjectId, required: true },
 		title: { type: String, required: true, unique: true },
-		minLevel: { type: Number, required: true },
+		minLevel: { type: Number, required: true, default: 0 },
 		description: { type: String, required: true },
 		chapters: { type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Chapter' }], default: [] },
-		simple: { type: Boolean, default: false },
+		simple: { type: Boolean, default: true },
+		published: { type: Boolean, default: false }
 	},
 	{ timestamps: true }
 )
-
-gameSchema.statics.getByCreator = function (creator) {
-	return this.find({ creator, active: true })
-		.lean()
-		.catch(err => err)
-}
 
 gameSchema.statics.getFullGameById = function (_id) {
 	return this.findOne({ _id, active: true })
 		.populate({
 			path: 'chapters',
-			populate: { path: 'choices' },
+			populate: { path: 'choices' }
 		})
 		.then(game => game)
 		.catch(err => err)
 }
 
 gameSchema.statics.getChaptersOnly = function (_id) {
-	console.log(_id, 'yay')
 	return this.findOne({ _id, active: true })
 		.lean()
 		.populate('chapters')
 		.select({ chapters: true, _id: false })
-		.then(chaptersFound => chaptersFound)
+		.then(game => game.chapters)
 		.catch(err => err)
 }
 
-gameSchema.statics.getLastTen = function (limit = 10) {
-	return this.find({ active: true })
+gameSchema.statics.getLast = function (limit = 10) {
+	//TODO mejorar este sort
+	return this.find({ active: true, published: true })
 		.then(gamesFound => {
 			gamesFound.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
 			const lastTen = gamesFound.slice(0, limit)
-			return { gamesFound: lastTen }
+			return lastTen
 		})
 		.catch(err => console.log(err))
 }

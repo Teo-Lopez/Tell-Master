@@ -11,7 +11,7 @@ router.get("/", (req, res, next) => {
     .lean()
     .populate("choices")
     .select({ choices: true })
-    // .sort({ choices: 1 }) TO-DO FIX ORDER
+    // .sort({ choices: 1 }) TODO FIX ORDER
     .then((choicesFound) => {
       console.log(choicesFound);
       res.json(choicesFound);

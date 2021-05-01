@@ -74,7 +74,7 @@ function EditGame({ loggedInUser, match, history }) {
 	useEffect(() => {
 		getAllChapters(match.params.gameId).then(chapters => {
 			setallChapters(chapters)
-			setReady(!ready)
+			setReady(r => !r)
 		})
 	}, [match.params.gameId])
 
@@ -86,7 +86,7 @@ function EditGame({ loggedInUser, match, history }) {
 						{allChapters?.map((chapter, idx) => (
 							<ListPoint key={idx}>
 								<PointHeader active={chapter.show} onClick={() => expandChapter(idx)}>
-									<img className='arrow' src={arrowIcon} alt="Icono de flecha"></img>
+									<img className='arrow' src={arrowIcon} alt='Icono de flecha'></img>
 									<p>Capítulo {idx + 1}:</p>
 								</PointHeader>
 								<PointBody>

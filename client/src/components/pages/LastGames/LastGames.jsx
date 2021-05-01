@@ -94,9 +94,9 @@ const preloadDice = () => {
 	document.head.append(mainBackgroundPreload)
 }
 
-const checkNewGames = oldGames => {
+const getNewGames = oldGames => {
 	return GamesService.getLastGames().then(lastGames => {
-		return oldGames.every(old => lastGames.every(newGame => old._id === newGame._id)) ? lastGames : false
+		return oldGames.every(old => lastGames.every(newGame => old._id === newGame._id)) ? lastGames : null
 	})
 }
 
@@ -105,10 +105,7 @@ function LastGames({ loggedInUser }) {
 	const [lastGames, setlastGames] = useState([])
 
 	useEffect(() => {
-		checkNewGames(lastGames).then(updatedList => {
-			console.log(updatedList)
-			updatedList && setlastGames(updatedList)
-		})
+		getNewGames(lastGames).then(updatedList => updatedList && setlastGames(updatedList))
 	}, [lastGames])
 
 	//preload dice for use in stories

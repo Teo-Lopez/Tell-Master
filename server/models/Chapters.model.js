@@ -7,16 +7,24 @@ const chapterSchema = new Schema(
 		active: { type: Boolean, default: true },
 		title: { type: String, required: true },
 		description: String,
-		choices: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Choice' }],
-		last: Boolean,
+		choices: { type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Choice' }], default: [] },
+		published: { type: Boolean, default: false },
+		last: Boolean
 	},
 	{ timestamps: true }
 )
 
 chapterSchema.statics.createChapter = function (newChapter, gameId) {
-	return this.create(newChapter).then(createdChapter =>
-		Game.updateOne({ _id: gameId }, { $push: { chapters: createdChapter } }).then(updatedGame => createdChapter)
-	)
+	return Game.findById(gameId).then(game => {
+		if (!game) throw new Error('No valid ID')
+
+		//TODO better error handling
+		return this.create(newChapter).then(createdChapter =>
+			Game.findByIdAndUpdate(gameId, { $push: { chapters: createdChapter._id } }, { new: true }).then(updatedGame => {
+				return { createdChapter, updatedGame }
+			})
+		)
+	})
 }
 chapterSchema.statics.getChapterAndChoices = function (chapterId) {
 	return Chapter.findOne({ _id: chapterId, active: true })

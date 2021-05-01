@@ -20,19 +20,25 @@ router.get('/fromGame', (req, res, next) => {
 })
 
 router.post('/', (req, res) => {
-	const { description, choices, gameId, title, last } = req.body
-	const newChapter = { last, title, description, choices: Array.isArray(choices) && choices.length > 0 ? choices : undefined, gameId }
+	const { description, choices = [], gameId, title, last } = req.body
+	const newChapter = { last, title, description, choices, gameId }
 	Chapter.createChapter(newChapter, gameId)
 		.then(createdChapter => res.json(createdChapter))
 		.catch(err => res.json(err))
 })
 
 router.patch('/', (req, res) => {
-	const { description, choices, _id, title, last } = req.body
-	const newChapter = { last, title, description, choices: Array.isArray(choices) && choices.length > 0 ? choices : [] }
-	Chapter.findByIdAndUpdate(_id, newChapter, { new: true })
+	const { description, choices = [], chapterId, title, last } = req.body
+	const newChapter = { last, title, description, choices }
+	Chapter.findByIdAndUpdate(chapterId, newChapter, { new: true })
 		.then(updatedChapter => res.json(updatedChapter))
-		.catch(err => res.json({ err }))
+		.catch(err => res.json(err))
 })
+
+router.put('/publish', (req, res) =>
+	Chapter.findByIdAndUpdate(req.body.chapterId, { published: true }, { new: true })
+		.then(updatedChapter => res.json(updatedChapter))
+		.catch(err => res.json(err))
+)
 
 module.exports = router

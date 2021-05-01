@@ -1,44 +1,17 @@
 const express = require('express')
 const router = express.Router()
 const Game = require('../models/Game.model')
+const SavedGame = require('../models/SavedGame.model')
 
 //Get one game
 router.get('/', (req, res, next) => {
-	const gameId = req.query.gameId
-	Game.findById(gameId)
+	const query = req.query.gameId ? { _id: req.query.gameId, active: true } : {}
+
+	Game.find(query)
 		.lean()
 		.then(gameFound => res.json(gameFound))
 		.catch(err => res.json({ err }))
 })
-
-router.get('/title', (req, res, next) => {
-	const title = req.query.title
-	if (!title) {
-		res.json([])
-		return
-	}
-
-	Game.find({ title: { $regex: `.*${title}.*`, $options: 'i' } })
-		.lean()
-		.then(gamesFound => res.json(gamesFound.slice(0, 5)))
-		.catch(err => res.json({ err }))
-})
-
-//Get games administered
-router.get('/owned', (req, res) =>
-	Game.getByCreator(req.query.creatorId)
-		.then(gameFound => res.json(gameFound))
-		.catch(err => res.json({ err }))
-)
-
-router.get('/full', (req, res) => Game.getFullGameById(req.query.gameId).then(game => res.json(game)))
-
-//Get last games created
-router.get('/last', (req, res, next) =>
-	Game.getLastTen(req.query.limit)
-		.then(gamesFound => res.json(gamesFound))
-		.catch(err => res.json({ err }))
-)
 
 //Create game
 router.post('/', (req, res) => {
@@ -50,9 +23,47 @@ router.post('/', (req, res) => {
 })
 
 router.delete('/', (req, res) => {
-	Game.deleteGameAndChapters(req.body.gameId)
-		.then(deletedChapters => res.json(deletedChapters))
+	const saveFilesPromise = SavedGame.updateMany({ game: req.body.gameId }, { active: false }, { new: true })
+	const gamesPromise = Game.findByIdAndUpdate(req.body.gameId, { active: false }, { new: true })
+
+	Promise.all([saveFilesPromise, gamesPromise])
+		.then(response => res.json(response))
 		.catch(err => res.status(500).json(err))
 })
+
+router.get('/title', (req, res, next) => {
+	const { title } = req.query
+
+	if (!title) {
+		res.json([])
+		return
+	}
+
+	Game.find({ title: { $regex: `.*${title}.*`, $options: 'i' }, active: true })
+		.lean()
+		.then(gamesFound => res.json(gamesFound.slice(0, 5)))
+		.catch(err => res.json({ err }))
+})
+
+router.get('/owned', (req, res) =>
+	Game.find({ creator: req.query.creatorId, active: true })
+		.then(gameFound => res.json(gameFound))
+		.catch(err => res.json({ err }))
+)
+
+//TODO TEST WITH CHAPTERS
+router.get('/full', (req, res) => Game.getFullGameById(req.query.gameId).then(game => res.json(game)))
+
+router.get('/last', (req, res, next) =>
+	Game.getLast(req.query.limit)
+		.then(gamesFound => res.json(gamesFound))
+		.catch(err => res.json({ err }))
+)
+
+router.put('/publish', (req, res) =>
+	Game.findByIdAndUpdate(req.body.gameId, { published: true }, { new: true })
+		.then(updatedGame => res.json(updatedGame))
+		.catch(err => res.json(err))
+)
 
 module.exports = router

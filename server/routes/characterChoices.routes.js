@@ -28,21 +28,15 @@ router.post('/makeChoice', (req, res) => {
 		Character.findById(characterId).then(characterFound => {
 			//tirada
 			const dif = choiceFound.trial.difficulty
-			const char = choiceFound.trial.characteristic
+			const stat = choiceFound.trial.characteristic
 
-			function calcBonus(number) {
-				return number / 2 - 5
-			}
-
-			function rollDice(dif, char, character) {
-				const playerChar = character[char]
-				const roll = parseInt(Math.random() * 20)
-				const rollResult = parseInt(roll + calcBonus(playerChar))
+			function rollDice(dif, stat, character) {
+				const roll = character.roll(stat)
 				if (roll >= dif) return { roll, number: rollResult, result: true }
 				else return { roll, number: rollResult, result: false }
 			}
 
-			const roll = rollDice(dif, char, characterFound)
+			const roll = rollDice(dif, stat, characterFound)
 			//TO-DO LEVEL UP
 			//TO-DO UTIL throwDice
 			CharacterChoices.create({ choice: choiceFound._id, didSuccess: roll.result, leveledUp: false })

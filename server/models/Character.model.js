@@ -39,7 +39,16 @@ characterSchema.methods.roll = function (stat) {
 
 characterSchema.statics.createCharacter = function (newCharacter, userId) {
 	return this.create(newCharacter).then(newChar => {
-		return User.findByIdAndUpdate(userId, { $push: { characters: newChar._id } }).then(_ => newChar)
+		let promiseArray
+		if (Array.isArray(newChar)) {
+			promiseArray = newChar.map(elm => {
+				return User.findByIdAndUpdate(userId, { $push: { characters: elm._id } })
+			})
+		} else {
+			promiseArray = User.findByIdAndUpdate(userId, { $push: { characters: newChar._id } })
+		}
+
+		return Promise.all(promiseArray).then(docs => newChar)
 	})
 }
 characterSchema.statics.createSimpleCharacter = function (userId) {

@@ -6,16 +6,14 @@ const Chapter = require('../models/Chapters.model')
 const Character = require('../models/Character.model')
 const User = require('../models/User.model')
 const { checkLoggedIn } = require('../middlewares')
+const { checkMongoId } = require('../utils')
 
-router.get('/user', (req, res, next) => {
-	const _id = req.query.chapterId || ''
-
-	User.findById(_id)
+router.get('/owned', (req, res, next) => {
+	User.findById(req.session.user._id)
 		.lean()
-		.select({ characters: true })
-		.then(characters => {
-			res.json({ characters })
-		})
+		.select({ characters: 1, _id: 0 })
+		.populate('characters')
+		.then(characters => res.json(characters))
 })
 
 router.post('/', checkLoggedIn, (req, res) => {
@@ -28,14 +26,15 @@ router.post('/', checkLoggedIn, (req, res) => {
 		.catch(err => res.json(err))
 })
 
-router.post('/simple', (req, res) =>
-	Character.createSimpleCharacter(req.user._id)
-		.then(createdCharacter => res.json(createdCharacter))
-		.catch(err => res.json({ err }))
-)
+// router.post('/simple', (req, res) =>
+// 	Character.createSimpleCharacter(req.user._id)
+// 		.then(createdCharacter => res.json(createdCharacter))
+// 		.catch(err => res.json({ err }))
+// )
 
 router.patch('/', (req, res) => {
 	const { charId, newCharacter } = req.body
+
 	Character.findByIdAndUpdate(charId, newCharacter, { new: true })
 		.then(char => res.json(char))
 		.catch(err => res.status(401).json(err))
@@ -44,10 +43,8 @@ router.patch('/', (req, res) => {
 router.delete('/', (req, res) => {
 	const { charId } = req.body
 
-	Character.findByIdAndDelete(charId)
-		.then(deletedCharacter => {
-			res.json(deletedCharacter)
-		})
+	Character.findByIdAndUpdate(charId, { active: false }, { new: true })
+		.then(deletedCharacter => res.json(deletedCharacter))
 		.catch(err => res.json({ err }))
 })
 module.exports = router

@@ -7,7 +7,7 @@ import { Button } from '../../shared/Buttons'
 
 const FormWrapper = styled.div`
 	max-width: 800px;
-	background-color: ${props => props.theme.background.lightOverlay};
+	background-color: ${props => props.theme.colors.greenish};
 	padding: 60px;
 	margin: auto;
 
@@ -31,7 +31,13 @@ function NewGameForm(props) {
 			setMinLevel(1)
 		}
 
-		GamesService.createGame({ creator: loggedInUser._id, title, minLevel, description, simple }).then(createdGame => {
+		GamesService.createGame({
+			creator: loggedInUser._id,
+			title,
+			minLevel,
+			description,
+			simple
+		}).then(createdGame => {
 			history.push(`/modify/${createdGame._id}`)
 		})
 	}
@@ -59,24 +65,49 @@ function NewGameForm(props) {
 			<Form onSubmit={submitForm}>
 				<Form.Group controlId='title'>
 					<Form.Label>Elegir un titulo:</Form.Label>
-					<Form.Control name='title' onChange={onChange} value={title} type='text' placeholder='El titulo de tu historia!' />
+					<Form.Control
+						name='title'
+						onChange={onChange}
+						value={title}
+						type='text'
+						placeholder='El titulo de tu historia!'
+					/>
 				</Form.Group>
 
 				{!simple && (
 					<Form.Group controlId='minLevel'>
 						<Form.Label>Un nivel mínimo para comenzar la aventura:</Form.Label>
 						<p>{minLevel}</p>
-						<Form.Control name='minLevel' onChange={onChange} value={minLevel} type='range' min='1' max='20' step='1' placeholder='Ej: 5' />
+						<Form.Control
+							name='minLevel'
+							onChange={onChange}
+							value={minLevel}
+							type='range'
+							min='1'
+							max='20'
+							step='1'
+							placeholder='Ej: 5'
+						/>
 						<Form.Text className='text-muted'>
-							Las aventuras básicas comienzan en nivel 1, de 8 a 14 ya son todo un reto, a partir de ahí los heroes pueden luchar contra los
+							Las aventuras básicas comienzan en nivel 1, de 8 a 14 ya son todo
+							un reto, a partir de ahí los heroes pueden luchar contra los
 							mismos dioses.
 						</Form.Text>
 					</Form.Group>
 				)}
 
 				<Form.Group controlId='description'>
-					<Form.Label>¡El resumen de tu aventura! Hazlo atractivo de forma que la gente quiera jugarla ;)</Form.Label>
-					<Form.Control name='description' onChange={onChange} value={description} type='text' placeholder='Tu resumen' />
+					<Form.Label>
+						¡El resumen de tu aventura! Hazlo atractivo de forma que la gente
+						quiera jugarla ;)
+					</Form.Label>
+					<Form.Control
+						name='description'
+						onChange={onChange}
+						value={description}
+						type='text'
+						placeholder='Tu resumen'
+					/>
 				</Form.Group>
 				<Button type='submit' text='Crear historia' />
 			</Form>

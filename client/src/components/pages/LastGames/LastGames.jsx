@@ -10,7 +10,7 @@ const GamesService = new gamesService()
 
 //#region styling
 const MainsSectionWrapper = styled.section`
-	background-color: ${props => props.theme.background.lightOverlay};
+	background-color: ${props => props.theme.colors.greenish};
 	text-align: center;
 	height: 80vh;
 	padding-top: 40px;
@@ -96,7 +96,11 @@ const preloadDice = () => {
 
 const getNewGames = oldGames => {
 	return GamesService.getLastGames().then(lastGames => {
-		return oldGames.every(old => lastGames.every(newGame => old._id === newGame._id)) ? lastGames : null
+		return oldGames.every(old =>
+			lastGames.every(newGame => old._id === newGame._id)
+		)
+			? lastGames
+			: null
 	})
 }
 
@@ -105,7 +109,9 @@ function LastGames({ loggedInUser }) {
 	const [lastGames, setlastGames] = useState([])
 
 	useEffect(() => {
-		getNewGames(lastGames).then(updatedList => updatedList && setlastGames(updatedList))
+		getNewGames(lastGames).then(
+			updatedList => updatedList && setlastGames(updatedList)
+		)
 	}, [lastGames])
 
 	//preload dice for use in stories
@@ -125,7 +131,14 @@ function LastGames({ loggedInUser }) {
 				<MainSection>
 					{lastGames.length
 						? lastGames.map((game, idx) => (
-								<Link key={idx} to={loggedInUser && loggedInUser._id === game.creator ? `/modify/${game._id}` : `/read/${game._id}`}>
+								<Link
+									key={idx}
+									to={
+										loggedInUser && loggedInUser._id === game.creator
+											? `/modify/${game._id}`
+											: `/read/${game._id}`
+									}
+								>
 									<GameCard key={idx}>
 										<h2>{game.title}</h2>
 										<em>Nivel minimo: {game.minLevel}</em>

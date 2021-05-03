@@ -24,7 +24,7 @@ const StyledNavbar = styled(Navbar)`
 	}
 
 	.dropdown-menu.show {
-		background-color: ${props => props.theme.background.lightOverlay};
+		background-color: ${props => props.theme.colors.greenish};
 	}
 `
 
@@ -34,9 +34,16 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
 	) : loggedInUser === null ? (
 		<StyledNavbar collapseOnSelect expand='lg'>
 			<Navbar.Brand as={NavLink} to={'/'}>
-				<img style={{ height: '36px' }} src={logo} alt='Logo de dado icosaédrico'></img>
+				<img
+					style={{ height: '36px' }}
+					src={logo}
+					alt='Logo de dado icosaédrico'
+				></img>
 			</Navbar.Brand>
-			<Navbar.Toggle style={{ backgroundColor: 'whitesmoke' }} aria-controls='responsive-navbar-nav' />
+			<Navbar.Toggle
+				style={{ backgroundColor: 'whitesmoke' }}
+				aria-controls='responsive-navbar-nav'
+			/>
 			<Navbar.Collapse id='responsive-navbar-nav'>
 				<Nav style={{ width: '60%' }}>
 					<Nav.Link onClick={showLogin}>Login</Nav.Link>
@@ -50,9 +57,16 @@ function CustomNavbar({ loggedInUser, showLogin, showSignup, logout }) {
 	) : (
 		<StyledNavbar collapseOnSelect expand='lg'>
 			<Navbar.Brand as={NavLink} to={'/'}>
-				<img style={{ height: '36px' }} src={logo} alt='Logo de dado icosaédrico'></img>
+				<img
+					style={{ height: '36px' }}
+					src={logo}
+					alt='Logo de dado icosaédrico'
+				></img>
 			</Navbar.Brand>
-			<Navbar.Toggle style={{ backgroundColor: 'whitesmoke' }} aria-controls='responsive-navbar-nav' />
+			<Navbar.Toggle
+				style={{ backgroundColor: 'whitesmoke' }}
+				aria-controls='responsive-navbar-nav'
+			/>
 			<Navbar.Collapse id='responsive-navbar-nav'>
 				<Nav style={{ width: '60%' }}>
 					<NavDropdown title='Mis historias' id='nav-dropdown' drop='down'>

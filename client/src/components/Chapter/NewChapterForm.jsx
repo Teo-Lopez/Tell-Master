@@ -14,7 +14,7 @@ const ChapterService = new chapterService()
 //#region styles
 
 const ChapterFormWrapper = styled.div`
-	background-color: ${({ theme }) => theme.background.lightOverlay};
+	background-color: ${({ theme }) => theme.colors.greenish};
 
 	input[name='title'] {
 		width: 600px;
@@ -39,7 +39,13 @@ const EditorWrapper = styled.div``
 //#endregion styles
 
 function NewChapterForm(props) {
-	const { updateLastGames, getAllChapters, closeNewChapterForm, simple, match } = props
+	const {
+		updateLastGames,
+		getAllChapters,
+		closeNewChapterForm,
+		simple,
+		match
+	} = props
 	const providedChapter = props.chapter
 	//let gameId = match.params.gameId
 
@@ -137,12 +143,25 @@ function NewChapterForm(props) {
 			{
 				<>
 					<label>
-						<input onChange={onChange} placeholder='Capítulo #1.0 El comienzo' name='title' value={chapter.title} maxLength='230'></input>
+						<input
+							onChange={onChange}
+							placeholder='Capítulo #1.0 El comienzo'
+							name='title'
+							value={chapter.title}
+							maxLength='230'
+						></input>
 					</label>
 					<div>
 						<label>
-							<small>Si es el último capítulo de la aventura, marca esta casilla:</small>
-							<input onChange={onChange} name='last' checked={chapter.last} type='checkbox' />
+							<small>
+								Si es el último capítulo de la aventura, marca esta casilla:
+							</small>
+							<input
+								onChange={onChange}
+								name='last'
+								checked={chapter.last}
+								type='checkbox'
+							/>
 						</label>
 					</div>
 					<div className='.ck-editor'>
@@ -173,18 +192,36 @@ function NewChapterForm(props) {
 								{choicesObj.map((eachChoice, idx) => (
 									<Col key={idx} lg={3}>
 										{!eachChoice.show ? (
-											<ChoiceCard toogleCard={toogleCard} choice={eachChoice} idx={idx} simple={simple} />
+											<ChoiceCard
+												toogleCard={toogleCard}
+												choice={eachChoice}
+												idx={idx}
+												simple={simple}
+											/>
 										) : (
 											<CenteredModal noHeader show={true}>
-												<ChoiceForm simple={simple} toogleCard={toogleCard} choice={eachChoice} idx={idx} />
+												<ChoiceForm
+													simple={simple}
+													toogleCard={toogleCard}
+													choice={eachChoice}
+													idx={idx}
+												/>
 											</CenteredModal>
 										)}
 									</Col>
 								))}
 							</Row>
 							<div style={{ margin: '10px 0' }}>
-								<Button text='Añadir elección' style={{ margin: '0 5px' }} onClick={openNewChoiceForm} />
-								<Button text={chapter ? 'Guardar cambios' : 'Crear capítulo'} style={{ margin: '0 5px' }} onClick={submitForm} />
+								<Button
+									text='Añadir elección'
+									style={{ margin: '0 5px' }}
+									onClick={openNewChoiceForm}
+								/>
+								<Button
+									text={chapter ? 'Guardar cambios' : 'Crear capítulo'}
+									style={{ margin: '0 5px' }}
+									onClick={submitForm}
+								/>
 							</div>
 						</div>
 						{choiceForms.map((eachform, idx) =>

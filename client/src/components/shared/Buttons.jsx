@@ -1,29 +1,51 @@
 import React from 'react'
 import styled from 'styled-components'
+import { theme } from '../../themeContext'
 
 const StyledButton = styled.button`
-	background-color: rgba(0, 0, 0, 1);
-	color: white;
-	border: 0.3px solid white;
-	display: inline-block;
-	font-weight: 400;
-	text-align: center;
-	vertical-align: middle;
-	-webkit-user-select: none;
-	user-select: none;
-	padding: 0.375rem 0.75rem;
-	font-size: 1rem;
-	line-height: 1.5;
-	border-radius: 0.25rem;
-	font-size: 1.1em;
-	padding: 8px 10px;
+  background-color: rgba(0, 0, 0, 1);
+  color: white;
+  border: 0.3px solid white;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  font-size: 1.1em;
+  padding: 8px 10px;
 
-	transition: all 0.15s ease-in-out;
-	&:hover {
-		background-color: rgba(44, 44, 44, 0.1);
-		-webkit-box-shadow: 0px 10px 7px 1px rgba(252, 252, 252, 0.1);
-		-moz-box-shadow: 0px 1px 7px 1px rgba(252, 252, 252, 0.1);
-		box-shadow: 0px 1px 7px 1px rgba(252, 252, 252, 0.1);
-	}
+  transition: all 0.15s ease-in-out;
+  &:hover {
+    background-color: rgba(44, 44, 44, 0.1);
+    -webkit-box-shadow: 0px 10px 7px 1px rgba(252, 252, 252, 0.1);
+    -moz-box-shadow: 0px 1px 7px 1px rgba(252, 252, 252, 0.1);
+    box-shadow: 0px 1px 7px 1px rgba(252, 252, 252, 0.1);
+  }
 `
-export const Button = props => <StyledButton {...props}>{props.text}</StyledButton>
+export const Button = (props) => (
+  <StyledButton {...props}>{props.text}</StyledButton>
+)
+
+const MediumButtonStyled = styled.div`
+  background-color: ${theme.colors.green};
+  border: 0.5px solid ${theme.colors.darkGreen};
+  box-shadow: 0 3px 0 0 ${theme.colors.darkGreen};
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+  }
+  &:active {
+    top: 2px;
+    box-shadow: none;
+  }
+`
+
+export const MediumButton = (props) => (
+  <MediumButtonStyled {...props}>{props.children}</MediumButtonStyled>
+)

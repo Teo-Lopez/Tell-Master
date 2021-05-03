@@ -1,123 +1,52 @@
 const express = require('express')
 const router = express.Router()
-const Game = require('../models/Game.model')
 const SavedGame = require('../models/SavedGame.model')
-const Choice = require('../models/Choice.model')
-const Chapter = require('../models/Chapters.model')
-const User = require('../models/User.model')
-const Character = require('../models/Character.model')
+const { checkLoggedIn } = require('../middlewares')
 
-router.get('/user', (req, res, next) => {
-	const _id = req.query.userId || ''
-	const gameId = req.query.gameId
-	const query = { _id }
+router.get('/', (req, res) => {
+	const { userId } = req.query
 
-	SavedGame.getUserSave(query).then(user => {
-		const savedGamesFound = user.savedGames.filter(save => save.gameId == gameId)
-		res.json(savedGamesFound)
-	})
+	SavedGame.getUserSaveFiles(userId)
+		.then(saveFiles => res.json(saveFiles))
+		.catch(err => res.status(401).json(err))
 })
 
-router.get('/user/all', (req, res, next) => {
-	const _id = req.query.userId || ''
-	const game = req.query.gameId
-	const query = { _id }
+router.get('/full', (req, res) => {
+	const { saveId } = req.query
 
-	User.findById(query)
-		.populate({
-			path: 'savedGames',
-			populate: {
-				path: 'game',
-			},
-		})
-		.select({ savedGames: true })
-		.then(user => {
-			res.json(user.savedGames)
-		})
+	SavedGame.getFullSave(saveId)
+		
+		.then(savedGame => res.json(savedGame))
+		.catch(err => res.status(401).json(err))
 })
 
-router.get('/full', (req, res, next) => {
-	const _id = req.query.saveId
-
-	SavedGame.findById(_id)
-		.populate('character')
-		.populate({
-			path: 'choicesTree',
-			populate: {
-				path: 'choice',
-			},
-		})
-		.populate({
-			path: 'currentChapter',
-			populate: {
-				path: 'choices',
-			},
-		})
-		// .select({ savedGames: true })
-		.then(savedGame => {
-			console.log(savedGame)
-			res.json(savedGame)
-		})
-})
-
-router.post('/', (req, res) => {
-	const { game, currentChapter, character, userId } = req.body
+router.post('/', checkLoggedIn, (req, res) => {
+	const { gameId, currentChapterId, characterId } = req.body
 	const newSavedGame = {
-		game,
-		currentChapter,
-		character,
+		game: gameId,
+		currentChapter: currentChapterId,
+		character: characterId,
+		user: req.session.user
 	}
-
-	SavedGame.create(newSavedGame)
-		.then(newSavedGame => {
-			User.findByIdAndUpdate(userId, { $push: { savedGames: newSavedGame } }).then(updatedUser => {
-				SavedGame.populate(newSavedGame, { path: 'character' }).then(populatedSave => {
-					console.log('-------------------------', populatedSave, 'caramelo')
-
-					res.json(populatedSave)
-				})
-			})
-		})
-		.catch(err => res.json({ err }))
-})
-
-router.post('/assign', (req, res) => {
-	const { userId, saveId } = req.body
-
-	User.findByIdAndUpdate(userId, { $push: { savedGames: saveId } }, { new: true })
-		.lean()
-		.populate('savedGames')
-		.populate('characters')
-		.then(updatedUser => {
-			res.json(updatedUser)
-		})
-		.catch(err => console.log(err))
+	SavedGame.createSaveFile(newSavedGame)
+		.then(newSavedGame => res.json(newSavedGame))
+		.catch(err => res.status(401).json(err))
 })
 
 router.patch('/', (req, res) => {
-	function collectBody(body) {
-		const obj = {}
-		for (let key in body) {
-			if (body[key]) obj[key] = body[key]
-		}
-		return obj
-	}
+	const data = req.body
 
-	SavedGame.findByIdAndUpdate(req.body.savedGameId, collectBody(req.body))
+	SavedGame.findByIdAndUpdate(req.body.saveId, data)
 		.lean()
-		.then(updatedSavedGame => {
-			res.json(updatedSavedGame)
-		})
-		.catch(err => res.json({ err }))
+		.then(updatedSavedGame => res.json(updatedSavedGame))
+		.catch(err => res.status(401).json(err))
 })
 
 router.delete('/', (req, res) => {
-	const { savedGameId } = req.body
+	const { saveId } = req.body
 
-	SavedGame.findByIdAndDelete(savedGameId)
-		.then(deletedSavedGame => {
-			res.json(deletedSavedGame)
-		})
+	SavedGame.findByIdAndUpdate(savedGameId, { active: false }, { new: true })
+		.then(deletedSavedGame => res.json(deletedSavedGame))
 		.catch(err => res.json({ err }))
 })
 

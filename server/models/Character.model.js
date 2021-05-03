@@ -48,7 +48,7 @@ characterSchema.statics.createCharacter = function (newCharacter, userId) {
 			promiseArray = User.findByIdAndUpdate(userId, { $push: { characters: newChar._id } })
 		}
 
-		return Promise.all(promiseArray).then(docs => newChar)
+		return Promise.all(promiseArray).then(_ => newChar)
 	})
 }
 characterSchema.statics.createSimpleCharacter = function (userId) {

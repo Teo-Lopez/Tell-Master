@@ -1,29 +1,54 @@
 const mongoose = require('mongoose')
+const User = require('./User.model')
 const Schema = mongoose.Schema
+const Character = require('./Character.model')
 
 const savedGameSchema = new Schema(
 	{
-		active: { type: Boolean, default: true },
-		game: { type: mongoose.SchemaTypes.ObjectId, ref: 'Game' },
+		active: { type: Boolean, default: true, required: true },
+		game: { type: mongoose.SchemaTypes.ObjectId, ref: 'Game', required: true },
 		currentChapter: { type: mongoose.SchemaTypes.ObjectId, ref: 'Chapter' },
-		choicesTree: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'CharacterChoice' }],
+		choicesTree: {
+			type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'CharacterChoice' }],
+			default: []
+		},
 		character: { type: mongoose.SchemaTypes.ObjectId, ref: 'Character' },
-		finished: { type: Boolean, required: true, default: false },
+		isFinished: { type: Boolean, required: true, default: false },
+		user: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true }
 	},
 	{ timestamps: true }
 )
 
-savedGameSchema.statics.getUserSave = function (query) {
-	return mongoose
-		.model('User')
-		.findById(query)
+savedGameSchema.statics.createSaveFile = function (data) {
+	console.log(data)
+	return this.create(data).then(doc => {
+		return User.findByIdAndUpdate(
+			doc.user,
+			{ $push: { savedGames: doc._id } },
+			{ new: true }
+		).then(_ => doc)
+	})
+}
+
+savedGameSchema.statics.getUserSaveFiles = function (query) {
+	return this.find({ user: query }).populate('character')
+}
+
+savedGameSchema.statics.getFullSave = function (saveId) {
+	return this.findById(saveId)
+		.populate('character game')
 		.populate({
-			path: 'savedGames',
+			path: 'choicesTree',
 			populate: {
-				path: 'character',
-			},
+				path: 'choice'
+			}
 		})
-		.select({ savedGames: true })
+		.populate({
+			path: 'currentChapter',
+			populate: {
+				path: 'choices'
+			}
+		})
 }
 
 const SavedGame = mongoose.model('SavedGame', savedGameSchema)

@@ -60,7 +60,7 @@ router.get('/last', (req, res, next) =>
 		.catch(err => res.json({ err }))
 )
 
-router.put('/publish', (req, res) =>
+router.patch('/publish', (req, res) =>
 	Game.findByIdAndUpdate(req.body.gameId, { published: true }, { new: true })
 		.then(updatedGame => res.json(updatedGame))
 		.catch(err => res.json(err))

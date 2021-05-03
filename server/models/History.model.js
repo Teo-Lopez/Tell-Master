@@ -10,6 +10,4 @@ const historySchema = new Schema(
 
 const History = mongoose.model("History", historySchema);
 
-//TO-DO Añadir método para levelUp
-
 module.exports = history;

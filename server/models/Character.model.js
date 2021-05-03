@@ -30,11 +30,14 @@ characterSchema.pre('save', function (next) {
 })
 
 characterSchema.methods.bonus = function (stat) {
-	return Math.floor(stat / 2 - 5)
+	return Math.floor(this.stats[stat] / 2 - 5)
 }
 
-characterSchema.methods.roll = function (stat) {
-	return parseInt(Math.floor(Math.random()) * 20 + this.bonus(stat))
+characterSchema.methods.roll = function ({ difficulty, characteristic }) {
+	return (
+		parseInt(Math.floor(Math.random() * 20) + this.bonus(characteristic)) >=
+		difficulty
+	)
 }
 
 characterSchema.statics.createCharacter = function (newCharacter, userId) {
@@ -42,13 +45,17 @@ characterSchema.statics.createCharacter = function (newCharacter, userId) {
 		let promiseArray
 		if (Array.isArray(newChar)) {
 			promiseArray = newChar.map(elm => {
-				return User.findByIdAndUpdate(userId, { $push: { characters: elm._id } })
+				return User.findByIdAndUpdate(userId, {
+					$push: { characters: elm._id }
+				})
 			})
 		} else {
-			promiseArray = User.findByIdAndUpdate(userId, { $push: { characters: newChar._id } })
+			promiseArray = User.findByIdAndUpdate(userId, {
+				$push: { characters: newChar._id }
+			})
 		}
 
-		return Promise.all(promiseArray).then(_ => newChar)
+		return Promise.all(promiseArray).then(docs => newChar)
 	})
 }
 characterSchema.statics.createSimpleCharacter = function (userId) {
@@ -69,7 +76,13 @@ characterSchema.statics.createSimpleCharacter = function (userId) {
 
 	return this.create(character)
 		.then(char => {
-			mongoose.model('User').findByIdAndUpdate(userId, { $push: { characters: char._id } }, { new: true })
+			mongoose
+				.model('User')
+				.findByIdAndUpdate(
+					userId,
+					{ $push: { characters: char._id } },
+					{ new: true }
+				)
 			return char
 		})
 

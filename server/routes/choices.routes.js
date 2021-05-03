@@ -1,67 +1,54 @@
-const express = require("express");
-const router = express.Router();
-const Game = require("../models/Game.model");
-const Choice = require("../models/Choice.model");
-const Chapter = require("../models/Chapters.model");
+const express = require('express')
+const router = express.Router()
+const Choice = require('../models/Choice.model')
+const Chapter = require('../models/Chapters.model')
 
-router.get("/", (req, res, next) => {
-  const _id = req.query.chapterId || "";
+router.get('/', (req, res, next) => {
+	const { chapterId } = req.query
 
-  Chapter.findById(_id)
-    .lean()
-    .populate("choices")
-    .select({ choices: true })
-    // .sort({ choices: 1 }) TODO FIX ORDER
-    .then((choicesFound) => {
-      console.log(choicesFound);
-      res.json(choicesFound);
-    });
-});
+	Chapter.findById(chapterId)
+		.lean()
+		.populate('choices')
+		.select({ choices: 1, _id: 0 })
+		// .sort({ choices: 1 }) TODO FIX ORDER
+		.then(choicesFound => res.json(choicesFound))
+})
 
-router.post("/", (req, res) => {
-  console.log(req.body);
-  const { description, trial, successTargetChapter, failureTargetChapter, pxGranted } = req.body;
-  const newChoice = {
-    description,
-    trial,
-    successTargetChapter: successTargetChapter || undefined,
-    failureTargetChapter: failureTargetChapter || undefined,
-    pxGranted,
-  };
+router.post('/', (req, res) => {
+	const newChoice = ({
+		description,
+		trial,
+		successTargetChapter,
+		failureTargetChapter,
+		pxGranted
+	} = req.body)
+	const { chapterId } = req.body
 
-  Choice.create(newChoice)
-    .then((createdChoice) => {
-      res.json(createdChoice);
-    })
-    .catch((err) => res.json({ err }));
-});
+	Choice.createChapterChoice(newChoice, chapterId)
+		.then(createdChoice => res.json(createdChoice))
+		.catch(err => res.status(401).json(err))
+})
 
-router.patch("/", (req, res) => {
-  console.log("-----------------------------------", req.body);
-  const { _id, chapterId, description, trial, successTargetChapter, failureTargetChapter, pxGranted } = req.body;
-  const newChoice = {
-    chapterId,
-    description,
-    trial,
-    successTargetChapter: successTargetChapter || undefined,
-    failureTargetChapter: failureTargetChapter || undefined,
-    pxGranted,
-  };
+router.patch('/', (req, res) => {
+	const newChoice = ({
+		description,
+		trial,
+		successTargetChapter,
+		failureTargetChapter,
+		pxGranted
+	} = req.body)
+	const { choiceId } = req.body
 
-  Choice.findByIdAndUpdate(_id, newChoice)
-    .then((updatedChoice) => {
-      res.json(updatedChoice);
-    })
-    .catch((err) => res.json({ err }));
-});
+	Choice.findByIdAndUpdate(choiceId, newChoice, { new: true })
+		.then(updatedChoice => res.json(updatedChoice))
+		.catch(err => res.json({ err }))
+})
 
-router.delete("/", (req, res) => {
-  const { choiceId } = req.body;
+router.delete('/', (req, res) => {
+	const { choiceId } = req.body
 
-  Choice.findByIdAndDelete(choiceId)
-    .then((deletedChoice) => {
-      res.json(deletedChoice);
-    })
-    .catch((err) => res.json({ err }));
-});
-module.exports = router;
+	Choice.findByIdAndUpdate(choiceId, { active: false }, { new: true })
+		.then(deletedChoice => res.json(deletedChoice))
+		.catch(err => res.json({ err }))
+})
+module.exports = router

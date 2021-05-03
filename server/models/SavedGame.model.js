@@ -9,7 +9,7 @@ const savedGameSchema = new Schema(
 		game: { type: mongoose.SchemaTypes.ObjectId, ref: 'Game', required: true },
 		currentChapter: { type: mongoose.SchemaTypes.ObjectId, ref: 'Chapter' },
 		choicesTree: {
-			type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'CharacterChoice' }],
+			type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'ChoiceResult' }],
 			default: []
 		},
 		character: { type: mongoose.SchemaTypes.ObjectId, ref: 'Character' },

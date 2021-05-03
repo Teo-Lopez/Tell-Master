@@ -7,5 +7,5 @@ module.exports = app => {
 	app.use('/api/choices', require('./choices.routes'))
 	app.use('/api/savedGames', require('./savedGames.routes'))
 	app.use('/api/characters', require('./character.routes'))
-	app.use('/api/characterChoices', require('./characterChoices.routes'))
+	app.use('/api/choiceResult', require('./choiceResult.routes'))
 }

@@ -2,8 +2,11 @@ import axios from 'axios'
 
 class gamesService {
 	constructor() {
-		this.baseURL = `${process.env.REACT_APP_API}/games/`
-		this.service = axios.create({ baseURL: this.baseURL, withCredentials: true })
+		this.baseURL = `${process.env.REACT_APP_API}/games`
+		this.service = axios.create({
+			baseURL: this.baseURL,
+			withCredentials: true
+		})
 	}
 
 	getOneGame(id) {
@@ -28,10 +31,7 @@ class gamesService {
 	}
 
 	getLastGames() {
-		return this.service
-			.get('/last?limit=5')
-			.then(res => res.data.gamesFound)
-			.catch(err => console.log(err))
+		return this.service.get('/last?limit=5')
 	}
 
 	createGame({ creator, title, minLevel, description, simple }) {

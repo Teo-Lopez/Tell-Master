@@ -15,16 +15,51 @@ router.get('/', (req, res, next) => {
 
 //Create game
 router.post('/', (req, res) => {
-	const { creator, title, minLevel, description, simple } = req.body
+	const { creator, title, minLevel, description, simple, cover } = req.body
 
-	Game.create({ creator, title, minLevel, description, simple })
+	Game.create({ creator, title, minLevel, description, simple, cover })
+		.then(createdGame => res.json(createdGame))
+		.catch(err => res.json({ err }))
+})
+
+router.patch('/', (req, res) => {
+	const {
+		gameId,
+		creator,
+		title,
+		minLevel,
+		description,
+		simple,
+		cover
+	} = req.body
+
+	Game.findByIdAndUpdate(
+		gameId,
+		{
+			creator,
+			title,
+			minLevel,
+			description,
+			simple,
+			cover
+		},
+		{ new: true }
+	)
 		.then(createdGame => res.json(createdGame))
 		.catch(err => res.json({ err }))
 })
 
 router.delete('/', (req, res) => {
-	const saveFilesPromise = SavedGame.updateMany({ game: req.body.gameId }, { active: false }, { new: true })
-	const gamesPromise = Game.findByIdAndUpdate(req.body.gameId, { active: false }, { new: true })
+	const saveFilesPromise = SavedGame.updateMany(
+		{ game: req.body.gameId },
+		{ active: false },
+		{ new: true }
+	)
+	const gamesPromise = Game.findByIdAndUpdate(
+		req.body.gameId,
+		{ active: false },
+		{ new: true }
+	)
 
 	Promise.all([saveFilesPromise, gamesPromise])
 		.then(response => res.json(response))
@@ -52,7 +87,9 @@ router.get('/owned', (req, res) =>
 )
 
 //TODO TEST WITH CHAPTERS
-router.get('/full', (req, res) => Game.getFullGameById(req.query.gameId).then(game => res.json(game)))
+router.get('/full', (req, res) =>
+	Game.getFullGameById(req.query.gameId).then(game => res.json(game))
+)
 
 router.get('/last', (req, res, next) =>
 	Game.getLast(req.query.limit)

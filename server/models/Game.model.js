@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-
+//TODO capitalize
 const gameSchema = new Schema(
 	{
 		active: { type: Boolean, default: true },
@@ -8,9 +8,13 @@ const gameSchema = new Schema(
 		title: { type: String, required: true, unique: true },
 		minLevel: { type: Number, required: true, default: 0 },
 		description: { type: String, required: true },
-		chapters: { type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Chapter' }], default: [] },
+		chapters: {
+			type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Chapter' }],
+			default: []
+		},
 		simple: { type: Boolean, default: true },
-		published: { type: Boolean, default: false }
+		published: { type: Boolean, default: false },
+		cover: String
 	},
 	{ timestamps: true }
 )
@@ -48,7 +52,9 @@ gameSchema.statics.getLast = function (limit = 10) {
 gameSchema.statics.disableGame = function (_id) {
 	return this.findByIdAndUpdate(_id, { active: false })
 		.then(disabledGame => {
-			const chapterPromises = disabledGame.chapters.map(chId => mongoose.model('Chapter').disableChapter(chId))
+			const chapterPromises = disabledGame.chapters.map(chId =>
+				mongoose.model('Chapter').disableChapter(chId)
+			)
 			chapterPromises.push()
 			Promise.all()
 		})

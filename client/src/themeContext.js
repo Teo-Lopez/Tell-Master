@@ -10,10 +10,13 @@ LIGHTER
 export const theme = {
 	colors: {
 		white: '#FEFFFF',
-		greenish: '#DEF2F1',
-		green: '#3AAFA9',
-		darkGreen: 'darkGreen',
-		dark: '#17252A'
+		greenish: '#5DB531',
+		green: '#339E4D',
+		darkGreen: '#12332B',
+		dark: '#17252A',
+		darkBlue: '#33819E',
+		brown: '#9E6A33',
+		darkBrown: '#522F0A'
 	},
 	spacings: {
 		xs: '3px',

@@ -24,9 +24,7 @@ const GlobalStyle = createGlobalStyle`
       background-color: ${theme.colors.dark};
     }
 
-	main {
-		padding: 50px 90px;
-	}
+	
 		
     a {
       color: #eee;
@@ -43,85 +41,86 @@ const GlobalStyle = createGlobalStyle`
 `
 
 function App() {
-  const [modal, setModal] = useState({
-    show: false,
-    title: '',
-    component: null,
-  })
-  const [alert, setAlert] = useState({
-    show: false,
-    text: '',
-    variant: 'warning',
-  })
-  const [loggedInUser, setloggedInUser] = useState(false)
+	const [modal, setModal] = useState({
+		show: false,
+		title: '',
+		component: null
+	})
+	const [alert, setAlert] = useState({
+		show: false,
+		text: '',
+		variant: 'warning'
+	})
+	const [loggedInUser, setloggedInUser] = useState(false)
 
-  const setloginModal = () =>
-    setModal({
-      show: true,
-      title: 'Login',
-      component: <LoginForm onHide={() => closeModal()} />,
-    })
-  const setsignupModal = () =>
-    setModal({
-      show: true,
-      title: 'Signup',
-      component: <SignupForm onHide={() => closeModal()} />,
-    })
-  const closeModal = () => setModal({ show: false, title: '', component: null })
+	const setloginModal = () =>
+		setModal({
+			show: true,
+			title: 'Login',
+			component: <LoginForm />
+		})
+	const setsignupModal = () =>
+		setModal({
+			show: true,
+			title: 'Signup',
+			component: <SignupForm />
+		})
+	const closeModal = () => setModal({ show: false, title: '', component: null })
 
-  function logout() {
-    AuthService.logout().then(() => setloggedInUser(null))
-  }
+	function logout() {
+		AuthService.logout().then(() => setloggedInUser(null))
+	}
 
-  function setUser() {
-    AuthService.loggedin().then((user) => {
-      setloggedInUser(user || null)
-    })
-  }
+	function setUser() {
+		AuthService.loggedin().then(user => {
+			setloggedInUser(user || null)
+		})
+	}
 
-  useEffect(() => {
-    setUser()
-  }, [])
+	useEffect(() => {
+		setUser()
+	}, [])
 
-  return (
-    <Providers
-      setAlert={setAlert}
-      theme={theme}
-      loggedInUser={loggedInUser}
-      setUser={setUser}
-    >
-      <GlobalStyle />
-      <Navbar
-        logout={logout}
-        showSignup={() => setsignupModal()}
-        showLogin={() => setloginModal()}
-        loggedInUser={loggedInUser}
-      />
+	return (
+		<Providers
+			setAlert={setAlert}
+			theme={theme}
+			loggedInUser={loggedInUser}
+			setUser={setUser}
+		>
+			<GlobalStyle />
+			<Navbar
+				logout={logout}
+				showSignup={() => setsignupModal()}
+				showLogin={() => setloginModal()}
+				loggedInUser={loggedInUser}
+			/>
 
-      <main>
-        <Routes
-          loggedInUser={loggedInUser}
-          setloginModal={setModal}
-          setUser={setUser}
-        />
-      </main>
+			<main>
+				<Routes
+					loggedInUser={loggedInUser}
+					setloginModal={setModal}
+					setUser={setUser}
+				/>
+			</main>
 
-      <CenteredModal
-        title={modal.title}
-        show={modal.show}
-        children={modal.component}
-      />
-      <Alert
-        onClose={() => setAlert({ show: false, text: '' })}
-        style={{ display: 'inline-block', marginLeft: '16px' }}
-        show={alert.show}
-        variant={alert.variant}
-        dismissible
-      >
-        {alert.text}
-      </Alert>
-    </Providers>
-  )
+			<CenteredModal
+				title={modal.title}
+				show={modal.show}
+				children={modal.component}
+				onHide={() => closeModal()}
+			/>
+			<Alert
+				onClose={() => setAlert({ show: false, text: '' })}
+				style={{ display: 'inline-block', marginLeft: '16px' }}
+				show={alert.show}
+				variant={alert.variant}
+				dismissible
+			>
+				{alert.text}
+			</Alert>
+		</Providers>
+	)
 }
 
 export default App

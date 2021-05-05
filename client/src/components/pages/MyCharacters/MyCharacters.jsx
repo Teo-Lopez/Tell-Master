@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import CharacterList from '../../shared/CharacterList'
+import CharacterList, { ColumnedList } from '../../shared/CharacterList'
 import CenteredModal from '../../shared/Modal'
 import CharacterSummary from '../../Character/CharacterSummary'
 
@@ -20,7 +20,8 @@ function MyCharacters({ characters }) {
 
 	return (
 		<Section>
-			<CharacterList onClick={openModal} characters={characters} />
+			<ColumnedList onClick={openModal} characters={characters} />
+
 			<CenteredModal noHeader onHide={closeModal} show={show}>
 				<CharacterSummary character={charShown} />
 			</CenteredModal>

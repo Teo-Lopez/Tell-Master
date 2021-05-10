@@ -14,7 +14,12 @@ const gameSchema = new Schema(
 		},
 		simple: { type: Boolean, default: true },
 		published: { type: Boolean, default: false },
-		cover: String
+		cover: {
+			type: String,
+			required: true,
+			default:
+				'https://res.cloudinary.com/ambdev/image/upload/v1620633344/tell-master/d20_beig1h.svg'
+		}
 	},
 	{ timestamps: true }
 )

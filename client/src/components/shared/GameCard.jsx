@@ -6,7 +6,6 @@ import UserContext from '../../UserContext'
 import { Button } from './Buttons'
 import Clamper from './Clamper'
 
-
 const ActiveCard = styled.div`
 	background-color: ${({ theme }) => theme.colors.dark};
 	max-height: 100%;
@@ -14,7 +13,7 @@ const ActiveCard = styled.div`
 	height: 100%;
 	overflow: hidden;
 	font-size: ${({ small }) => (small ? '.5em' : 'initial')};
-	
+
 	a {
 		display: flex;
 		justify-content: space-around;
@@ -69,7 +68,7 @@ function GameCard({ game }) {
 			</div>
 			<footer>
 				<Link to={`/read/${game._id}`}>
-					<Button>Detalles</Button>
+					<Button>Jugar</Button>
 				</Link>
 			</footer>
 		</ActiveCard>

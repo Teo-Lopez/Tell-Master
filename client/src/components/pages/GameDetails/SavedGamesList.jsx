@@ -1,15 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Dropdown } from 'react-bootstrap'
-import { Button, MediumButton } from '../../shared/Buttons'
 import CustomSpinner from '../../shared/Spinner'
 import styled from 'styled-components'
-import CharacterSummary from '../../Character/CharacterSummary'
+import SaveSummary from './SaveSummary'
+import { Col, Row } from 'react-bootstrap'
 
 const List = styled.ul`
 	padding: 0;
 	margin-top: ${({ theme }) => theme.spacings.l};
-	.character-card {
+
+	.save-card {
+		margin-bottom: ${({ theme }) => theme.spacings.m};
 		overflow-y: hidden;
 		//Hides scrollbar
 		-ms-overflow-style: none; /* IE and Edge */
@@ -24,18 +25,22 @@ const List = styled.ul`
 `
 
 function SavedGamesList(props) {
-	const { game, savedGames, loggedInUser } = props
+	const { game, savedGames } = props
 
 	return (
 		<CustomSpinner ready={game}>
 			<List>
-				{savedGames?.map(({ _id, character }) => (
-					<Link to={`/chapter/${_id}`}>
-						<div className='character-card'>
-							<CharacterSummary character={character} />
-						</div>
-					</Link>
-				))}
+				<Row>
+					{savedGames?.map((elm, i) => (
+						<Col lg={6}>
+							<Link to={`/chapter/${elm._id}`} key={i}>
+								<div className='save-card'>
+									<SaveSummary save={elm} />
+								</div>
+							</Link>
+						</Col>
+					))}
+				</Row>
 			</List>
 		</CustomSpinner>
 	)

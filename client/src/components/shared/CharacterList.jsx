@@ -21,17 +21,21 @@ const ListPoint = styled.li`
 function CharacterList({ characters, onClick }) {
 	return characters?.length ? (
 		<ul style={{ paddingLeft: 0 }}>
-			{characters.map(char => {
-				return (
-					<ListPoint onClick={() => onClick && onClick(char)}>
-						<div className='info-block'>
-							<p>{char.name}.</p>
-							<p>Nivel: {char.level}</p>
-						</div>
-						<p className='details-button'>Detalles</p>
-					</ListPoint>
-				)
-			})}
+			<Row>
+				{characters.map((char, i) => {
+					return (
+						<Col lg={6}>
+							<ListPoint key={i} onClick={() => onClick && onClick(char)}>
+								<div className='info-block'>
+									<p>{char.name}.</p>
+									<p>Nivel: {char.level}</p>
+								</div>
+								<p className='details-button'>Detalles</p>
+							</ListPoint>
+						</Col>
+					)
+				})}
+			</Row>
 		</ul>
 	) : (
 		<div>

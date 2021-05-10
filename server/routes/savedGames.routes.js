@@ -4,9 +4,9 @@ const SavedGame = require('../models/SavedGame.model')
 const { checkLoggedIn } = require('../middlewares')
 
 router.get('/', (req, res) => {
-	const { userId } = req.query
+	const { userId, gameId } = req.query
 
-	SavedGame.getUserSaveFiles(userId)
+	SavedGame.getUserSaveFiles(userId, gameId)
 		.then(saveFiles => res.json(saveFiles))
 		.catch(err => res.status(401).json(err))
 })
@@ -15,7 +15,7 @@ router.get('/full', (req, res) => {
 	const { saveId } = req.query
 
 	SavedGame.getFullSave(saveId)
-		
+
 		.then(savedGame => res.json(savedGame))
 		.catch(err => res.status(401).json(err))
 })

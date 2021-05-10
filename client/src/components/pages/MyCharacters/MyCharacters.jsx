@@ -1,30 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
-import CharacterList, { ColumnedList } from '../../shared/CharacterList'
-import CenteredModal from '../../shared/Modal'
+import { ColumnedList } from '../../shared/CharacterList'
 import CharacterSummary from '../../Character/CharacterSummary'
-
+import ModalContext from '../../../ModalContext'
 const Section = styled.section``
 
 function MyCharacters({ characters }) {
-	const [show, setShow] = useState(false)
-	const [charShown, setCharShown] = useState(null)
-
-	const openModal = id => {
-		const chosedChar = characters.find(char => char._id === id)
-		setCharShown(chosedChar)
-		setShow(true)
-	}
-
-	const closeModal = () => setShow(false)
+	const setModal = useContext(ModalContext)
+	const openCharInfo = char =>
+		setModal({
+			show: true,
+			component: <CharacterSummary showName={false} character={char} />,
+			title: char.name
+		})
 
 	return (
 		<Section>
-			<ColumnedList onClick={openModal} characters={characters} />
-
-			<CenteredModal noHeader onHide={closeModal} show={show}>
-				<CharacterSummary character={charShown} />
-			</CenteredModal>
+			<ColumnedList onClick={openCharInfo} characters={characters} />
 		</Section>
 	)
 }

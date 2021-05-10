@@ -1,26 +1,38 @@
-import React, { useContext } from "react";
+import React from 'react'
+import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+import { MediumButton } from '../../shared/Buttons'
 
-import { withRouter } from "react-router-dom";
-import UserContext from "../../../UserContext";
+const Brief = styled.article`
+	margin: 0 auto;
+	text-align: center;
+	padding: ${({ theme }) => theme.spacings.l};
 
-import StartPlayingButton from "./StartPlayingButton";
-import SimpleStartPlaying from "./SimpleStartPlaying";
+	.main-info {
+		display: flex;
+		justify-content: space-around;
+		padding-top: ${({ theme }) => theme.spacings.l};
+		font-size: 1.2em;
+		img {
+			width: 40%;
+		}
+	}
+`
+
 function GameBriefing(props) {
-  const { game, savedGames, simple, updateSavedGames, noUser } = props;
-  const {loggedInUser, setUser} = useContext(UserContext);
-
-  return simple ? (
-    <SimpleStartPlaying
-      noUser={noUser}
-      updateSavedGames={updateSavedGames}
-      setUser={setUser}
-      loggedInUser={loggedInUser}
-      game={game}
-      savedGames={savedGames}
-    />
-  ) : (
-    <StartPlayingButton noUser={noUser} loggedInUser={loggedInUser} game={game} savedGames={savedGames} />
-  );
+	const { game } = props
+	//ONGOING reworking Gamedetails, now working on gameBriefing being an actual briefing
+	return (
+		<Brief>
+			<h2>{game.title}</h2>
+			<div className='main-info'>
+				<div class="left-col">
+					<p>{game.description}</p>
+				</div>
+				<img src={game.cover} alt='game cover' />
+			</div>
+		</Brief>
+	)
 }
 
-export default withRouter(GameBriefing);
+export default withRouter(GameBriefing)

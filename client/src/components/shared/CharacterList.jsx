@@ -1,15 +1,15 @@
 import React from 'react'
-import { MediumButton } from './Buttons'
 import styled from 'styled-components'
 import { Col, Container, Row } from 'react-bootstrap'
 
 const ListPoint = styled.li`
 	margin-top: ${({ theme }) => theme.spacings.l};
 	display: flex;
-	background-color: ${({ theme }) => theme.colors.darkBlue}1F;
+	background-color: ${({ theme }) => theme.colors.darkBlue};
 	border-radius: 5px;
 	padding-top: ${({ theme }) => theme.spacings.m};
 	padding-left: ${({ theme }) => theme.spacings.m};
+
 	&:hover {
 		cursor: pointer;
 	}
@@ -17,15 +17,13 @@ const ListPoint = styled.li`
 	.info-block {
 		padding-right: ${({ theme }) => theme.spacings.m};
 	}
-	.details-button {
-	}
 `
 function CharacterList({ characters, onClick }) {
-	return characters.length ? (
-		<ul>
+	return characters?.length ? (
+		<ul style={{ paddingLeft: 0 }}>
 			{characters.map(char => {
 				return (
-					<ListPoint onClick={() => onClick && onClick(char._id)}>
+					<ListPoint onClick={() => onClick && onClick(char)}>
 						<div className='info-block'>
 							<p>{char.name}.</p>
 							<p>Nivel: {char.level}</p>
@@ -48,7 +46,7 @@ const StyledColumnedList = styled(Row)`
 	li {
 		list-style: none;
 		margin: ${({ theme }) => theme.spacings.l};
-		background-color: ${({ theme }) => theme.colors.darkBlue}1F;
+		background-color: ${({ theme }) => theme.colors.darkBlue};
 		border-radius: 5px;
 		padding: ${({ theme }) => theme.spacings.m};
 		padding-top: ${({ theme }) => theme.spacings.l};
@@ -76,12 +74,7 @@ export const ColumnedList = ({ characters, onClick }) => {
 				<StyledColumnedList className='row'>
 					{characters.map(char => {
 						return (
-							<Col
-								lg={3}
-								md={6}
-								sm={12}
-								onClick={() => onClick && onClick(char._id)}
-							>
+							<Col lg={3} md={6} sm={12} onClick={() => onClick && onClick(char)}>
 								<li>
 									<div className='info-block'>
 										<p>{char.name}.</p>

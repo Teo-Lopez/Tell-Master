@@ -30,16 +30,20 @@ const StyledButton = styled.a`
 		box-shadow: 0 3px 0 0 ${theme.colors.darkGreen};
 	}
 `
-export const Button = props => (
-	<StyledButton {...props}>{props.children}</StyledButton>
-)
+export const Button = props => <StyledButton {...props}>{props.children}</StyledButton>
 
 const MediumButtonStyled = styled.div`
 	background-color: ${({ theme, color = 'darkGreen' }) => theme.colors[color]};
 	border: 0.5px solid ${theme.colors.darkGreen};
+	border-radius: 2px;
 	box-shadow: 0 5px 0 0 ${theme.colors.darkGreen};
 	position: relative;
 	text-align: center;
+
+	.text-wrapper {
+		padding: 6px 12px;
+	}
+
 	&:hover {
 		cursor: pointer;
 	}
@@ -50,5 +54,7 @@ const MediumButtonStyled = styled.div`
 `
 
 export const MediumButton = props => (
-	<MediumButtonStyled {...props}>{props.children}</MediumButtonStyled>
+	<MediumButtonStyled {...props}>
+		<span className='text-wrapper'>{props.children}</span>
+	</MediumButtonStyled>
 )

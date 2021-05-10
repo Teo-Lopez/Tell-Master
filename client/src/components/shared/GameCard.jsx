@@ -3,10 +3,9 @@ import { Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import UserContext from '../../UserContext'
-import { isOwn } from '../../utils'
 import { Button } from './Buttons'
 import Clamper from './Clamper'
-import logo from '../layout/invertedlogo.png'
+
 
 const ActiveCard = styled.div`
 	background-color: ${({ theme }) => theme.colors.dark};
@@ -14,7 +13,8 @@ const ActiveCard = styled.div`
 	text-align: center;
 	height: 100%;
 	overflow: hidden;
-
+	font-size: ${({ small }) => (small ? '.5em' : 'initial')};
+	
 	a {
 		display: flex;
 		justify-content: space-around;
@@ -64,13 +64,8 @@ function GameCard({ game }) {
 		<ActiveCard>
 			<header>{game.title}</header>
 			<div className='main-card'>
-				<img src={game.cover || logo}></img>
-				<Clamper
-					id={game.id}
-					text={game.description}
-					lines={4}
-					buttonColor='greenish'
-				/>
+				<img src={game.cover}></img>
+				<Clamper id={game.id} text={game.description} lines={4} buttonColor='greenish' />
 			</div>
 			<footer>
 				<Link to={`/read/${game._id}`}>

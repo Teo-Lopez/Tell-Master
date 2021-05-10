@@ -109,7 +109,9 @@ function NewGameForm(props) {
 						placeholder='Tu resumen'
 					/>
 				</Form.Group>
-				<Button type='submit' text='Crear historia' />
+				<Button onClick={submitForm} type='submit'>
+					<p>Crear Historia</p>
+				</Button>
 			</Form>
 		</FormWrapper>
 	)

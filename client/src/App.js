@@ -17,15 +17,13 @@ const AuthService = new authService()
 
 const GlobalStyle = createGlobalStyle`
 	* {
-		font-family: "Special Elite"
+		font-family: "Alegreya"
 	}
     body {
       color: ${theme.colors.white};
       background-color: ${theme.colors.dark};
     }
 
-	
-		
     a {
       color: #eee;
     }
@@ -35,9 +33,9 @@ const GlobalStyle = createGlobalStyle`
       text-decoration: none;
     }
 
-	input {
-		background-color: rgb(235, 235, 235);
-	}
+		input {
+			background-color: rgb(235, 235, 235);
+		}
 `
 
 function App() {
@@ -87,6 +85,7 @@ function App() {
 			theme={theme}
 			loggedInUser={loggedInUser}
 			setUser={setUser}
+			setModal={setModal}
 		>
 			<GlobalStyle />
 			<Navbar

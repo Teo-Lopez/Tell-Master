@@ -10,11 +10,11 @@ LIGHTER
 export const theme = {
 	colors: {
 		white: '#FEFFFF',
-		greenish: '#5DB531',
+		greenish: '#33819E1F',
 		green: '#339E4D',
-		darkGreen: '#12332B',
+		darkGreen: '#1c5044',
 		dark: '#17252A',
-		darkBlue: '#33819E',
+		darkBlue: '#33819E1F',
 		brown: '#9E6A33',
 		darkBrown: '#522F0A'
 	},
@@ -26,7 +26,7 @@ export const theme = {
 		xl: '24px'
 	},
 	sizes: {
-		navBarHeight: '60px',
+		navBarHeight: '70px',
 		getFullMain: function () {
 			return `calc(100vh - ${this.navBarHeight})`
 		}

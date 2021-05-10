@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import { withRouter } from 'react-router'
 import gamesService from '../../../services/games.service'
 import savedGamesService from '../../../services/savedGames.service'
-import NewSaveGame from './NewSaveGame'
 import GameBriefing from './GameBriefing'
 import CharacterSummary from '../../Character/CharacterSummary'
 import { Row, Col, Container } from 'react-bootstrap'
@@ -14,6 +13,7 @@ import SavedGamesList from './SavedGamesList'
 import SimpleStartPlaying from './SimpleStartPlaying'
 import { MediumButton } from '../../shared/Buttons'
 import LoginForm from '../../Auth/LoginForm'
+import CharacterForm from './CharacterForm'
 const GamesService = new gamesService()
 const SavedGamesService = new savedGamesService()
 
@@ -37,12 +37,32 @@ function GameOverView(props) {
 	const [game, setGame] = useState(null)
 	const [savedGames, setSavedGames] = useState([])
 
+	const startNewGame = characterId => {
+		SavedGamesService.newSave(gameId, characterId)
+	}
+
 	const setModal = useContext(ModalContext)
 	const openCharInfo = char =>
 		setModal({
 			show: true,
 			component: <CharacterSummary showName={false} character={char} />,
+			footer: (
+				<MediumButton onClick={() => startNewGame(char._id)}>
+					Jugar con este personaje.
+				</MediumButton>
+			),
 			title: char.name
+		})
+	const openCharacterForm = char =>
+		setModal({
+			show: true,
+			component: (
+				<CharacterForm
+					onSubmit={() => setModal({ show: false, component: null })}
+					setUser={setUser}
+					loggedInUser={loggedInUser}
+				/>
+			)
 		})
 	const openLogin = () =>
 		setModal({
@@ -91,18 +111,16 @@ function GameOverView(props) {
 				) : (
 					<Row style={{ justifyContent: 'space-around' }}>
 						<Col lg={5}>
-							<div className='character-select'>
+							<div>
 								<h2>Elige un personaje para jugar esta historia:</h2>
 								<CharacterList onClick={openCharInfo} characters={loggedInUser?.characters} />
-								<NewSaveGame
-									updateSavedGames={updateSavedGames}
-									setUser={setUser}
-									loggedInUser={loggedInUser}
-								/>
 							</div>
+							<MediumButton onClick={openCharacterForm}>
+								También puedes crear un nuevo personaje
+							</MediumButton>
 						</Col>
 						<Col lg={5}>
-							<div className='character-select'>
+							<div>
 								<h2>O continua una partida guardada:</h2>
 								{game?.simple ? (
 									<SimpleStartPlaying

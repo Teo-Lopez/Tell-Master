@@ -32,7 +32,6 @@ router.post('/login', (req, res, next) => {
 			}
 
 			req.session.user = foundUser
-			req.user = foundUser
 			res.json(foundUser)
 		})
 		.catch(err => next(err))

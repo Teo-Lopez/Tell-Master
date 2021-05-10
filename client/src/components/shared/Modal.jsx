@@ -12,8 +12,7 @@ const ThemeModal = styled.div`
 `
 
 function CenteredModal(props) {
-	const { show, children, onHide, title } = props
-
+	const { show, body, onHide, title, footer } = props
 	return (
 		<Modal
 			dialogAs={ThemeModal}
@@ -29,7 +28,8 @@ function CenteredModal(props) {
 					<Modal.Title id='contained-modal-title-vcenter'>{title}</Modal.Title>
 				</Modal.Header>
 			)}
-			<Modal.Body>{children && cloneElement(children, { onHide })}</Modal.Body>
+			<Modal.Body>{body && cloneElement(body, { onHide })}</Modal.Body>
+			{footer && <Modal.Footer>{cloneElement(footer)}</Modal.Footer>}
 		</Modal>
 	)
 }

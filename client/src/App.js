@@ -42,7 +42,8 @@ function App() {
 	const [modal, setModal] = useState({
 		show: false,
 		title: '',
-		component: null
+		component: null,
+		footer: null
 	})
 	const [alert, setAlert] = useState({
 		show: false,
@@ -55,15 +56,17 @@ function App() {
 		setModal({
 			show: true,
 			title: 'Login',
-			component: <LoginForm />
+			component: <LoginForm />,
+			footer: null
 		})
 	const setsignupModal = () =>
 		setModal({
 			show: true,
 			title: 'Signup',
-			component: <SignupForm />
+			component: <SignupForm />,
+			footer: null
 		})
-	const closeModal = () => setModal({ show: false, title: '', component: null })
+	const closeModal = () => setModal({ show: false, title: '', component: null, footer: null })
 
 	function logout() {
 		AuthService.logout().then(() => setloggedInUser(null))
@@ -96,17 +99,14 @@ function App() {
 			/>
 
 			<main>
-				<Routes
-					loggedInUser={loggedInUser}
-					setloginModal={setModal}
-					setUser={setUser}
-				/>
+				<Routes loggedInUser={loggedInUser} setloginModal={setModal} setUser={setUser} />
 			</main>
 
 			<CenteredModal
 				title={modal.title}
 				show={modal.show}
-				children={modal.component}
+				body={modal.component}
+				footer={modal.footer}
 				onHide={() => closeModal()}
 			/>
 			<Alert

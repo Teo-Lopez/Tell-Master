@@ -4,6 +4,7 @@ import authService from '../../services/auth.service'
 import AlertContext from '../../AlertContext'
 import { Button } from '../shared/Buttons'
 import UserContext from '../../UserContext'
+
 function LoginForm({ onHide }) {
 	const { setUser } = useContext(UserContext)
 	const AuthService = new authService()
@@ -68,12 +69,7 @@ function LoginForm({ onHide }) {
 
 			<Form.Group controlId='password' value={password}>
 				<Form.Label>Password</Form.Label>
-				<Form.Control
-					onChange={onChange}
-					name='password'
-					type='password'
-					placeholder='Password'
-				/>
+				<Form.Control onChange={onChange} name='password' type='password' placeholder='Password' />
 			</Form.Group>
 
 			<Button onClick={submitForm} color='green' type='submit'>

@@ -20,10 +20,9 @@ const savedGameSchema = new Schema(
 )
 
 savedGameSchema.statics.createSaveFile = function (data) {
-	console.log(data)
 	return this.create(data).then(doc => {
 		return User.findByIdAndUpdate(
-			doc.user,
+			doc.userId,
 			{ $push: { savedGames: doc._id } },
 			{ new: true }
 		).then(_ => doc)

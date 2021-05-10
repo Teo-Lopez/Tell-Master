@@ -1,4 +1,6 @@
 import axios from 'axios'
+import ChapterService from './chapter.service'
+const chapterService = new ChapterService()
 
 class savedGamesService {
 	constructor() {
@@ -8,7 +10,7 @@ class savedGamesService {
 
 	getUserSaves(userId, gameId) {
 		const query = gameId ? `/?userId=${userId}&gameId=${gameId}` : `/user/?userId=${userId}`
-		
+
 		return this.service.get(query)
 	}
 
@@ -28,12 +30,17 @@ class savedGamesService {
 			.catch(err => console.log(err))
 	}
 
-	createSavedGame({ gameId, currentChapter, character }) {
+	createSavedGame({ gameId, currentChapterId, characterId }) {
+		console.log({
+			gameId,
+			currentChapterId,
+			characterId
+		})
 		return this.service
 			.post('', {
-				game: gameId,
-				currentChapter,
-				character,
+				gameId,
+				currentChapterId,
+				characterId
 			})
 			.then(res => res.data)
 			.catch(err => console.log(err))
@@ -47,14 +54,28 @@ class savedGamesService {
 	}
 
 	updateSavedGame({ savedGameId, gameId, currentChapter, character, finished }) {
-		return this.service.patch('', { savedGameId, game: gameId, currentChapter, character, finished }).then(res => res.data)
+		return this.service
+			.patch('', { savedGameId, game: gameId, currentChapter, character, finished })
+			.then(res => res.data)
 	}
 
-	deleteSave(savedGameId) {
+	deleteSave(saveId) {
 		return this.service
-			.delete('', { savedGameId })
+			.delete('', { saveId })
 			.then(res => res.data)
 			.catch(err => console.log(err))
+	}
+
+	newSave(gameId, characterId) {
+		return chapterService.getChaptersFromGame(gameId).then(res => {
+			this.createSavedGame({
+				gameId,
+				currentChapterId: res.data[0]._id,
+				characterId
+			})
+				.then(algo => console.log(algo))
+				.catch(err => console.log(err))
+		})
 	}
 }
 

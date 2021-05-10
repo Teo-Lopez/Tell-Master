@@ -26,8 +26,9 @@ router.post('/', checkLoggedIn, (req, res) => {
 		game: gameId,
 		currentChapter: currentChapterId,
 		character: characterId,
-		user: req.session.user
+		user: req.session.user._id
 	}
+
 	SavedGame.createSaveFile(newSavedGame)
 		.then(newSavedGame => res.json(newSavedGame))
 		.catch(err => res.status(401).json(err))
@@ -45,8 +46,8 @@ router.patch('/', (req, res) => {
 router.delete('/', (req, res) => {
 	const { saveId } = req.body
 
-	SavedGame.findByIdAndUpdate(savedGameId, { active: false }, { new: true })
-		.then(deletedSavedGame => res.json(deletedSavedGame))
+	SavedGame.findByIdAndUpdate(saveId, { active: false }, { new: true })
+		.then(deletedSave => res.json(deletedSave))
 		.catch(err => res.json({ err }))
 })
 

@@ -7,12 +7,9 @@ class savedGamesService {
 	}
 
 	getUserSaves(userId, gameId) {
-		const query = gameId ? `/user/?userId=${userId}&gameId=${gameId}` : `/user/?userId=${userId}`
-
-		return this.service
-			.get(query)
-			.then(res => res.data)
-			.catch(err => console.log(err))
+		const query = gameId ? `/?userId=${userId}&gameId=${gameId}` : `/user/?userId=${userId}`
+		
+		return this.service.get(query)
 	}
 
 	getAllSaves(userId) {

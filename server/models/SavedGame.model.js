@@ -30,8 +30,12 @@ savedGameSchema.statics.createSaveFile = function (data) {
 	})
 }
 
-savedGameSchema.statics.getUserSaveFiles = function (query) {
-	return this.find({ user: query }).populate('character')
+savedGameSchema.statics.getUserSaveFiles = function (userId, gameId) {
+	const query = {}
+	if (userId) query.user = userId
+	if (gameId) query.game = gameId
+
+	return this.find(query).populate('character')
 }
 
 savedGameSchema.statics.getFullSave = function (saveId) {
